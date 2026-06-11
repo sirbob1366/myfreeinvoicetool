@@ -53,6 +53,10 @@ ${JSON.stringify({
 <script type="application/ld+json">
 ${faqJsonLd(p.faq)}
 </script>
+<!-- GA4 placeholder: replace G-XXXXXXXXXX before launch
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
+-->
 </head>
 <body>
 ${NAV}

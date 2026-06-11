@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /tests/
+
+Sitemap: https://myfreeinvoicetool.com/sitemap.xml
