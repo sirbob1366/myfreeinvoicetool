@@ -53,8 +53,8 @@ ${JSON.stringify({
 <script type="application/ld+json">
 ${faqJsonLd(p.faq)}
 </script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-D5S8JJ385E"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config','G-D5S8JJ385E');</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BSC4V5T85X"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config','G-BSC4V5T85X');</script>
 </head>
 <body>
 ${NAV}

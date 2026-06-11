@@ -57,8 +57,8 @@ console.log('favicon.ico');
 
 // ---------------------------------------------------------------- page polish
 
-const GA4 = `<script async src="https://www.googletagmanager.com/gtag/js?id=G-D5S8JJ385E"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config','G-D5S8JJ385E');</script>`;
+const GA4 = `<script async src="https://www.googletagmanager.com/gtag/js?id=G-BSC4V5T85X"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config','G-BSC4V5T85X');</script>`;
 
 const PAGES = [
   'dashboard/index.html', 'rent-receipt/index.html', 'salary-slip/index.html',
