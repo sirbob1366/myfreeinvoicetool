@@ -67,6 +67,22 @@ export function initGenerator(opts = {}) {
   }
 
   // ---------- generic data-bind ----------
+  // Push current doc state into every bound input (used at boot, after
+  // loading a saved document, and after switching business).
+  function syncForm() {
+    for (const input of $$('[data-bind]')) {
+      const initial = getPath(doc, input.dataset.bind);
+      if (input.type === 'checkbox') input.checked = !!initial;
+      else input.value = initial ?? '';
+    }
+  }
+
+  function rebuildItems() {
+    itemsBody.textContent = '';
+    if (!doc.items.length) doc.items.push(blankItem());
+    doc.items.forEach((it) => addItemRow(it));
+  }
+
   for (const input of $$('[data-bind]')) {
     const path = input.dataset.bind;
     const initial = getPath(doc, path);
@@ -378,49 +394,136 @@ export function initGenerator(opts = {}) {
     });
   }
 
-  // ---------- numbering ----------
-  async function initNumbering() {
-    const key = `seq:${docType}`;
-    let seq = await db.getSetting(key);
-    if (!seq) { seq = defaultSequence(dt.prefix); await db.setSetting(key, seq); }
-    const fmtSel = $('#num-format');
-    if (fmtSel) {
-      fmtSel.innerHTML = NUMBER_FORMATS.map((f) => `<option value="${f.id}">${f.label}</option>`).join('');
-      fmtSel.value = seq.format;
-      fmtSel.onchange = async () => { seq.format = fmtSel.value; await db.setSetting(key, seq); applyNumber(); };
+  // ---------- multi-business profiles + per-business numbering ----------
+  let activeBiz = null;
+  let loadedFromWorkspace = false;
+
+  async function ensureBusinesses() {
+    let list = await db.all('businesses');
+    if (!list.length) {
+      // Migrate the pre-multi-business single profile, if any.
+      const legacy = (await db.getSetting('defaultBusiness')) || {};
+      const legacySeq = await db.getSetting(`seq:${docType}`);
+      const biz = {
+        id: db.uid('biz_'),
+        name: legacy.name || 'My business',
+        logo: legacy.logo || '', address: legacy.address || '', email: legacy.email || '',
+        phone: legacy.phone || '', taxLabel: legacy.taxLabel || 'Tax ID', taxValue: legacy.taxValue || '',
+        sequences: legacySeq ? { [docType]: legacySeq } : {},
+        defaults: {},
+      };
+      await db.put('businesses', biz);
+      list = [biz];
     }
-    const prefixInput = $('#num-prefix');
-    if (prefixInput) {
-      prefixInput.value = seq.prefix;
-      prefixInput.oninput = async () => { seq.prefix = prefixInput.value || dt.prefix; await db.setSetting(key, seq); applyNumber(); };
-    }
-    function applyNumber() {
-      doc.number = buildNumber(seq, doc.issueDate);
-      const el = $('[data-bind="number"]');
-      if (el) el.value = doc.number;
-      refresh();
-    }
-    applyNumber();
-    window.__bumpSequence = async () => { seq.next = (seq.next || 1) + 1; await db.setSetting(key, seq); };
+    return list;
   }
 
-  // ---------- business persistence (default profile; multi-business in Stage 2) ----------
-  async function initBusiness() {
-    const saved = await db.getSetting('defaultBusiness');
-    if (saved) {
-      Object.assign(doc.business, saved);
-      for (const k of ['name', 'address', 'email', 'phone', 'taxLabel', 'taxValue']) {
-        const el = $(`[data-bind="business.${k}"]`);
-        if (el) el.value = doc.business[k] || '';
-      }
+  function bizSeq() {
+    if (!activeBiz.sequences) activeBiz.sequences = {};
+    if (!activeBiz.sequences[docType]) activeBiz.sequences[docType] = defaultSequence(dt.prefix);
+    return activeBiz.sequences[docType];
+  }
+
+  function applyBusinessToDoc() {
+    Object.assign(doc.business, {
+      name: activeBiz.name === 'My business' && !activeBiz.address ? doc.business.name || activeBiz.name : activeBiz.name,
+      logo: activeBiz.logo || '', address: activeBiz.address || '', email: activeBiz.email || '',
+      phone: activeBiz.phone || '', taxLabel: activeBiz.taxLabel || 'Tax ID', taxValue: activeBiz.taxValue || '',
+    });
+    if (activeBiz.defaults) {
+      if (activeBiz.defaults.currency) doc.currency = activeBiz.defaults.currency;
+      if (activeBiz.defaults.template) doc.template = activeBiz.defaults.template;
     }
+  }
+
+  async function initBusinesses() {
+    const list = await ensureBusinesses();
+    const activeId = await db.getSetting('activeBusinessId');
+    activeBiz = list.find((b) => b.id === activeId) || list[0];
+
+    const sel = $('#business-select');
+    if (sel) {
+      const wrap = $('#business-select-wrap');
+      if (wrap && list.length < 2) wrap.hidden = true;
+      sel.innerHTML = list.map((b) => `<option value="${b.id}">${esc(b.name)}</option>`).join('');
+      sel.value = activeBiz.id;
+      sel.onchange = async () => {
+        activeBiz = list.find((b) => b.id === sel.value) || activeBiz;
+        await db.setSetting('activeBusinessId', activeBiz.id);
+        if (!loadedFromWorkspace) applyBusinessToDoc();
+        else Object.assign(doc.business, { logo: activeBiz.logo });
+        applyNumber();
+        syncForm();
+        refresh();
+      };
+    }
+
+    if (!loadedFromWorkspace) applyBusinessToDoc();
+
+    // Edits to "Your business" persist into the active profile.
     let t = null;
     for (const input of $$('[data-bind^="business."]')) {
       input.addEventListener('input', () => {
         clearTimeout(t);
-        t = setTimeout(() => db.setSetting('defaultBusiness', { ...doc.business }), 600);
+        t = setTimeout(() => {
+          Object.assign(activeBiz, {
+            name: doc.business.name, address: doc.business.address, email: doc.business.email,
+            phone: doc.business.phone, taxLabel: doc.business.taxLabel, taxValue: doc.business.taxValue,
+            logo: doc.business.logo,
+          });
+          db.put('businesses', activeBiz);
+        }, 600);
       });
     }
+  }
+
+  function applyNumber() {
+    if (loadedFromWorkspace) return; // keep the stored number when editing
+    const seq = bizSeq();
+    doc.number = buildNumber(seq, doc.issueDate);
+    const el = $('[data-bind="number"]');
+    if (el) el.value = doc.number;
+    refresh();
+  }
+
+  function initNumbering() {
+    const seq = bizSeq();
+    const fmtSel = $('#num-format');
+    if (fmtSel) {
+      fmtSel.innerHTML = NUMBER_FORMATS.map((f) => `<option value="${f.id}">${f.label}</option>`).join('');
+      fmtSel.value = seq.format;
+      fmtSel.onchange = async () => { seq.format = fmtSel.value; await db.put('businesses', activeBiz); applyNumber(); };
+    }
+    const prefixInput = $('#num-prefix');
+    if (prefixInput) {
+      prefixInput.value = seq.prefix;
+      prefixInput.oninput = async () => { seq.prefix = prefixInput.value || dt.prefix; await db.put('businesses', activeBiz); applyNumber(); };
+    }
+    applyNumber();
+    window.__bumpSequence = async () => {
+      // Only advance the sequence when this document consumed the next number.
+      if (doc.number === buildNumber(seq, doc.issueDate)) {
+        seq.next = (seq.next || 1) + 1;
+        await db.put('businesses', activeBiz);
+      }
+    };
+  }
+
+  // ---------- load a saved document for editing (?doc=<id>) ----------
+  async function loadFromWorkspace() {
+    const id = new URLSearchParams(location.search).get('doc');
+    if (!id) return;
+    const rec = await db.get('documents', id);
+    if (!rec || !rec.state) return;
+    savedDocId = rec.id;
+    loadedFromWorkspace = true;
+    const state = rec.state;
+    for (const key of Object.keys(doc)) {
+      if (key in state) doc[key] = state[key];
+    }
+    doc.ledger = rec.ledger || doc.ledger || [];
+    rebuildItems();
+    syncForm();
   }
 
   // ---------- actions ----------
@@ -433,7 +536,6 @@ export function initGenerator(opts = {}) {
       const name = `${dt.fileLabel}-${doc.number.replace(/[^\w.-]+/g, '-')}.pdf`;
       db.downloadBlob(new Blob([bytes], { type: 'application/pdf' }), name);
       await saveToWorkspace('Sent');
-      await window.__bumpSequence?.();
     } catch (err) {
       console.error(err);
       flash('Sorry — the PDF could not be generated. Please try again.');
@@ -455,7 +557,8 @@ export function initGenerator(opts = {}) {
     savedDocId = savedDocId || db.uid('doc_');
     await db.put('documents', {
       id: savedDocId,
-      docType,
+      docType: doc.docType,
+      businessId: activeBiz ? activeBiz.id : '',
       number: doc.number,
       status: existing && existing.status === 'Paid' ? 'Paid' : status,
       issueDate: doc.issueDate,
@@ -468,6 +571,9 @@ export function initGenerator(opts = {}) {
       updatedAt: new Date().toISOString(),
       state: JSON.parse(JSON.stringify(doc)),
     });
+    // Consuming a number advances the per-business sequence (no-op when
+    // re-saving, since the doc's number no longer matches the next build).
+    await window.__bumpSequence?.();
   }
 
   // ---------- mobile tabs ----------
@@ -500,8 +606,12 @@ export function initGenerator(opts = {}) {
 
   // ---------- boot ----------
   (async () => {
-    await Promise.all([loadClients(), loadCatalog(), loadSnippets(), initNumbering(), initBusiness()]);
-    applyTerms();
+    await loadFromWorkspace();
+    await initBusinesses();
+    initNumbering();
+    await Promise.all([loadClients(), loadCatalog(), loadSnippets()]);
+    if (!loadedFromWorkspace) applyTerms();
+    syncForm();
     refresh();
   })();
 

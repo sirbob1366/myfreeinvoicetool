@@ -1,0 +1,5 @@
+[
+  { "url": "http://localhost:8417/invoice/", "wait": 3000, "exprFile": "tests/stage2-save.expr.js" },
+  { "url": "http://localhost:8417/dashboard/", "wait": 2500, "exprFile": "tests/stage2-dup.expr.js" },
+  { "url": "http://localhost:8417/dashboard/", "wait": 3500, "expr": "(async () => { const db = await import('/assets/js/store.js'); const docs = await db.all('documents'); const biz = await db.all('businesses'); return { numbers: docs.map(d => d.number).sort(), seqNext: biz[0].sequences.invoice.next, rows: [...document.querySelectorAll('#docs-body .doc-number')].map(e => e.textContent.trim()) }; })()" }
+]

@@ -1,0 +1,5 @@
+[
+  { "url": "http://localhost:8417/invoice/", "wait": 3000, "exprFile": "tests/stage2-save.expr.js" },
+  { "url": null, "wait": 300, "expr": "(async () => { const db = await import('/assets/js/store.js'); const docs = await db.all('documents'); location.href = '/invoice/?doc=' + docs[0].id; return 'navigating to ' + docs[0].id; })()" },
+  { "url": null, "wait": 3500, "expr": "(() => ({ number: document.querySelector('[data-bind=number]').value, client: document.querySelector('[data-bind=\"client.name\"]').value, desc: document.querySelector('.i-desc').value, qty: document.querySelector('.i-qty').value, taxMode: document.querySelector('[data-bind=taxMode]').value, previewHasClient: [...document.querySelectorAll('.pv-text')].some(e => e.textContent.includes('Globex')) }))()" }
+]

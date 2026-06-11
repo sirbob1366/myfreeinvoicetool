@@ -1,0 +1,4 @@
+[
+  { "url": "http://localhost:8417/invoice/", "wait": 3000, "exprFile": "tests/stage2-save.expr.js" },
+  { "url": "http://localhost:8417/dashboard/", "wait": 2500, "exprFile": "tests/stage2-dash.expr.js", "shot": "dash.png" }
+]

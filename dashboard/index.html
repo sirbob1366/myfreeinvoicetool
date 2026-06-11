@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Billing Workspace — History, Clients, Ledger | MyFreeInvoiceTool</title>
+<meta name="description" content="Your entire billing history — invoices, estimates, receipts, payment ledgers, clients and multiple businesses — stored privately in your browser. No account, ever.">
+<link rel="canonical" href="https://myfreeinvoicetool.com/dashboard/">
+<meta property="og:title" content="Your Billing Workspace — Private, On Your Device">
+<meta property="og:description" content="History, statuses, payment ledgers, clients, item catalog and unlimited business profiles. All stored in your browser, never on a server.">
+<meta property="og:url" content="https://myfreeinvoicetool.com/dashboard/">
+<meta property="og:type" content="website">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#faf8f4">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/dashboard.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/"><span class="seal">✓</span>MyFreeInvoiceTool</a>
+    <nav class="site-nav">
+      <a href="/invoice/">Invoice</a>
+      <a href="/gst-invoice/">GST Invoice</a>
+      <a href="/estimate/">Estimate</a>
+      <a href="/receipt-maker/">Receipt</a>
+      <a href="/dashboard/" class="keep">Workspace</a>
+      <a href="/invoice/" class="cta">New invoice</a>
+    </nav>
+  </div>
+</header>
+
+<main class="dash-wrap">
+  <h1 class="gen-h1" style="font-size:clamp(26px,3vw,34px);margin:18px 0 4px">Your workspace</h1>
+  <p class="muted" style="margin-bottom:6px">Everything below lives in this browser, on this device. We can't see it — export a backup to move or keep it.</p>
+
+  <div id="rev-strip" class="rev-strip" aria-label="Revenue summary"></div>
+
+  <div class="dash-tabs" role="tablist">
+    <button class="dash-tab" data-tab="documents" type="button">Documents</button>
+    <button class="dash-tab" data-tab="clients" type="button">Clients</button>
+    <button class="dash-tab" data-tab="items" type="button">Item catalog</button>
+    <button class="dash-tab" data-tab="snippets" type="button">Snippets</button>
+    <button class="dash-tab" data-tab="businesses" type="button">Businesses</button>
+    <button class="dash-tab" data-tab="backup" type="button">Backup &amp; export</button>
+  </div>
+
+  <!-- Documents -->
+  <section class="dash-panel" id="panel-documents" hidden>
+    <div class="dash-toolbar">
+      <input id="search" type="search" placeholder="Search number or client…">
+      <select id="filter-status"></select>
+      <select id="filter-type"><option value="all">All types</option></select>
+      <select id="filter-business" hidden></select>
+      <span class="spacer"></span>
+      <button id="docs-csv" class="btn btn-quiet btn-sm" type="button">Export CSV</button>
+      <a class="btn btn-primary btn-sm" href="/invoice/">New invoice</a>
+    </div>
+    <div class="dash-table-wrap">
+      <table class="dash-table">
+        <thead><tr>
+          <th>Number</th><th>Client</th><th>Type</th><th>Issued</th><th>Due</th>
+          <th style="text-align:right">Total</th><th style="text-align:right">Balance</th><th>Status</th><th></th>
+        </tr></thead>
+        <tbody id="docs-body"></tbody>
+      </table>
+    </div>
+    <p class="muted" style="font-size:13px;margin-top:10px">
+      “Duplicate” gives you honest recurring: same invoice, next number, today's date — no subscription required.
+      Overdue status appears automatically when a due date passes with a balance outstanding.
+    </p>
+  </section>
+
+  <!-- Clients -->
+  <section class="dash-panel" id="panel-clients" hidden>
+    <div class="dash-toolbar">
+      <span class="spacer"></span>
+      <button id="client-add" class="btn btn-primary btn-sm" type="button">+ Add client</button>
+    </div>
+    <div class="dash-table-wrap">
+      <table class="dash-table">
+        <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>GSTIN</th><th></th></tr></thead>
+        <tbody id="clients-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Items -->
+  <section class="dash-panel" id="panel-items" hidden>
+    <div class="dash-toolbar">
+      <span class="spacer"></span>
+      <button id="item-add" class="btn btn-primary btn-sm" type="button">+ Add item</button>
+    </div>
+    <div class="dash-table-wrap">
+      <table class="dash-table">
+        <thead><tr><th>Description</th><th style="text-align:right">Rate</th><th style="text-align:right">Tax</th><th>HSN/SAC</th><th></th></tr></thead>
+        <tbody id="items-list-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Snippets -->
+  <section class="dash-panel" id="panel-snippets" hidden>
+    <div class="dash-toolbar">
+      <span class="spacer"></span>
+      <button id="snippet-add" class="btn btn-primary btn-sm" type="button">+ Add snippet</button>
+    </div>
+    <div class="dash-table-wrap">
+      <table class="dash-table">
+        <thead><tr><th>Kind</th><th>Title</th><th>Text</th><th></th></tr></thead>
+        <tbody id="snippets-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Businesses -->
+  <section class="dash-panel" id="panel-businesses" hidden>
+    <p class="muted" style="max-width:640px">Run several businesses or side-hustles? Each profile keeps its own logo, details, numbering sequence and defaults. Unlimited, free — what others sell as “premium seats”.</p>
+    <div id="biz-grid" class="biz-grid"></div>
+  </section>
+
+  <!-- Backup -->
+  <section class="dash-panel" id="panel-backup" hidden>
+    <div class="backup-card">
+      <h3>Backup everything</h3>
+      <p class="muted">One JSON file containing all documents, clients, items, snippets, businesses and settings. Keep it safe, or use it to move to another device or browser.</p>
+      <button id="backup-export" class="btn btn-primary btn-sm" type="button">Download backup (.json)</button>
+    </div>
+    <div class="backup-card">
+      <h3>Restore from backup</h3>
+      <p class="muted">Import a backup file. You'll choose whether to replace this device's data or merge into it.</p>
+      <input id="backup-import" type="file" accept="application/json,.json">
+    </div>
+    <div class="backup-card">
+      <h3>Export documents as CSV</h3>
+      <p class="muted">A spreadsheet-ready summary of every document: numbers, dates, clients, totals, payments and balances.</p>
+      <button id="backup-csv" class="btn btn-quiet btn-sm" type="button">Download CSV</button>
+    </div>
+    <div class="backup-card danger-zone">
+      <h3>Erase all data</h3>
+      <p class="muted">Removes everything stored by this tool in this browser. Because nothing is on our servers, this is final — there is no copy anywhere else.</p>
+      <button id="erase-all" class="btn btn-ghost btn-sm" type="button" style="border-color:var(--danger);color:var(--danger)">Erase everything</button>
+    </div>
+  </section>
+</main>
+
+<!-- Ledger dialog -->
+<dialog id="ledger-dialog" class="dash-dialog">
+  <h3 id="ledger-title">Payments</h3>
+  <ul id="ledger-list" class="ledger-list"></ul>
+  <p id="ledger-balance" class="tabular" style="font-weight:600;color:var(--ink)"></p>
+  <div class="ledger-form">
+    <div><label for="ledger-date">Date</label><input id="ledger-date" type="date"></div>
+    <div><label for="ledger-amount">Amount</label><input id="ledger-amount" type="number" min="0" step="any"></div>
+    <div><label for="ledger-note">Note</label><input id="ledger-note" placeholder="Bank transfer…"></div>
+    <button id="ledger-add" class="btn btn-primary btn-sm" type="button">Record</button>
+  </div>
+  <label class="check" style="margin-top:14px"><input id="ledger-print" type="checkbox"> Print payment history on the document</label>
+  <div class="dialog-actions">
+    <button id="ledger-close" class="btn btn-quiet btn-sm" type="button">Close</button>
+  </div>
+</dialog>
+
+<!-- Client dialog -->
+<dialog id="client-dialog" class="dash-dialog">
+  <h3 id="cd-title">Client</h3>
+  <div class="grid-2">
+    <div><label for="cd-name">Name</label><input id="cd-name"></div>
+    <div><label for="cd-email">Email</label><input id="cd-email" type="email"></div>
+  </div>
+  <div style="margin-top:12px"><label for="cd-address">Address</label><textarea id="cd-address" rows="2"></textarea></div>
+  <div class="grid-2" style="margin-top:12px">
+    <div><label for="cd-phone">Phone</label><input id="cd-phone"></div>
+    <div><label for="cd-gstin">GSTIN</label><input id="cd-gstin"></div>
+  </div>
+  <div class="dialog-actions">
+    <button id="cd-cancel" class="btn btn-quiet btn-sm" type="button">Cancel</button>
+    <button id="cd-save" class="btn btn-primary btn-sm" type="button">Save client</button>
+  </div>
+</dialog>
+
+<!-- Item dialog -->
+<dialog id="item-dialog" class="dash-dialog">
+  <h3 id="id-title">Item</h3>
+  <div><label for="id-desc">Description</label><textarea id="id-desc" rows="2"></textarea></div>
+  <div class="grid-3" style="margin-top:12px">
+    <div><label for="id-rate">Rate</label><input id="id-rate" type="number" min="0" step="any"></div>
+    <div><label for="id-tax">Tax %</label><input id="id-tax" type="number" min="0" max="100" step="any"></div>
+    <div><label for="id-hsn">HSN/SAC</label><input id="id-hsn"></div>
+  </div>
+  <div class="dialog-actions">
+    <button id="id-cancel" class="btn btn-quiet btn-sm" type="button">Cancel</button>
+    <button id="id-save" class="btn btn-primary btn-sm" type="button">Save item</button>
+  </div>
+</dialog>
+
+<!-- Snippet dialog -->
+<dialog id="snippet-dialog" class="dash-dialog">
+  <h3 id="sd-title">Snippet</h3>
+  <div class="grid-2">
+    <div><label for="sd-kind">Kind</label>
+      <select id="sd-kind"><option value="notes">Notes</option><option value="terms">Terms</option></select>
+    </div>
+    <div><label for="sd-name">Title</label><input id="sd-name" placeholder="Optional"></div>
+  </div>
+  <div style="margin-top:12px"><label for="sd-text">Text</label><textarea id="sd-text" rows="4"></textarea></div>
+  <div class="dialog-actions">
+    <button id="sd-cancel" class="btn btn-quiet btn-sm" type="button">Cancel</button>
+    <button id="sd-save" class="btn btn-primary btn-sm" type="button">Save snippet</button>
+  </div>
+</dialog>
+
+<!-- Business dialog -->
+<dialog id="biz-dialog" class="dash-dialog">
+  <h3 id="bd-title">Business</h3>
+  <div class="grid-2">
+    <div><label for="bd-name">Business name</label><input id="bd-name"></div>
+    <div><label for="bd-email">Email</label><input id="bd-email" type="email"></div>
+  </div>
+  <div style="margin-top:12px"><label for="bd-address">Address</label><textarea id="bd-address" rows="2"></textarea></div>
+  <div class="grid-2" style="margin-top:12px">
+    <div><label for="bd-phone">Phone</label><input id="bd-phone"></div>
+    <div>
+      <label for="bd-logo">Logo</label>
+      <div class="inline-actions">
+        <input id="bd-logo" type="file" accept="image/*">
+        <button id="bd-logo-clear" class="btn btn-quiet btn-sm" type="button">Clear</button>
+      </div>
+    </div>
+  </div>
+  <div class="grid-2" style="margin-top:12px">
+    <div><label for="bd-taxlabel">Tax ID label</label><input id="bd-taxlabel"></div>
+    <div><label for="bd-taxvalue">Tax ID value</label><input id="bd-taxvalue"></div>
+  </div>
+  <h3 style="font-size:13px;margin:18px 0 10px;color:var(--muted)">Invoice numbering</h3>
+  <div class="grid-3">
+    <div><label for="bd-prefix">Prefix</label><input id="bd-prefix"></div>
+    <div><label for="bd-format">Format</label><select id="bd-format"></select></div>
+    <div><label for="bd-next">Next number</label><input id="bd-next" type="number" min="1" step="1"></div>
+  </div>
+  <h3 style="font-size:13px;margin:18px 0 10px;color:var(--muted)">Defaults</h3>
+  <div class="grid-2">
+    <div><label for="bd-currency">Currency</label><select id="bd-currency"></select></div>
+    <div><label for="bd-template">Template</label><select id="bd-template"></select></div>
+  </div>
+  <div class="dialog-actions">
+    <button id="bd-cancel" class="btn btn-quiet btn-sm" type="button">Cancel</button>
+    <button id="bd-save" class="btn btn-primary btn-sm" type="button">Save business</button>
+  </div>
+</dialog>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-bottom" style="border:0;margin:0;padding:0">
+      <span>© 2026 MyFreeInvoiceTool — every document, zero uploads, ∞ free.</span>
+      <span>Your data lives in your browser. We never see it.</span>
+    </div>
+  </div>
+</footer>
+
+<script type="module" src="/assets/js/dashboard.js"></script>
+</body>
+</html>

@@ -117,6 +117,12 @@
 
     <section class="card">
       <h3>Your business</h3>
+      <div class="row" id="business-select-wrap">
+        <div class="inline-actions">
+          <select id="business-select" aria-label="Active business profile"></select>
+          <a class="btn btn-quiet btn-sm" href="/dashboard/#businesses">Manage</a>
+        </div>
+      </div>
       <div class="row c2">
         <div><label for="b-name">Business / your name</label><input id="b-name" data-bind="business.name" placeholder="Acme Studio"></div>
         <div>

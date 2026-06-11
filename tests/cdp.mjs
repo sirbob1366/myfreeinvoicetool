@@ -1,7 +1,9 @@
 // Minimal Chrome DevTools Protocol driver (no dependencies — uses Node's
 // built-in WebSocket). Usage:
-//   node tests/cdp.mjs <url> [--shot out.png] [--wait ms] [--expr "JS expression"]
-// Prints console messages, page errors, and the result of --expr.
+//   node tests/cdp.mjs <url> [--shot out.png] [--wait ms] [--expr "JS expression"] [--expr-file f.js]
+//   node tests/cdp.mjs --script steps.json     (steps: [{url, expr|exprFile, wait, shot}, …]
+//                                               — one browser session, IndexedDB persists)
+// Prints console messages, page errors, and the result of each expression.
 
 import { spawn } from 'node:child_process';
 import { writeFileSync, readFileSync } from 'node:fs';
@@ -74,19 +76,26 @@ try {
 
   await send(ws, 'Runtime.enable');
   await send(ws, 'Page.enable');
-  await send(ws, 'Page.navigate', { url });
-  await sleep(waitMs);
 
-  if (expr) {
-    const res = await send(ws, 'Runtime.evaluate', { expression: expr, returnByValue: true, awaitPromise: true });
-    console.log('EXPR:', JSON.stringify(res.result.value ?? res.result.description));
-  }
+  const scriptIdx = args.indexOf('--script');
+  const steps = scriptIdx > -1
+    ? JSON.parse(readFileSync(args[scriptIdx + 1], 'utf8'))
+    : [{ url, expr, wait: waitMs, shot: shotPath }];
 
-  if (shotPath) {
-    await send(ws, 'Emulation.setDeviceMetricsOverride', { width: 1440, height: 2200, deviceScaleFactor: 1, mobile: false });
-    const shot = await send(ws, 'Page.captureScreenshot', { format: 'png' });
-    writeFileSync(shotPath, Buffer.from(shot.data, 'base64'));
-    console.log('SHOT:', shotPath);
+  for (const [i, step] of steps.entries()) {
+    if (step.url) await send(ws, 'Page.navigate', { url: step.url }); // url:null = stay on current page
+    await sleep(step.wait ?? 2500);
+    const stepExpr = step.exprFile ? readFileSync(step.exprFile, 'utf8') : step.expr;
+    if (stepExpr) {
+      const res = await send(ws, 'Runtime.evaluate', { expression: stepExpr, returnByValue: true, awaitPromise: true });
+      console.log(`EXPR[${i}]:`, JSON.stringify(res.result.value ?? res.result.description));
+    }
+    if (step.shot) {
+      await send(ws, 'Emulation.setDeviceMetricsOverride', { width: 1440, height: 2200, deviceScaleFactor: 1, mobile: false });
+      const shot = await send(ws, 'Page.captureScreenshot', { format: 'png' });
+      writeFileSync(step.shot, Buffer.from(shot.data, 'base64'));
+      console.log(`SHOT[${i}]:`, step.shot);
+    }
   }
 
   console.log(logs.length ? logs.join('\n') : '(no console output)');
