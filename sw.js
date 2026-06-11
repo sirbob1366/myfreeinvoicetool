@@ -1,7 +1,7 @@
 // Service worker: the entire app — every generator, calculator and the PDF
 // engine — works offline after the first visit.
 
-const VERSION = 'mfit-v1';
+const VERSION = 'mfit-v2';
 const CORE = [
   '/', '/index.html',
   '/invoice/', '/gst-invoice/', '/estimate/', '/quotation-maker/', '/proforma-invoice/',

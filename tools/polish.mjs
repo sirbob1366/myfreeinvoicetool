@@ -57,10 +57,8 @@ console.log('favicon.ico');
 
 // ---------------------------------------------------------------- page polish
 
-const GA4 = `<!-- GA4 placeholder: replace G-XXXXXXXXXX before launch
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
--->`;
+const GA4 = `<script async src="https://www.googletagmanager.com/gtag/js?id=G-D5S8JJ385E"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config','G-D5S8JJ385E');</script>`;
 
 const PAGES = [
   'dashboard/index.html', 'rent-receipt/index.html', 'salary-slip/index.html',
@@ -72,7 +70,9 @@ for (const page of PAGES) {
   const url = new URL(page, root);
   let html = readFileSync(url, 'utf8');
 
-  if (!html.includes('GA4 placeholder')) {
+  // Swap any commented placeholder for the live snippet; insert if absent.
+  html = html.replace(/<!-- GA4 placeholder[\s\S]*?-->\n?/, '');
+  if (!html.includes('googletagmanager.com/gtag')) {
     html = html.replace('</head>', `${GA4}\n</head>`);
   }
   // Replace slim footers with the full cross-linked footer.
