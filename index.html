@@ -4,12 +4,46 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MyFreeInvoiceTool — Get Paid Properly. Free, Private, On Your Device.</title>
-<meta name="description" content="Every billing document your business needs — invoices, GST invoices, estimates, receipts, and more. Free forever, no account, no watermark, and your data never leaves your device.">
+<meta name="description" content="Every billing document your business needs — invoices, GST invoices with UPI QR, estimates, receipts, rent receipts, and more. Free forever, no account, no watermark, and your data never leaves your device.">
 <link rel="canonical" href="https://myfreeinvoicetool.com/">
+<meta property="og:title" content="MyFreeInvoiceTool — Get Paid Properly">
+<meta property="og:description" content="Every billing document your business needs. Free, private, on your device. No account, no watermark, works offline.">
+<meta property="og:url" content="https://myfreeinvoicetool.com/">
+<meta property="og:type" content="website">
 <meta name="theme-color" content="#faf8f4">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/home.css">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebApplication",
+ "name": "MyFreeInvoiceTool",
+ "url": "https://myfreeinvoicetool.com/",
+ "applicationCategory": "BusinessApplication",
+ "operatingSystem": "Any",
+ "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+ "featureList": "Invoices, GST invoices with UPI QR, estimates, quotations, receipts, rent receipts, salary slips, credit notes, purchase orders, timesheets, bulk invoicing, calculators — free, no account, offline-capable, data stored on device"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  { "@type": "Question", "name": "Is everything really free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Every feature — saved clients, templates, history, recurring numbering, multiple businesses, bulk generation, all 16 document types — is free with no caps, no trial and no watermark." } },
+  { "@type": "Question", "name": "Where is my data stored?", "acceptedAnswer": { "@type": "Answer", "text": "In your own browser (IndexedDB), on your device. Nothing is uploaded — we never see your clients, prices or revenue. You can export everything as one backup file or erase it at any time." } },
+  { "@type": "Question", "name": "Does it work offline?", "acceptedAnswer": { "@type": "Answer", "text": "Yes — the entire app, including the PDF engine, is an installable PWA that works with no internet connection after your first visit." } },
+  { "@type": "Question", "name": "Do I need an account?", "acceptedAnswer": { "@type": "Answer", "text": "No. There is no sign-up, login or email capture anywhere on the site." } },
+  { "@type": "Question", "name": "Is it suitable for Indian GST invoicing?", "acceptedAnswer": { "@type": "Answer", "text": "Yes — GSTIN fields, automatic CGST/SGST vs IGST split by place of supply, HSN/SAC columns, ₹ lakh/crore formatting, financial-year invoice numbers and a UPI payment QR on the PDF." } }
+ ]
+}
+</script>
+<!-- GA4 placeholder: replace G-XXXXXXXXXX before launch
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
+-->
 </head>
 <body>
 
@@ -27,41 +61,288 @@
   </div>
 </header>
 
-<!-- Stage 5 replaces this with the full Three.js / GSAP editorial story. -->
-<section class="section" style="padding-top:96px">
-  <div class="wrap" style="text-align:center;max-width:840px">
-    <h1 style="font-size:clamp(56px,8.5vw,124px);letter-spacing:-0.015em;margin-bottom:18px">Get paid properly.</h1>
-    <p style="font-size:19px;color:var(--muted);margin-bottom:30px">Every billing document your business needs. Free, private, on your device.</p>
-    <a class="btn btn-primary" href="/invoice/" style="font-size:17px;padding:14px 34px">Make an invoice — free</a>
-    <div class="trustline" style="justify-content:center;margin-top:36px">
-      <span>No account</span><span>No watermark</span><span>No limits</span><span>Works offline</span>
+<canvas id="hero-canvas" aria-hidden="true"></canvas>
+
+<!-- CH1 — hero -->
+<section class="hero">
+  <div class="wrap" style="position:relative">
+    <img class="static-hero-img" src="/assets/img/hero-static.webp" alt="" loading="eager" fetchpriority="low">
+    <div class="hero-copy">
+      <h1 class="display">Get paid properly.</h1>
+      <p class="hero-sub">Every billing document your business needs. Free, private, on your device.</p>
+      <a class="btn btn-primary hero-cta" href="/invoice/">Make an invoice — free</a>
+      <div class="trustline" style="margin-top:30px">
+        <span>No account</span><span>No watermark</span><span>No limits</span><span>Works offline</span>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="section alt">
+<!-- product strip -->
+<nav class="product-strip" aria-label="Products">
   <div class="wrap">
-    <h2>Every document. Zero uploads. ∞ free.</h2>
-    <p class="muted" style="max-width:640px">Why does sending a bill require surrendering your client list? It doesn't. We built the invoice maker we wanted: complete, private, permanent, free.</p>
-    <div class="grid-3" style="margin-top:28px">
-      <p><a href="/invoice/"><strong>Invoice</strong></a><br><small>Professional invoices in 60 seconds</small></p>
-      <p><a href="/estimate/"><strong>Estimates</strong></a><br><small>Quotes that convert to invoices in one click</small></p>
-      <p><a href="/receipt-maker/"><strong>Receipts</strong></a><br><small>Including rent receipts for HRA</small></p>
-      <p><a href="/gst-invoice/"><strong>GST</strong></a><br><small>Compliant tax invoices with UPI payment QR</small></p>
-      <p><a href="/dashboard/"><strong>Workspace</strong></a><br><small>Your entire billing history, on your device</small></p>
-      <p><a href="/bulk-invoices/"><strong>Bulk</strong></a><br><small>CSV in, a zip of numbered PDFs out</small></p>
+    <a href="/invoice/"><strong>Invoice</strong><small>Professional invoices in 60 seconds</small></a>
+    <a href="/estimate/"><strong>Estimates</strong><small>Quotes that convert to invoices in one click</small></a>
+    <a href="/receipt-maker/"><strong>Receipts</strong><small>Including rent receipts for HRA</small></a>
+    <a href="/gst-invoice/"><strong>GST</strong><small>Compliant tax invoices with UPI payment QR</small></a>
+    <a href="/dashboard/"><strong>Workspace</strong><small>Your entire billing history, on your device</small></a>
+  </div>
+</nav>
+
+<!-- CH2 — the gates -->
+<section class="chapter" id="ch2">
+  <div class="ch-pin">
+    <p class="ch-kicker">Chapter one · The gates</p>
+    <div class="gates-stack" aria-hidden="false">
+      <p class="gate">Sign up to save clients</p>
+      <p class="gate">Watermark on free plan</p>
+      <p class="gate">Upgrade for templates</p>
+      <p class="gate">₹ Recurring is Pro</p>
+    </div>
+    <p class="manifesto">Why does sending a bill require surrendering your client list? It doesn't. We built the invoice maker we wanted: <em>complete, private, permanent, free.</em></p>
+  </div>
+</section>
+
+<!-- CH3 — the craft -->
+<section class="chapter" id="ch3">
+  <div class="ch-pin">
+    <p class="ch-kicker">Chapter two · The craft</p>
+    <h2 class="ch-h2">Ten templates. One engine. Vector-perfect PDFs.</h2>
+    <div class="tpl-cards">
+      <div class="tpl-card active">Classic Serif<small>Gold hairlines, quiet authority</small></div>
+      <div class="tpl-card">Modern Grid<small>Brand-color bands, zebra rows</small></div>
+      <div class="tpl-card">Minimal Mono<small>Typewriter restraint</small></div>
+      <div class="tpl-card">Bold Header<small>Full-bleed color, white type</small></div>
+      <div class="tpl-card">GST Standard<small>The boxed format Indian accountants expect</small></div>
+      <a class="tpl-card" href="/invoice/" style="text-decoration:none">+ five more in the generator<small>Elegant Ledger, Compact, Creative, Letterhead, Statement</small></a>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 — get paid -->
+<section class="chapter" id="ch4">
+  <div class="ch-pin">
+    <p class="ch-kicker">Chapter three · Get paid</p>
+    <h2 class="ch-h2">Your invoice is now a payment terminal.</h2>
+    <p style="max-width:520px;font-size:17px;color:var(--body)">Add your UPI ID and every PDF carries a scannable QR with the exact balance due. Your client scans, confirms, and the money moves — before the invoice is even filed.</p>
+    <p><a class="btn btn-ghost" href="/gst-invoice/">Make a GST invoice with UPI QR</a></p>
+  </div>
+</section>
+
+<div id="story-end"></div>
+
+<!-- CH5 — product panels -->
+<a class="panel" href="/dashboard/">
+  <div class="wrap">
+    <div>
+      <h2>Your entire billing history. On your hardware.</h2>
+      <p>Statuses that flag themselves overdue, payment ledgers with partial payments, revenue at a glance, clients and saved items — a real workspace, with no account, because it all lives in your browser.</p>
+      <span class="go">Open the workspace →</span>
+    </div>
+    <div class="panel-art">
+      <div class="row"><strong>INV-014 · Globex</strong><span><span class="pill" style="background:#dcefe7;color:#0e6b4f">Paid</span></span></div>
+      <div class="row"><strong>INV-015 · Initech</strong><span><span class="pill" style="background:#f3ead3;color:#8a6d1f">Partial</span></span></div>
+      <div class="row"><strong>INV-016 · Stark</strong><span><span class="pill" style="background:#f6e0db;color:#a33b2e">Overdue</span></span></div>
+      <div class="row" style="border:0"><span>Outstanding</span><strong>$4,210.00</strong></div>
+    </div>
+  </div>
+</a>
+
+<a class="panel" href="/bulk-invoices/">
+  <div class="wrap">
+    <div>
+      <h2>A hundred invoices before your coffee cools.</h2>
+      <p>Upload a CSV of clients and amounts, map the columns, and download a zip of individually numbered vector PDFs. Others sell this as an enterprise tier; here it's a Tuesday.</p>
+      <span class="go">Try bulk invoicing →</span>
+    </div>
+    <div class="panel-art">
+      <div class="bar b1"></div><div class="bar b2"></div><div class="bar b3"></div>
+      <div class="row" style="border:0;margin-top:6px"><span>clients.csv → invoices.zip</span><strong>87 PDFs</strong></div>
+    </div>
+  </div>
+</a>
+
+<a class="panel" href="/invoice/">
+  <div class="wrap">
+    <div>
+      <h2>The only invoice maker that works on a flight.</h2>
+      <p>The entire app — every generator, every calculator, the PDF engine itself — installs as a PWA and runs with no connection at all. Nothing to sync, because nothing ever left your device.</p>
+      <span class="go">Install it from any page →</span>
+    </div>
+    <div class="panel-art" style="text-align:center;padding:40px">
+      <div style="font-family:var(--serif);font-size:34px;color:var(--ink)">✈ + ✓</div>
+      <p style="margin:10px 0 0;color:var(--muted);font-size:14px">Airplane mode is not an excuse anymore.</p>
+    </div>
+  </div>
+</a>
+
+<a class="panel" href="/dashboard/#businesses">
+  <div class="wrap">
+    <div>
+      <h2>Every side-hustle gets its own letterhead.</h2>
+      <p>Unlimited business profiles — each with its own logo, numbering sequence, currency and template defaults. Agencies and multi-hyphenates get what competitors sell as “premium seats”, free.</p>
+      <span class="go">Set up your businesses →</span>
+    </div>
+    <div class="panel-art">
+      <div class="row"><strong>Acme Studio</strong><span>INV-042 next</span></div>
+      <div class="row"><strong>Weekend Pottery Co.</strong><span>WP/2026-27/007 next</span></div>
+      <div class="row" style="border:0"><strong>Freelance (personal)</strong><span>F-2026-118 next</span></div>
+    </div>
+  </div>
+</a>
+
+<!-- full index -->
+<section class="section" style="position:relative;z-index:1">
+  <div class="wrap">
+    <h2>Every document. Every calculator.</h2>
+    <div class="index-grid" style="margin-top:24px">
+      <a href="/invoice/">Invoice generator<small>The flagship — 60 seconds to PDF</small></a>
+      <a href="/gst-invoice/">GST invoice<small>CGST/SGST/IGST + UPI QR</small></a>
+      <a href="/estimate/">Estimate<small>Converts to invoice</small></a>
+      <a href="/quotation-maker/">Quotation maker<small>Fixed-price quotes</small></a>
+      <a href="/proforma-invoice/">Proforma invoice<small>Advance payments & exports</small></a>
+      <a href="/receipt-maker/">Receipt maker<small>Proof of payment</small></a>
+      <a href="/rent-receipt/">Rent receipt<small>HRA batch, landlord PAN</small></a>
+      <a href="/salary-slip/">Salary slip<small>Indian & generic payslips</small></a>
+      <a href="/credit-note/">Credit note<small>Corrections done properly</small></a>
+      <a href="/debit-note/">Debit note<small>Undercharges & returns</small></a>
+      <a href="/purchase-order/">Purchase order<small>Commit spend in writing</small></a>
+      <a href="/delivery-challan/">Delivery challan<small>Goods movement, e-way ready</small></a>
+      <a href="/commercial-invoice/">Commercial invoice<small>HS codes & Incoterms</small></a>
+      <a href="/timesheet/">Timesheet<small>Weekly grid → invoice</small></a>
+      <a href="/expense-report/">Expense report<small>Reimbursement-ready</small></a>
+      <a href="/letterhead-maker/">Letterhead maker<small>Three header styles</small></a>
+      <a href="/bulk-invoices/">Bulk invoices<small>CSV → zip of PDFs</small></a>
+      <a href="/payment-reminder/">Payment reminder<small>Three escalation tones</small></a>
+      <a href="/upi-qr-generator/">UPI QR generator<small>Scannable payment QR</small></a>
+      <a href="/gst-calculator/">GST calculator<small>Inclusive & exclusive</small></a>
+      <a href="/vat-calculator/">VAT calculator<small>Net ↔ gross</small></a>
+      <a href="/sales-tax-calculator/">Sales tax calculator<small>Add or back out</small></a>
+      <a href="/late-fee-calculator/">Late fee calculator<small>With demand-note line</small></a>
+      <a href="/freelance-rate-calculator/">Freelance rate calculator<small>Price from target income</small></a>
+      <a href="/margin-markup-calculator/">Margin & markup<small>Convert any direction</small></a>
+      <a href="/discount-calculator/">Discount calculator<small>Incl. stacked discounts</small></a>
+      <a href="/dashboard/">Workspace<small>History, ledger, backup</small></a>
+    </div>
+  </div>
+</section>
+
+<!-- trust band -->
+<section class="trust-band section alt">
+  <h2 class="display" style="font-size:clamp(34px,5.4vw,64px)">Every document. Zero uploads. ∞ free.</h2>
+  <hr class="rule-gold">
+  <p class="muted" style="max-width:560px;margin:0 auto">No accounts to breach, no servers holding your client list, no watermark renting space on your reputation. Your books never leave your device.</p>
+</section>
+
+<!-- FAQ -->
+<section class="section" style="position:relative;z-index:1">
+  <div class="wrap copy">
+    <h2>Questions, answered</h2>
+    <div class="faq">
+      <details>
+        <summary>Is everything really free? How is that sustainable?</summary>
+        <p>Every feature is free, with no caps. The site is supported by clearly-labeled affiliate recommendations for full accounting suites — relevant only if you outgrow invoicing into bookkeeping, payroll and bank feeds. Your data is never the business model: we couldn't sell what we can't see.</p>
+      </details>
+      <details>
+        <summary>Where exactly is my data stored?</summary>
+        <p>In IndexedDB — your browser's built-in database — on your device. The Workspace reads it locally; the Backup tab exports it as one JSON file you control. Clearing your browser data deletes it, so keep backups of anything important.</p>
+      </details>
+      <details>
+        <summary>Does it work offline, honestly?</summary>
+        <p>Yes. After your first visit, a service worker keeps every page and the PDF engine cached on your device. We test invoice generation with the network disabled — it works. Install it from the address bar (or the “Install app” button) and it behaves like a native app.</p>
+      </details>
+      <details>
+        <summary>Can I move my data to another computer?</summary>
+        <p>Yes — export the single-file backup from the Workspace, open the site on the other machine, and import it. Everything arrives: documents, clients, items, snippets, businesses and numbering sequences.</p>
+      </details>
+      <details>
+        <summary>Is it suitable for GST invoicing in India?</summary>
+        <p>Yes — GSTIN fields for both parties, automatic CGST/SGST vs IGST split from the place of supply, HSN/SAC columns, ₹ formatting with lakh/crore words, April–March financial-year numbering, and a UPI payment QR printed on the PDF.</p>
+      </details>
+      <details>
+        <summary>What's the catch with “no watermark”?</summary>
+        <p>There isn't one. The PDF contains your branding and nothing else — no footer credit, no “made with”, no upgrade nag. We'd rather you tell a friend than be forced to advertise us to your clients.</p>
+      </details>
+    </div>
+
+    <div class="affiliate" style="margin-top:54px">
+      <small>When you outgrow invoices — sponsored</small>
+      Need double-entry bookkeeping, payroll or bank reconciliation? That's the moment for a full suite:
+      <a href="#" rel="sponsored nofollow">FreshBooks</a> · <a href="#" rel="sponsored nofollow">QuickBooks</a> ·
+      <a href="#" rel="sponsored nofollow">Wave</a> · <a href="#" rel="sponsored nofollow">Zoho Books</a>.
+      Affiliate links — they fund the free tools and never gate them.
     </div>
   </div>
 </section>
 
 <footer class="site-footer">
   <div class="wrap">
-    <div class="footer-bottom" style="border:0;margin:0;padding:0">
+    <div class="footer-grid">
+      <div>
+        <h4>Documents</h4>
+        <ul>
+          <li><a href="/invoice/">Invoice generator</a></li>
+          <li><a href="/gst-invoice/">GST invoice</a></li>
+          <li><a href="/estimate/">Estimate</a></li>
+          <li><a href="/quotation-maker/">Quotation maker</a></li>
+          <li><a href="/proforma-invoice/">Proforma invoice</a></li>
+          <li><a href="/receipt-maker/">Receipt maker</a></li>
+          <li><a href="/rent-receipt/">Rent receipt</a></li>
+          <li><a href="/salary-slip/">Salary slip</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>More documents</h4>
+        <ul>
+          <li><a href="/credit-note/">Credit note</a></li>
+          <li><a href="/debit-note/">Debit note</a></li>
+          <li><a href="/purchase-order/">Purchase order</a></li>
+          <li><a href="/delivery-challan/">Delivery challan</a></li>
+          <li><a href="/commercial-invoice/">Commercial invoice</a></li>
+          <li><a href="/timesheet/">Timesheet</a></li>
+          <li><a href="/expense-report/">Expense report</a></li>
+          <li><a href="/letterhead-maker/">Letterhead maker</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Calculators</h4>
+        <ul>
+          <li><a href="/gst-calculator/">GST calculator</a></li>
+          <li><a href="/vat-calculator/">VAT calculator</a></li>
+          <li><a href="/sales-tax-calculator/">Sales tax calculator</a></li>
+          <li><a href="/late-fee-calculator/">Late fee calculator</a></li>
+          <li><a href="/freelance-rate-calculator/">Freelance rate calculator</a></li>
+          <li><a href="/margin-markup-calculator/">Margin &amp; markup</a></li>
+          <li><a href="/discount-calculator/">Discount calculator</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Tools</h4>
+        <ul>
+          <li><a href="/dashboard/">Workspace</a></li>
+          <li><a href="/bulk-invoices/">Bulk invoices</a></li>
+          <li><a href="/payment-reminder/">Payment reminder</a></li>
+          <li><a href="/upi-qr-generator/">UPI QR generator</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Sister tools</h4>
+        <ul>
+          <li><a href="#" rel="nofollow">PDF tools</a></li>
+          <li><a href="#" rel="nofollow">Image tools</a></li>
+          <li><a href="#" rel="nofollow">Text tools</a></li>
+          <li><a href="#" rel="nofollow">Converter tools</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
       <span>© 2026 MyFreeInvoiceTool — every document, zero uploads, ∞ free.</span>
       <span>Your data lives in your browser. We never see it.</span>
     </div>
   </div>
 </footer>
+
+<script type="module" src="/assets/js/home.js"></script>
 <script type="module" src="/assets/js/pwa.js"></script>
 </body>
 </html>

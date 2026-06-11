@@ -83,6 +83,15 @@ try {
     : [{ url, expr, wait: waitMs, shot: shotPath }];
 
   for (const [i, step] of steps.entries()) {
+    if (step.size) {
+      const [w, h] = step.size.split('x').map(Number);
+      await send(ws, 'Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: 1, mobile: false });
+    }
+    if (step.reducedMotion) {
+      await send(ws, 'Emulation.setEmulatedMedia', {
+        features: [{ name: 'prefers-reduced-motion', value: 'reduce' }],
+      });
+    }
     if (step.offline !== undefined) {
       await send(ws, 'Network.enable');
       await send(ws, 'Network.emulateNetworkConditions', {
@@ -97,9 +106,10 @@ try {
       console.log(`EXPR[${i}]:`, JSON.stringify(res.result.value ?? res.result.description));
     }
     if (step.shot) {
-      const [w, h] = (step.size || '1440x2200').split('x').map(Number);
-      await send(ws, 'Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: 1, mobile: false });
-      const shot = await send(ws, 'Page.captureScreenshot', { format: 'png' });
+      if (!step.size) {
+        await send(ws, 'Emulation.setDeviceMetricsOverride', { width: 1440, height: 2200, deviceScaleFactor: 1, mobile: false });
+      }
+      const shot = await send(ws, 'Page.captureScreenshot', { format: step.shot.endsWith('.webp') ? 'webp' : 'png' });
       writeFileSync(step.shot, Buffer.from(shot.data, 'base64'));
       console.log(`SHOT[${i}]:`, step.shot);
     }

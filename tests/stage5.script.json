@@ -1,0 +1,6 @@
+[
+  { "url": "http://localhost:8417/", "wait": 4500, "shot": "home-top.png", "size": "1440x900", "expr": "(() => ({ story: document.body.classList.contains('js-story'), staticHero: document.body.classList.contains('static-hero'), canvasShown: getComputedStyle(document.getElementById('hero-canvas')).display, gsap: !!window.gsap, h1: document.querySelector('h1').textContent, gates: document.querySelectorAll('.gate').length, panels: document.querySelectorAll('.panel').length, gridLinks: document.querySelectorAll('.index-grid a').length }))()" },
+  { "url": null, "wait": 500, "expr": "(async () => { window.scrollTo(0, document.querySelector('#ch3').offsetTop + innerHeight * 1.2); await new Promise(r=>setTimeout(r,1200)); return { scrolled: scrollY, activeCard: document.querySelector('.tpl-card.active') ? document.querySelector('.tpl-card.active').textContent.slice(0,20) : null }; })()" },
+  { "url": null, "wait": 600, "shot": "home-ch3.png", "size": "1440x900", "expr": "'shot ch3'" },
+  { "url": null, "wait": 500, "expr": "(async () => { window.scrollTo(0, document.body.scrollHeight); await new Promise(r=>setTimeout(r,800)); return { canvasOpacity: getComputedStyle(document.getElementById('hero-canvas')).opacity, atBottom: true }; })()" }
+]

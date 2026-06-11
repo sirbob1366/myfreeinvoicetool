@@ -1,0 +1,6 @@
+[
+  { "url": "about:blank", "wait": 300, "expr": "'prep'" },
+  { "url": null, "wait": 200, "reducedMotion": true, "expr": "'rm set'" },
+  { "url": "http://localhost:8417/", "size": "1280x900", "wait": 2500, "expr": "(() => ({ staticHero: document.body.classList.contains('static-hero'), story: document.body.classList.contains('js-story'), canvasDisplay: getComputedStyle(document.getElementById('hero-canvas')).display, heroImgVisible: getComputedStyle(document.querySelector('.static-hero-img')).display, contentVisible: !!document.querySelector('.panel'), faq: document.querySelectorAll('.faq details').length }))()" },
+  { "url": null, "wait": 200, "jsDisabled": true, "expr": "'never runs'" }
+]

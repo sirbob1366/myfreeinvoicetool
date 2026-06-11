@@ -1,0 +1,3 @@
+[
+  { "url": "http://localhost:8417/", "size": "1100x780", "wait": 4500, "expr": "(() => { document.querySelector('.site-header').style.display='none'; document.querySelector('.hero-copy').style.visibility='hidden'; document.querySelector('.product-strip').style.display='none'; return 'hidden chrome'; })()", "shot": "assets/img/hero-static.webp" }
+]
