@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free Invoice Generator — No Sign-Up, No Watermark, 100% Private | MyFreeInvoiceTool</title>
+<meta name="description" content="Create a professional PDF invoice in 60 seconds. Free forever: no account, no watermark, no limits. Your invoices and clients stay in your browser — never on our servers.">
+<link rel="canonical" href="https://myfreeinvoicetool.com/invoice/">
+<meta property="og:title" content="Free Invoice Generator — No Sign-Up, No Watermark, 100% Private">
+<meta property="og:description" content="Professional PDF invoices in 60 seconds. Saved clients, templates, taxes, discounts — every feature free, everything stored on your device.">
+<meta property="og:url" content="https://myfreeinvoicetool.com/invoice/">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#faf8f4">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/engine.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "MyFreeInvoiceTool Invoice Generator",
+  "url": "https://myfreeinvoicetool.com/invoice/",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "featureList": "PDF invoices, saved clients, 10 templates, taxes and discounts, GST, multi-currency, works offline, no watermark, no account"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is this invoice generator really free?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes — every feature is free with no caps. There is no account, no watermark, no trial, and no paid tier. Saved clients, templates, recurring numbering and history are all included." }
+    },
+    {
+      "@type": "Question",
+      "name": "Where is my invoice data stored?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Entirely in your own browser, using IndexedDB on your device. Nothing you type is uploaded to any server. You can export a full backup as one JSON file, or delete everything, at any time." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it work offline?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. The app is an installable PWA: once you have visited it, the whole tool works without an internet connection — including PDF generation." }
+    },
+    {
+      "@type": "Question",
+      "name": "Will my PDF have a watermark?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Never. The PDF contains only your invoice — your logo, your details, your branding. No badge, no footer link, no upsell." }
+    }
+  ]
+}
+</script>
+</head>
+<body data-doctype="invoice">
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/"><span class="seal">✓</span>MyFreeInvoiceTool</a>
+    <nav class="site-nav">
+      <a href="/invoice/">Invoice</a>
+      <a href="/gst-invoice/">GST Invoice</a>
+      <a href="/estimate/">Estimate</a>
+      <a href="/receipt-maker/">Receipt</a>
+      <a href="/dashboard/" class="keep">Workspace</a>
+      <a href="/invoice/" class="cta">New invoice</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <h1 class="gen-h1">Free invoice generator</h1>
+  <p class="gen-sub">Professional PDF invoices in 60 seconds. No account, no watermark, no limits — and your books never leave your device.</p>
+</div>
+
+<div class="gen-tabs">
+  <button class="gen-tab active" data-tab="form" type="button">Edit</button>
+  <button class="gen-tab" data-tab="preview" type="button">Preview</button>
+</div>
+
+<main class="gen-shell">
+  <form class="gen-form" autocomplete="off" onsubmit="return false">
+
+    <section class="card">
+      <h3>Design</h3>
+      <div class="row c3">
+        <div><label for="f-template">Template</label><select id="f-template" data-bind="template"></select></div>
+        <div><label for="f-brand">Brand color</label><input id="f-brand" type="color" data-bind="brandColor" value="#11233f"></div>
+        <div><label for="f-fontpair">Typeface</label>
+          <select id="f-fontpair" data-bind="fontPair">
+            <option value="serif">Serif headings</option>
+            <option value="sans">Sans headings</option>
+          </select>
+        </div>
+      </div>
+      <div class="row c3">
+        <div><label for="f-pagesize">Paper</label>
+          <select id="f-pagesize" data-bind="pageSize">
+            <option value="a4">A4</option>
+            <option value="letter">US Letter</option>
+          </select>
+        </div>
+        <div><label for="f-currency">Currency</label><select id="f-currency" data-bind="currency"></select></div>
+        <div><label for="f-words">Amount in words</label>
+          <select id="f-words" data-bind="wordsMode">
+            <option value="off">Off</option>
+            <option value="western">Words (million)</option>
+            <option value="indian">Words (lakh / crore)</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Your business</h3>
+      <div class="row c2">
+        <div><label for="b-name">Business / your name</label><input id="b-name" data-bind="business.name" placeholder="Acme Studio"></div>
+        <div>
+          <label for="logo-input">Logo</label>
+          <div class="inline-actions">
+            <input id="logo-input" type="file" accept="image/*">
+            <button id="logo-clear" type="button" class="btn btn-quiet btn-sm">Clear</button>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div><label for="b-address">Address</label><textarea id="b-address" rows="2" data-bind="business.address" placeholder="Street, City, Country"></textarea></div>
+      </div>
+      <div class="row c2">
+        <div><label for="b-email">Email</label><input id="b-email" type="email" data-bind="business.email"></div>
+        <div><label for="b-phone">Phone</label><input id="b-phone" data-bind="business.phone"></div>
+      </div>
+      <div class="row c2">
+        <div><label for="b-taxlabel">Tax ID label</label><input id="b-taxlabel" data-bind="business.taxLabel" placeholder="Tax ID / VAT / GSTIN / EIN"></div>
+        <div><label for="b-taxvalue">Tax ID value</label><input id="b-taxvalue" data-bind="business.taxValue"></div>
+      </div>
+      <p class="muted" style="font-size:12.5px;margin:8px 0 0">Saved automatically — on this device only.</p>
+    </section>
+
+    <section class="card">
+      <h3>Bill to</h3>
+      <div class="row">
+        <div class="inline-actions">
+          <select id="client-select"></select>
+          <button id="client-save" type="button" class="btn btn-quiet btn-sm">Save client</button>
+        </div>
+      </div>
+      <div class="row c2">
+        <div><label for="c-name">Client name</label><input id="c-name" data-bind="client.name" placeholder="Client Co."></div>
+        <div><label for="c-email">Email</label><input id="c-email" type="email" data-bind="client.email"></div>
+      </div>
+      <div class="row">
+        <div><label for="c-address">Address</label><textarea id="c-address" rows="2" data-bind="client.address"></textarea></div>
+      </div>
+      <div class="row c2">
+        <div><label for="c-phone">Phone</label><input id="c-phone" data-bind="client.phone"></div>
+        <div><label for="c-gstin">Client GSTIN <span class="muted">(GST only)</span></label><input id="c-gstin" data-bind="client.gstin"></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Invoice details</h3>
+      <div class="row c3">
+        <div><label for="f-number">Invoice number</label><input id="f-number" data-bind="number"></div>
+        <div><label for="num-prefix">Prefix</label><input id="num-prefix" placeholder="INV"></div>
+        <div><label for="num-format">Number format</label><select id="num-format"></select></div>
+      </div>
+      <div class="row c3">
+        <div><label for="f-issue">Issue date</label><input id="f-issue" type="date" data-bind="issueDate"></div>
+        <div><label for="terms-preset">Terms</label><select id="terms-preset"></select></div>
+        <div><label for="f-due">Due date</label><input id="f-due" type="date" data-bind="dueDate"></div>
+      </div>
+      <div class="row c2">
+        <div><label for="f-po">PO / reference</label><input id="f-po" data-bind="poRef"></div>
+        <div><label for="f-itemmode">Billing mode</label>
+          <select id="f-itemmode" data-bind="itemMode">
+            <option value="qty">Quantity × rate</option>
+            <option value="hours">Hours × rate</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Line items</h3>
+      <div class="items-head">
+        <span></span><span>Description</span><span id="col-qty-head">Qty</span><span>Rate</span>
+        <span class="col-disc">Disc%</span><span class="col-tax">Tax%</span><span>Amount</span><span></span><span></span>
+      </div>
+      <div id="items-body"></div>
+      <div class="items-foot">
+        <button id="add-item" type="button" class="btn btn-quiet btn-sm">+ Add line</button>
+        <select id="catalog-select"></select>
+      </div>
+      <div class="row" style="margin-top:12px">
+        <label class="check"><input type="checkbox" data-bind="showLineDiscount"> Per-line discount column</label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Totals</h3>
+      <div class="row c3">
+        <div><label for="f-disctype">Discount</label>
+          <select id="f-disctype" data-bind="discount.type">
+            <option value="pct">Percent %</option>
+            <option value="fixed">Fixed amount</option>
+          </select>
+        </div>
+        <div><label for="f-discval">Discount value</label><input id="f-discval" type="number" min="0" step="any" data-bind="discount.value"></div>
+        <div><label for="f-taxmode">Tax</label>
+          <select id="f-taxmode" data-bind="taxMode">
+            <option value="none">No tax</option>
+            <option value="single">Single rate</option>
+            <option value="perline">Per line item</option>
+            <option value="gst">GST (India)</option>
+          </select>
+        </div>
+      </div>
+      <div class="row c2" id="tax-single-fields" hidden>
+        <div><label for="f-taxlabel">Tax name</label><input id="f-taxlabel" data-bind="taxLabel" placeholder="VAT, Sales Tax, GST…"></div>
+        <div><label for="f-taxpct">Tax rate %</label><input id="f-taxpct" type="number" min="0" max="100" step="any" data-bind="taxPct"></div>
+      </div>
+      <div id="tax-gst-fields" hidden>
+        <div class="row c2">
+          <div><label for="g-seller">Your GSTIN</label><input id="g-seller" data-bind="gst.sellerGstin" placeholder="22AAAAA0000A1Z5"></div>
+          <div><label for="g-rate">GST rate %</label>
+            <select id="g-rate" data-bind="gst.rate" data-number="1">
+              <option value="0">0%</option><option value="0.25">0.25%</option><option value="3">3%</option>
+              <option value="5">5%</option><option value="12">12%</option>
+              <option value="18" selected>18%</option><option value="28">28%</option>
+            </select>
+          </div>
+        </div>
+        <div class="row c2">
+          <div><label for="g-sellerstate">Your state</label><select id="g-sellerstate" data-bind="gst.sellerState" data-states></select></div>
+          <div><label for="g-supplystate">Place of supply</label><select id="g-supplystate" data-bind="gst.supplyState" data-states></select></div>
+        </div>
+        <p class="muted" style="font-size:12.5px;margin:6px 0 0">Same state → CGST + SGST split. Different states → IGST. Applied automatically.</p>
+      </div>
+      <div class="row c3" style="margin-top:12px">
+        <div><label for="f-shipping">Shipping</label><input id="f-shipping" type="number" min="0" step="any" data-bind="shipping"></div>
+        <div><label for="f-tip">Tip</label><input id="f-tip" type="number" min="0" step="any" data-bind="tip"></div>
+        <div><label for="f-paid">Amount paid</label><input id="f-paid" type="number" min="0" step="any" data-bind="amountPaid"></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Notes &amp; terms</h3>
+      <div class="row">
+        <div>
+          <label for="f-notes">Notes</label>
+          <textarea id="f-notes" rows="2" data-bind="notes" placeholder="Thank you for your business."></textarea>
+          <div class="inline-actions" style="margin-top:6px">
+            <select id="snippet-notes"></select>
+            <button id="save-snippet-notes" type="button" class="btn btn-quiet btn-sm">Save snippet</button>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label for="f-terms">Terms</label>
+          <textarea id="f-terms" rows="2" data-bind="terms" placeholder="Payment due within 30 days."></textarea>
+          <div class="inline-actions" style="margin-top:6px">
+            <select id="snippet-terms"></select>
+            <button id="save-snippet-terms" type="button" class="btn btn-quiet btn-sm">Save snippet</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Payment details</h3>
+      <div class="row">
+        <div><label for="p-bank">Bank details</label><textarea id="p-bank" rows="2" data-bind="payment.bank" placeholder="Account name, IBAN / account no., bank, SWIFT…"></textarea></div>
+      </div>
+      <div class="row c2">
+        <div><label for="p-paypal">PayPal.me</label><input id="p-paypal" data-bind="payment.paypal" placeholder="paypal.me/yourname"></div>
+        <div><label for="p-upi">UPI ID</label><input id="p-upi" data-bind="payment.upiId" placeholder="name@upi"></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Signature</h3>
+      <div class="row c3">
+        <button id="sig-open" type="button" class="btn btn-quiet btn-sm">Draw signature</button>
+        <input id="sig-upload" type="file" accept="image/*" title="Upload signature image">
+        <button id="sig-clear" type="button" class="btn btn-quiet btn-sm">Remove</button>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <div><label for="f-siglabel">Signature label</label><input id="f-siglabel" data-bind="signatureLabel" placeholder="Authorized signatory"></div>
+      </div>
+    </section>
+  </form>
+
+  <aside class="gen-preview">
+    <div class="gen-toolbar">
+      <button id="download-pdf" type="button" class="btn btn-primary">Download PDF</button>
+      <button id="save-doc" type="button" class="btn btn-ghost">Save to workspace</button>
+      <div id="totals-strip" class="tabular"></div>
+    </div>
+    <div id="preview" aria-label="Live invoice preview"></div>
+  </aside>
+</main>
+
+<dialog id="sig-modal">
+  <h3 class="mt-0">Draw your signature</h3>
+  <canvas id="sig-canvas" width="1040" height="360"></canvas>
+  <div class="sig-actions">
+    <button id="sig-clear-pad" type="button" class="btn btn-quiet btn-sm">Clear</button>
+    <button id="sig-cancel" type="button" class="btn btn-quiet btn-sm">Cancel</button>
+    <button id="sig-use" type="button" class="btn btn-primary btn-sm">Use signature</button>
+  </div>
+</dialog>
+
+<section class="section">
+  <div class="wrap copy">
+    <div class="trustline" style="margin-bottom:34px">
+      <span>No account</span><span>No watermark</span><span>No limits</span><span>Works offline</span><span>Data stays on your device</span>
+    </div>
+
+    <h2>An invoice generator that treats your business like yours</h2>
+    <p>Most “free” invoice makers have a business model you can't see on the page: your client list, your prices, and your revenue history sit on their servers, fueling upsells and lead generation. This tool works differently. Everything you type — clients, line items, totals, history — is stored in your own browser using IndexedDB, on your device. We never see it. You can export your entire workspace as a single JSON file, move it to another machine, or wipe it completely. Your books never leave your device.</p>
+
+    <h2>Everything included, nothing gated</h2>
+    <p>Every feature that competitors lock behind a paid plan is simply here: saved clients, an item catalog with your usual rates, reusable notes and terms snippets, ten professional templates, your logo and brand color, automatic invoice numbering (including Indian financial-year formats like INV/2026-27/001), per-line and document-level discounts, single-rate tax or full Indian GST with automatic CGST/SGST/IGST splitting, shipping, tips, partial payments with a running balance due, and amount-in-words in both million and lakh/crore styles. There is no “Pro” version, because this is the pro version.</p>
+
+    <h2>How to make an invoice in 60 seconds</h2>
+    <ul>
+      <li><strong>Add your details once.</strong> Your business name, logo and tax ID are remembered on this device for next time.</li>
+      <li><strong>Pick the client.</strong> Saved clients load with one click — or type a new one and hit “Save client”.</li>
+      <li><strong>Add line items.</strong> Quantity × rate or hours × rate, with optional per-line discounts and taxes. Reorder by dragging.</li>
+      <li><strong>Set taxes and totals.</strong> Discounts, tax, shipping, tip, and any amount already paid — the balance due updates live.</li>
+      <li><strong>Download the PDF.</strong> A crisp, vector PDF — never a blurry screenshot — with no watermark, ever.</li>
+    </ul>
+
+    <h2>A real PDF, built like a document, not a screenshot</h2>
+    <p>The preview you see is the PDF you get. Documents are generated as true vector PDFs: text stays selectable and razor-sharp at any zoom, files stay small enough to email, and multi-page invoices flow naturally with repeated table headers and page numbers. Choose A4 or US Letter, and dates and numbers format themselves correctly for any of 40+ currencies.</p>
+
+    <h2>The only invoice maker that works on a flight</h2>
+    <p>Because the entire app — including PDF generation — runs in your browser, it keeps working with no connection at all. Install it like an app on your phone or laptop, and invoice from anywhere: a flight, a basement workshop, a client site with no Wi-Fi. Nothing to sync, because nothing ever left your device.</p>
+
+    <h2 id="faq">Frequently asked questions</h2>
+    <div class="faq">
+      <details>
+        <summary>Is this invoice generator really free? What's the catch?</summary>
+        <p>It's free, with every feature unlocked and no usage caps. The site is supported by clearly-labeled recommendations for full accounting suites — useful only if you outgrow invoicing. Your data is never the product: it stays on your device, where we can't see or sell it.</p>
+      </details>
+      <details>
+        <summary>Do I need to create an account?</summary>
+        <p>No. There is no sign-up, no email capture, and no login. Open the page, make your invoice, download the PDF.</p>
+      </details>
+      <details>
+        <summary>Where are my invoices and clients stored?</summary>
+        <p>In your browser's local database (IndexedDB) on your own device. They are available to you in the Workspace, and you can export everything as one JSON backup file or delete it all at any time. Nothing is uploaded.</p>
+      </details>
+      <details>
+        <summary>Will there be a watermark or branding on my PDF?</summary>
+        <p>No, never. The document contains only what you put on it.</p>
+      </details>
+      <details>
+        <summary>Can I use it for GST invoices in India?</summary>
+        <p>Yes. Switch tax mode to GST: enter your GSTIN and place of supply, and the tool automatically splits CGST + SGST for in-state sales or applies IGST for inter-state sales, adds HSN/SAC columns, and titles the document “Tax Invoice”.</p>
+      </details>
+      <details>
+        <summary>Does it really work offline?</summary>
+        <p>Yes — it's an installable PWA. After your first visit, every page and the PDF engine are cached on your device, so the whole tool works with no internet connection.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h4>Documents</h4>
+        <ul>
+          <li><a href="/invoice/">Invoice generator</a></li>
+          <li><a href="/gst-invoice/">GST invoice</a></li>
+          <li><a href="/estimate/">Estimate</a></li>
+          <li><a href="/quotation-maker/">Quotation maker</a></li>
+          <li><a href="/proforma-invoice/">Proforma invoice</a></li>
+          <li><a href="/receipt-maker/">Receipt maker</a></li>
+          <li><a href="/rent-receipt/">Rent receipt</a></li>
+          <li><a href="/salary-slip/">Salary slip</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>More documents</h4>
+        <ul>
+          <li><a href="/credit-note/">Credit note</a></li>
+          <li><a href="/debit-note/">Debit note</a></li>
+          <li><a href="/purchase-order/">Purchase order</a></li>
+          <li><a href="/delivery-challan/">Delivery challan</a></li>
+          <li><a href="/commercial-invoice/">Commercial invoice</a></li>
+          <li><a href="/timesheet/">Timesheet</a></li>
+          <li><a href="/expense-report/">Expense report</a></li>
+          <li><a href="/letterhead-maker/">Letterhead maker</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Calculators</h4>
+        <ul>
+          <li><a href="/gst-calculator/">GST calculator</a></li>
+          <li><a href="/vat-calculator/">VAT calculator</a></li>
+          <li><a href="/sales-tax-calculator/">Sales tax calculator</a></li>
+          <li><a href="/late-fee-calculator/">Late fee calculator</a></li>
+          <li><a href="/freelance-rate-calculator/">Freelance rate calculator</a></li>
+          <li><a href="/margin-markup-calculator/">Margin &amp; markup</a></li>
+          <li><a href="/discount-calculator/">Discount calculator</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Tools</h4>
+        <ul>
+          <li><a href="/dashboard/">Workspace</a></li>
+          <li><a href="/bulk-invoices/">Bulk invoices</a></li>
+          <li><a href="/payment-reminder/">Payment reminder</a></li>
+          <li><a href="/upi-qr-generator/">UPI QR generator</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Sister tools</h4>
+        <ul>
+          <li><a href="#" rel="nofollow">PDF tools</a></li>
+          <li><a href="#" rel="nofollow">Image tools</a></li>
+          <li><a href="#" rel="nofollow">Text tools</a></li>
+          <li><a href="#" rel="nofollow">Converter tools</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 MyFreeInvoiceTool — every document, zero uploads, ∞ free.</span>
+      <span>Your data lives in your browser. We never see it.</span>
+    </div>
+  </div>
+</footer>
+
+<script type="module">
+  import { initGenerator } from '/assets/js/engine/app.js';
+  initGenerator({ docType: 'invoice' });
+</script>
+</body>
+</html>

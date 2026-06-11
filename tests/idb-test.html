@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html><body data-stage="start">
+<script type="module">
+  import * as db from '/assets/js/store.js';
+  const b = document.body;
+  try {
+    b.dataset.stage = 'opening';
+    await db.openDB();
+    b.dataset.stage = 'opened';
+    await db.setSetting('probe', 123);
+    b.dataset.stage = 'wrote';
+    const v = await db.getSetting('probe');
+    b.dataset.stage = 'read:' + v;
+    const rows = await db.all('clients');
+    b.dataset.stage = 'done:' + rows.length;
+  } catch (e) {
+    b.dataset.stage = 'error:' + e.message;
+  }
+</script>
+</body></html>

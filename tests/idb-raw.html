@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html><body data-stage="start">
+<script>
+  document.body.dataset.stage = 'opening';
+  const req = indexedDB.open('probe-db', 1);
+  req.onupgradeneeded = () => { req.result.createObjectStore('s', { keyPath: 'k' }); document.body.dataset.up = '1'; };
+  req.onsuccess = () => { document.body.dataset.stage = 'opened'; };
+  req.onerror = () => { document.body.dataset.stage = 'error:' + req.error; };
+  req.onblocked = () => { document.body.dataset.stage = 'blocked'; };
+  setTimeout(() => { document.body.dataset.timeout = document.body.dataset.stage; }, 3000);
+</script>
+</body></html>
