@@ -1,9 +1,9 @@
 // Service worker: the entire app — every generator, calculator and the PDF
 // engine — works offline after the first visit.
 
-const VERSION = 'mfit-v3';
+const VERSION = 'mfit-v4';
 const CORE = [
-  '/', '/index.html',
+  '/', '/index.html', '/about/',
   '/invoice/', '/gst-invoice/', '/estimate/', '/quotation-maker/', '/proforma-invoice/',
   '/receipt-maker/', '/rent-receipt/', '/salary-slip/', '/credit-note/', '/debit-note/',
   '/purchase-order/', '/delivery-challan/', '/commercial-invoice/', '/timesheet/',
@@ -14,7 +14,7 @@ const CORE = [
   '/payment-reminder/', '/upi-qr-generator/',
   '/assets/css/base.css', '/assets/css/engine.css', '/assets/css/dashboard.css', '/assets/css/calc.css',
   '/assets/js/store.js', '/assets/js/docstatus.js', '/assets/js/dashboard.js',
-  '/assets/js/reminder.js', '/assets/js/bulk.js', '/assets/js/pwa.js',
+  '/assets/js/reminder.js', '/assets/js/bulk.js', '/assets/js/pwa.js', '/assets/js/support.js',
   '/assets/js/engine/app.js', '/assets/js/engine/model.js', '/assets/js/engine/layout.js',
   '/assets/js/engine/preview.js', '/assets/js/engine/pdf.js', '/assets/js/engine/templates.js',
   '/assets/js/engine/labels.js', '/assets/js/engine/doctypes.js',

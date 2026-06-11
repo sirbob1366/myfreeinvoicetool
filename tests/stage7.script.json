@@ -1,0 +1,19 @@
+[
+  { "url": "http://localhost:8417/about/", "wait": 5500, "shot": "about-top.png", "size": "1440x900",
+    "expr": "(() => { const mail = document.getElementById('support-mail'); const lds = [...document.querySelectorAll('script[type=\"application/ld+json\"]')].map(s => JSON.parse(s.textContent)['@type']); return { h1: document.querySelector('h1').textContent.slice(0, 40), mailHref: mail.href, mailText: mail.textContent, jsonLdTypes: lds, appCards: document.querySelectorAll('.app-card').length, appsNote: document.querySelector('.apps-note').textContent.slice(0, 30), builtBy: document.querySelector('.footer-bottom').textContent.includes('Built by'), helpBtn: !!document.getElementById('mfit-help-btn') }; })()" },
+
+  { "url": null, "wait": 300,
+    "expr": "(async () => { document.getElementById('mfit-help-btn').click(); await new Promise(r => setTimeout(r, 200)); const panel = document.getElementById('mfit-help-panel'); const input = panel.querySelector('input'); return { panelShown: !panel.hidden, faqCount: panel.querySelectorAll('details').length, focusInInput: document.activeElement === input, ariaExpanded: document.getElementById('mfit-help-btn').getAttribute('aria-expanded'), stored: localStorage.getItem('mfit-support-open') }; })()" },
+
+  { "url": null, "wait": 300, "shot": "about-widget-open.png", "size": "1440x900",
+    "expr": "(async () => { const panel = document.getElementById('mfit-help-panel'); const input = panel.querySelector('input'); input.value = 'watermark on pdf'; input.dispatchEvent(new Event('input')); await new Promise(r => setTimeout(r, 100)); const first = panel.querySelector('.mfit-help-list summary'); const matched = panel.querySelectorAll('.mfit-help-list details').length; input.value = 'xyzzy plover'; input.dispatchEvent(new Event('input')); await new Promise(r => setTimeout(r, 100)); const fb = panel.querySelector('.mfit-help-fallback a'); return { watermarkTop: first ? first.textContent.slice(0, 45) : null, watermarkMatches: matched, fallbackShown: !!fb, fallbackMailto: fb ? fb.href.slice(0, 70) : null }; })()" },
+
+  { "url": null, "wait": 300,
+    "expr": "(async () => { const panel = document.getElementById('mfit-help-panel'); panel.querySelector('input').value = ''; panel.querySelector('input').dispatchEvent(new Event('input')); panel.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); await new Promise(r => setTimeout(r, 100)); return { closedByEsc: panel.hidden, focusOnBtn: document.activeElement.id, stored: localStorage.getItem('mfit-support-open') }; })()" },
+
+  { "url": "http://localhost:8417/invoice/", "wait": 5500,
+    "expr": "(() => ({ page: 'invoice', helpBtn: !!document.getElementById('mfit-help-btn'), panelStaysClosed: document.getElementById('mfit-help-panel').hidden, appCards: document.querySelectorAll('.app-card').length, builtBy: document.querySelector('.footer-bottom').textContent.includes('Built by') }))()" },
+
+  { "url": "http://localhost:8417/gst-calculator/", "wait": 5500, "shot": "calc-footer.png", "size": "390x844",
+    "expr": "(async () => { window.scrollTo(0, document.body.scrollHeight); document.getElementById('mfit-help-btn').click(); await new Promise(r => setTimeout(r, 300)); const p = document.getElementById('mfit-help-panel'); const r = p.getBoundingClientRect(); return { page: 'gst-calculator mobile', panelShown: !p.hidden, sheetFullWidth: Math.round(r.width) >= 388, sheetAtBottom: Math.round(r.bottom) === 844 }; })()" }
+]

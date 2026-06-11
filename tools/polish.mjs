@@ -20,6 +20,7 @@ const URLS = [
   ['late-fee-calculator/', 0.7], ['freelance-rate-calculator/', 0.8],
   ['margin-markup-calculator/', 0.7], ['discount-calculator/', 0.6],
   ['bulk-invoices/', 0.8], ['payment-reminder/', 0.8], ['upi-qr-generator/', 0.9],
+  ['about/', 0.5],
 ];
 
 const today = new Date().toISOString().slice(0, 10);
@@ -61,6 +62,7 @@ const GA4 = `<script async src="https://www.googletagmanager.com/gtag/js?id=G-BS
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config','G-BSC4V5T85X');</script>`;
 
 const PAGES = [
+  'index.html', 'about/index.html',
   'dashboard/index.html', 'rent-receipt/index.html', 'salary-slip/index.html',
   'timesheet/index.html', 'expense-report/index.html', 'letterhead-maker/index.html',
   'payment-reminder/index.html', 'upi-qr-generator/index.html', 'bulk-invoices/index.html',

@@ -1,10 +1,17 @@
-// PWA bootstrap: service worker registration + install prompt.
+// PWA bootstrap: service worker registration + install prompt + lazy extras.
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js').catch(() => {});
   });
 }
+
+// Support widget loads only after the page is interactive and idle.
+window.addEventListener('load', () => {
+  const load = () => import('/assets/js/support.js').catch(() => {});
+  if ('requestIdleCallback' in window) requestIdleCallback(load, { timeout: 4000 });
+  else setTimeout(load, 1500);
+});
 
 let deferredPrompt = null;
 
