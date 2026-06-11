@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VAT Calculator — Add or Remove VAT at Any Rate | MyFreeInvoiceTool</title>
+<meta name="description" content="Free VAT calculator: add VAT to a net price or extract it from a gross amount at any rate (20%, 19%, 5%…). Instant, accurate, private — nothing leaves your browser.">
+<link rel="canonical" href="https://myfreeinvoicetool.com/vat-calculator/">
+<meta property="og:title" content="VAT Calculator — Add or Remove VAT at Any Rate | MyFreeInvoiceTool">
+<meta property="og:description" content="Free VAT calculator: add VAT to a net price or extract it from a gross amount at any rate (20%, 19%, 5%…). Instant, accurate, private — nothing leaves your browser.">
+<meta property="og:url" content="https://myfreeinvoicetool.com/vat-calculator/">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#faf8f4">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/calc.css">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebApplication",
+ "name": "MyFreeInvoiceTool VAT calculator",
+ "url": "https://myfreeinvoicetool.com/vat-calculator/",
+ "applicationCategory": "FinanceApplication",
+ "operatingSystem": "Any",
+ "offers": {
+  "@type": "Offer",
+  "price": "0",
+  "priceCurrency": "USD"
+ },
+ "featureList": "Add VAT, remove VAT, net and gross calculation, any rate"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "How do I take VAT off a gross price?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Divide by (1 + rate/100). £120 at 20% → £100 net, £20 VAT. Never multiply the gross by the rate — that overstates the tax."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What is the UK VAT rate?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "The standard rate is 20%, with a 5% reduced rate (e.g. domestic energy) and 0% zero rate (most food, books, children’s clothes)."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What must appear on a VAT invoice?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Your VAT number, the net amount, the rate applied, the VAT amount and the gross total — per line or per rate. Our invoice generator includes all of these fields."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Is this calculator stored or tracked?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "No — it runs entirely in your browser and works offline. Nothing you type is sent anywhere."
+   }
+  }
+ ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/"><span class="seal">✓</span>MyFreeInvoiceTool</a>
+    <nav class="site-nav">
+      <a href="/invoice/">Invoice</a>
+      <a href="/gst-invoice/">GST Invoice</a>
+      <a href="/estimate/">Estimate</a>
+      <a href="/receipt-maker/">Receipt</a>
+      <a href="/dashboard/" class="keep">Workspace</a>
+      <a href="/invoice/" class="cta">New invoice</a>
+    </nav>
+  </div>
+</header>
+
+<div class="calc-shell">
+  <h1 class="gen-h1" style="font-size:clamp(26px,3vw,34px);margin:22px 0 4px">VAT calculator</h1>
+  <p class="gen-sub" style="color:var(--muted);margin-bottom:18px">Net to gross, gross to net — at any VAT rate, instantly.</p>
+
+  <div class="calc-card">
+
+    <div class="calc-grid">
+      <div>
+        <label for="amount">Amount</label>
+        <input id="amount" type="number" min="0" step="any" placeholder="1,000" autofocus>
+      </div>
+      <div>
+        <label for="rate">VAT rate %</label>
+        <input id="rate" type="number" min="0" max="100" step="any" value="20">
+      </div>
+    </div>
+    <div style="margin-top:14px">
+      <label>Mode</label>
+      <div class="seg" id="mode">
+        <button type="button" class="active" data-v="add">Add VAT (net → gross)</button>
+        <button type="button" data-v="remove">Remove VAT (gross → net)</button>
+      </div>
+    </div>
+    <div class="calc-results">
+      <div class="result"><small>Net amount</small><strong id="r-net">0.00</strong></div>
+      <div class="result"><small>VAT</small><strong id="r-vat">0.00</strong></div>
+      <div class="result accent"><small>Gross amount</small><strong id="r-gross">0.00</strong></div>
+    </div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="wrap copy">
+    <div class="trustline" style="margin-bottom:34px">
+      <span>Instant — no page reloads</span><span>No account</span><span>Works offline</span><span>Nothing uploaded</span>
+    </div>
+
+    <h2>How VAT works</h2>
+    <p>Value Added Tax is charged as a percentage of the net (tax-exclusive) price. The seller collects it and remits it; registered businesses reclaim the VAT they pay on inputs, so the tax ultimately lands on the final consumer. Two directions of arithmetic cover almost every situation:</p>
+    <ul>
+      <li><strong>Adding VAT:</strong> gross = net × (1 + rate/100). A £1,000 service at 20% bills at £1,200.</li>
+      <li><strong>Removing VAT:</strong> net = gross ÷ (1 + rate/100). The error to avoid: 20% VAT is <em>not</em> 20% of the gross. From £1,200 gross, the VAT is £200 (a sixth of the gross at 20%) — not £240.</li>
+    </ul>
+    <h2>Common rates around the world</h2>
+    <p>The UK standard rate is 20% (reduced 5%, zero 0%). EU standard rates range from 17% (Luxembourg) to 27% (Hungary), with Germany at 19% and France at 20%. The UAE and Saudi Arabia charge 5% and 15% respectively. South Africa charges 15%. Many countries operate reduced rates for food, books, transport and energy — always check which rate your supply falls under, because applying the standard rate to a reduced-rate supply is a real (and common) overcharge.</p>
+    <h2>The quick mental shortcuts</h2>
+    <p>At 20%, the VAT inside a gross price is the gross divided by 6. At 5%, divide the gross by 21. These fall straight out of the remove-VAT formula and are handy for receipt-checking; the calculator above does the precise version at any rate.</p>
+    <h2>Invoicing with VAT</h2>
+    <p>A VAT invoice must show the net amount, the rate, the VAT amount and the gross, along with your VAT registration number. The <a href="/invoice/">invoice generator</a> handles this — set the tax name to “VAT”, your rate, and add your registration number as the tax ID; the totals block renders net, VAT and gross exactly as computed here.</p>
+    <h2 id="faq">Frequently asked questions</h2>
+    <div class="faq">
+      <details>
+        <summary>How do I take VAT off a gross price?</summary>
+        <p>Divide by (1 + rate/100). £120 at 20% → £100 net, £20 VAT. Never multiply the gross by the rate — that overstates the tax.</p>
+      </details>
+      <details>
+        <summary>What is the UK VAT rate?</summary>
+        <p>The standard rate is 20%, with a 5% reduced rate (e.g. domestic energy) and 0% zero rate (most food, books, children’s clothes).</p>
+      </details>
+      <details>
+        <summary>What must appear on a VAT invoice?</summary>
+        <p>Your VAT number, the net amount, the rate applied, the VAT amount and the gross total — per line or per rate. Our invoice generator includes all of these fields.</p>
+      </details>
+      <details>
+        <summary>Is this calculator stored or tracked?</summary>
+        <p>No — it runs entirely in your browser and works offline. Nothing you type is sent anywhere.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h4>Documents</h4>
+        <ul>
+          <li><a href="/invoice/">Invoice generator</a></li>
+          <li><a href="/gst-invoice/">GST invoice</a></li>
+          <li><a href="/estimate/">Estimate</a></li>
+          <li><a href="/quotation-maker/">Quotation maker</a></li>
+          <li><a href="/proforma-invoice/">Proforma invoice</a></li>
+          <li><a href="/receipt-maker/">Receipt maker</a></li>
+          <li><a href="/rent-receipt/">Rent receipt</a></li>
+          <li><a href="/salary-slip/">Salary slip</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>More documents</h4>
+        <ul>
+          <li><a href="/credit-note/">Credit note</a></li>
+          <li><a href="/debit-note/">Debit note</a></li>
+          <li><a href="/purchase-order/">Purchase order</a></li>
+          <li><a href="/delivery-challan/">Delivery challan</a></li>
+          <li><a href="/commercial-invoice/">Commercial invoice</a></li>
+          <li><a href="/timesheet/">Timesheet</a></li>
+          <li><a href="/expense-report/">Expense report</a></li>
+          <li><a href="/letterhead-maker/">Letterhead maker</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Calculators</h4>
+        <ul>
+          <li><a href="/gst-calculator/">GST calculator</a></li>
+          <li><a href="/vat-calculator/">VAT calculator</a></li>
+          <li><a href="/sales-tax-calculator/">Sales tax calculator</a></li>
+          <li><a href="/late-fee-calculator/">Late fee calculator</a></li>
+          <li><a href="/freelance-rate-calculator/">Freelance rate calculator</a></li>
+          <li><a href="/margin-markup-calculator/">Margin &amp; markup</a></li>
+          <li><a href="/discount-calculator/">Discount calculator</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Tools</h4>
+        <ul>
+          <li><a href="/dashboard/">Workspace</a></li>
+          <li><a href="/bulk-invoices/">Bulk invoices</a></li>
+          <li><a href="/payment-reminder/">Payment reminder</a></li>
+          <li><a href="/upi-qr-generator/">UPI QR generator</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Sister tools</h4>
+        <ul>
+          <li><a href="#" rel="nofollow">PDF tools</a></li>
+          <li><a href="#" rel="nofollow">Image tools</a></li>
+          <li><a href="#" rel="nofollow">Text tools</a></li>
+          <li><a href="#" rel="nofollow">Converter tools</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 MyFreeInvoiceTool — every document, zero uploads, ∞ free.</span>
+      <span>Your data lives in your browser. We never see it.</span>
+    </div>
+  </div>
+</footer>
+
+<script type="module">
+
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => [...document.querySelectorAll(s)];
+const fmt = (n, d = 2) => (Number.isFinite(n) ? n : 0).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+const fmtIN = (n, d = 2) => (Number.isFinite(n) ? n : 0).toLocaleString('en-IN', { minimumFractionDigits: d, maximumFractionDigits: d });
+const num = (s) => { const v = parseFloat($(s).value); return Number.isFinite(v) ? v : 0; };
+function seg(sel, onChange) {
+  const root = $(sel);
+  root.addEventListener('click', (e) => {
+    const b = e.target.closest('button');
+    if (!b) return;
+    $$(sel + ' button').forEach((x) => x.classList.toggle('active', x === b));
+    onChange(b.dataset.v);
+  });
+  return () => root.querySelector('.active').dataset.v;
+}
+function bindAll(onInput) {
+  $$('input, select').forEach((el) => el.addEventListener('input', onInput));
+}
+
+const getMode = seg('#mode', calc);
+function calc() {
+  const amt = num('#amount');
+  const rate = num('#rate');
+  const net = getMode() === 'remove' ? amt / (1 + rate / 100) : amt;
+  const vat = net * rate / 100;
+  $('#r-net').textContent = fmt(net);
+  $('#r-vat').textContent = fmt(vat);
+  $('#r-gross').textContent = fmt(net + vat);
+}
+bindAll(calc);
+calc();
+</script>
+<script type="module" src="/assets/js/pwa.js"></script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bulk Invoice Generator — CSV to a Zip of PDF Invoices, Free | MyFreeInvoiceTool</title>
+<meta name="description" content="Upload a CSV of clients and amounts, map the columns, and download a zip of individually numbered PDF invoices — unlimited, free, and processed entirely in your browser.">
+<link rel="canonical" href="https://myfreeinvoicetool.com/bulk-invoices/">
+<meta property="og:title" content="Bulk Invoice Generator — CSV to a Zip of PDF Invoices, Free">
+<meta property="og:description" content="CSV in, a zip of numbered vector PDF invoices out. Unlimited and client-side — what others charge for, free.">
+<meta property="og:url" content="https://myfreeinvoicetool.com/bulk-invoices/">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#faf8f4">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/calc.css">
+<link rel="stylesheet" href="/assets/css/dashboard.css">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebApplication",
+ "name": "MyFreeInvoiceTool Bulk Invoice Generator",
+ "url": "https://myfreeinvoicetool.com/bulk-invoices/",
+ "applicationCategory": "BusinessApplication",
+ "operatingSystem": "Any",
+ "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+ "featureList": "CSV import, column mapping, batch PDF invoice generation, sequential numbering, zip download, client-side processing, unlimited"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  { "@type": "Question", "name": "Is my CSV uploaded to a server?", "acceptedAnswer": { "@type": "Answer", "text": "No — the file is read, the PDFs are generated, and the zip is assembled entirely inside your browser. Your client list never leaves your device." } },
+  { "@type": "Question", "name": "How many invoices can I generate?", "acceptedAnswer": { "@type": "Answer", "text": "There is no limit. Hundreds of rows work fine; generation runs at a few PDFs per second on a typical laptop." } },
+  { "@type": "Question", "name": "How are the invoices numbered?", "acceptedAnswer": { "@type": "Answer", "text": "Sequentially from your business profile's invoice sequence (e.g. INV-014, INV-015…), exactly as if you had created each one by hand — and the sequence advances so future invoices don't collide." } },
+  { "@type": "Question", "name": "What columns does the CSV need?", "acceptedAnswer": { "@type": "Answer", "text": "At minimum a client name and a description. Optional: email, address, quantity, rate, or a single amount column. You map your columns to fields after upload — any header names work." } }
+ ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/"><span class="seal">✓</span>MyFreeInvoiceTool</a>
+    <nav class="site-nav">
+      <a href="/invoice/">Invoice</a>
+      <a href="/gst-invoice/">GST Invoice</a>
+      <a href="/estimate/">Estimate</a>
+      <a href="/receipt-maker/">Receipt</a>
+      <a href="/dashboard/" class="keep">Workspace</a>
+      <a href="/invoice/" class="cta">New invoice</a>
+    </nav>
+  </div>
+</header>
+
+<div class="calc-shell" style="max-width:980px">
+  <h1 class="gen-h1" style="font-size:clamp(26px,3vw,34px);margin:22px 0 4px">Bulk invoice generator</h1>
+  <p class="gen-sub" style="color:var(--muted);margin-bottom:18px">A CSV of clients and amounts in — a zip of numbered PDF invoices out. Unlimited, client-side, free.</p>
+
+  <div class="calc-card">
+    <div class="calc-grid">
+      <div>
+        <label for="csv-file">1 — Upload your CSV</label>
+        <input id="csv-file" type="file" accept=".csv,text/csv">
+      </div>
+      <div style="align-self:end">
+        <a class="btn btn-quiet btn-sm" href="/samples/bulk-invoices-sample.csv" download>Download sample CSV</a>
+      </div>
+    </div>
+
+    <div id="map-section" hidden>
+      <h3 style="font-size:13px;margin:22px 0 10px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em">2 — Map your columns</h3>
+      <div class="calc-grid" id="mapping"></div>
+
+      <h3 style="font-size:13px;margin:22px 0 10px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em">3 — Invoice options</h3>
+      <div class="calc-grid">
+        <div><label for="opt-business">Business profile</label><select id="opt-business"></select></div>
+        <div><label for="opt-template">Template</label><select id="opt-template"></select></div>
+        <div><label for="opt-currency">Currency</label><select id="opt-currency"></select></div>
+        <div><label for="opt-tax">Tax % <span class="muted">(0 = none)</span></label><input id="opt-tax" type="number" min="0" max="100" step="any" value="0"></div>
+        <div><label for="opt-terms">Payment terms</label>
+          <select id="opt-terms">
+            <option value="0">Due on receipt</option>
+            <option value="7">Net 7</option>
+            <option value="15">Net 15</option>
+            <option value="30" selected>Net 30</option>
+            <option value="60">Net 60</option>
+          </select>
+        </div>
+        <div style="align-self:end"><label class="check"><input id="opt-save" type="checkbox" checked> Also save each invoice to my workspace</label></div>
+      </div>
+
+      <p id="row-count" class="muted" style="margin:18px 0 8px;font-weight:600"></p>
+      <div class="dash-table-wrap" style="margin-bottom:16px">
+        <table class="dash-table" style="min-width:0">
+          <thead><tr><th>Client</th><th>Description</th><th style="text-align:right">Qty</th><th style="text-align:right">Rate</th></tr></thead>
+          <tbody id="preview-body"></tbody>
+        </table>
+      </div>
+
+      <button id="generate" type="button" class="btn btn-primary" disabled>Generate PDFs &amp; download zip</button>
+      <p id="progress" class="muted" style="margin-top:10px;font-size:14px"></p>
+    </div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="wrap copy">
+    <div class="trustline" style="margin-bottom:34px">
+      <span>Unlimited rows</span><span>CSV never uploaded</span><span>Real sequential numbering</span><span>No account</span>
+    </div>
+
+    <h2>Batch invoicing without the “contact sales” tier</h2>
+    <p>Invoicing fifty students for the month, a hundred members for renewals, every tenant in a building, or a season of one-off customers means fifty-to-a-hundred near-identical invoices — and traditional tools either make you create them one by one or sell batch generation as a premium feature. This page does the whole job in your browser: upload a CSV, point each column at the right field, choose your business profile and template, and download a zip where every invoice is an individually numbered, properly formatted vector PDF.</p>
+
+    <h2>How it works</h2>
+    <ul>
+      <li><strong>Any CSV shape.</strong> Export from Excel, Google Sheets, Airtable or your CRM. After upload you map your columns — header names don't matter. Need a starting point? Use the <a href="/samples/bulk-invoices-sample.csv" download>sample CSV</a>.</li>
+      <li><strong>Qty × rate, or one amount.</strong> Map quantity and rate columns if you have them, or just a single amount column — each amount becomes a one-line invoice.</li>
+      <li><strong>Real numbering.</strong> Invoices draw numbers from your business profile's sequence (INV-014, INV-015…) and advance it, so the next invoice you make by hand continues cleanly.</li>
+      <li><strong>Your branding.</strong> The active business profile's logo, address and tax ID appear on every PDF, in whichever of the ten templates you pick.</li>
+      <li><strong>Workspace integration.</strong> Optionally save every generated invoice to your on-device <a href="/dashboard/">workspace</a>, where statuses, payment ledgers and reminders take over.</li>
+    </ul>
+
+    <h2>Client lists are crown jewels — so nothing is uploaded</h2>
+    <p>A CSV of names, emails, addresses and amounts is precisely the data most “free” tools harvest. Here the file is parsed by JavaScript in your tab, the PDFs are drawn by an in-browser engine, and the zip is assembled locally. Disconnect from the internet after the page loads and the whole thing still works.</p>
+
+    <h2 id="faq">Frequently asked questions</h2>
+    <div class="faq">
+      <details><summary>Is there a row limit?</summary><p>No hard limit. Hundreds of invoices generate in well under a minute on a normal laptop; the progress line keeps you posted.</p></details>
+      <details><summary>What if my CSV only has amounts, not qty and rate?</summary><p>Map just the amount column — each row becomes a single line item of quantity 1 at that amount.</p></details>
+      <details><summary>Can I add tax to every invoice?</summary><p>Yes — set a single tax percentage in the options and it applies to every generated invoice, shown as its own totals row.</p></details>
+      <details><summary>Where do the invoice numbers come from?</summary><p>From the selected business profile's sequence, advancing one per row — identical to creating each invoice manually.</p></details>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-bottom" style="border:0;margin:0;padding:0">
+      <span>© 2026 MyFreeInvoiceTool — every document, zero uploads, ∞ free.</span>
+      <span>Your data lives in your browser. We never see it.</span>
+    </div>
+  </div>
+</footer>
+
+<script type="module" src="/assets/js/bulk.js"></script>
+<script type="module" src="/assets/js/pwa.js"></script>
+</body>
+</html>

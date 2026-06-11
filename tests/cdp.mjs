@@ -83,6 +83,12 @@ try {
     : [{ url, expr, wait: waitMs, shot: shotPath }];
 
   for (const [i, step] of steps.entries()) {
+    if (step.offline !== undefined) {
+      await send(ws, 'Network.enable');
+      await send(ws, 'Network.emulateNetworkConditions', {
+        offline: !!step.offline, latency: 0, downloadThroughput: -1, uploadThroughput: -1,
+      });
+    }
     if (step.url) await send(ws, 'Page.navigate', { url: step.url }); // url:null = stay on current page
     await sleep(step.wait ?? 2500);
     const stepExpr = step.exprFile ? readFileSync(step.exprFile, 'utf8') : step.expr;
@@ -91,7 +97,8 @@ try {
       console.log(`EXPR[${i}]:`, JSON.stringify(res.result.value ?? res.result.description));
     }
     if (step.shot) {
-      await send(ws, 'Emulation.setDeviceMetricsOverride', { width: 1440, height: 2200, deviceScaleFactor: 1, mobile: false });
+      const [w, h] = (step.size || '1440x2200').split('x').map(Number);
+      await send(ws, 'Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: 1, mobile: false });
       const shot = await send(ws, 'Page.captureScreenshot', { format: 'png' });
       writeFileSync(step.shot, Buffer.from(shot.data, 'base64'));
       console.log(`SHOT[${i}]:`, step.shot);

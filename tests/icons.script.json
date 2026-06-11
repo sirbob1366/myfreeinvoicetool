@@ -1,0 +1,4 @@
+[
+  { "url": "http://localhost:8417/tests/icon.html", "wait": 800, "shot": "assets/img/icon-512.png", "size": "512x512" },
+  { "url": "http://localhost:8417/tests/icon.html", "wait": 500, "shot": "assets/img/icon-192.png", "size": "192x192" }
+]

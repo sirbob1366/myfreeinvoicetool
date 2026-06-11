@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GST Calculator — Inclusive & Exclusive, CGST/SGST Split | MyFreeInvoiceTool</title>
+<meta name="description" content="Free Indian GST calculator: add GST to a base amount or extract it from an inclusive price, at 5%, 12%, 18% or 28%, with the CGST/SGST split shown. Instant, private, offline-capable.">
+<link rel="canonical" href="https://myfreeinvoicetool.com/gst-calculator/">
+<meta property="og:title" content="GST Calculator — Inclusive & Exclusive, CGST/SGST Split | MyFreeInvoiceTool">
+<meta property="og:description" content="Free Indian GST calculator: add GST to a base amount or extract it from an inclusive price, at 5%, 12%, 18% or 28%, with the CGST/SGST split shown. Instant, private, offline-capable.">
+<meta property="og:url" content="https://myfreeinvoicetool.com/gst-calculator/">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#faf8f4">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/calc.css">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebApplication",
+ "name": "MyFreeInvoiceTool GST calculator",
+ "url": "https://myfreeinvoicetool.com/gst-calculator/",
+ "applicationCategory": "FinanceApplication",
+ "operatingSystem": "Any",
+ "offers": {
+  "@type": "Offer",
+  "price": "0",
+  "priceCurrency": "USD"
+ },
+ "featureList": "GST inclusive and exclusive calculation, 5/12/18/28 rate chips, CGST SGST split, Indian number formatting"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "How do I calculate GST from an inclusive price?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Divide the inclusive price by (1 + rate/100) to get the taxable value; the difference is the GST. ₹11,800 at 18% → ₹10,000 base + ₹1,800 GST. Use the “Remove GST” mode above."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What are the GST rate slabs?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "The main slabs are 5%, 12%, 18% and 28%, plus 0% for many essentials, 0.25% for rough precious stones and 3% for gold. Most services fall under 18%."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "When is GST split into CGST and SGST?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "For supplies within one state. The rate is halved between the central and state governments. Inter-state supplies charge the full rate as IGST instead."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Is this calculator exact for invoicing?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Yes — it uses the same arithmetic as our GST invoice generator. For the invoice itself (with GSTIN, HSN/SAC and the automatic split), use the GST invoice tool."
+   }
+  }
+ ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/"><span class="seal">✓</span>MyFreeInvoiceTool</a>
+    <nav class="site-nav">
+      <a href="/invoice/">Invoice</a>
+      <a href="/gst-invoice/">GST Invoice</a>
+      <a href="/estimate/">Estimate</a>
+      <a href="/receipt-maker/">Receipt</a>
+      <a href="/dashboard/" class="keep">Workspace</a>
+      <a href="/invoice/" class="cta">New invoice</a>
+    </nav>
+  </div>
+</header>
+
+<div class="calc-shell">
+  <h1 class="gen-h1" style="font-size:clamp(26px,3vw,34px);margin:22px 0 4px">GST calculator</h1>
+  <p class="gen-sub" style="color:var(--muted);margin-bottom:18px">Add GST to a price or pull it out of an inclusive amount — with the CGST/SGST split, at any rate.</p>
+
+  <div class="calc-card">
+
+    <div class="calc-grid">
+      <div>
+        <label for="amount">Amount (₹)</label>
+        <input id="amount" type="number" min="0" step="any" placeholder="10,000" autofocus>
+      </div>
+      <div>
+        <label>Mode</label>
+        <div class="seg" id="mode">
+          <button type="button" class="active" data-v="excl">Add GST (exclusive)</button>
+          <button type="button" data-v="incl">Remove GST (inclusive)</button>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:14px">
+      <label>GST rate</label>
+      <div class="chips" id="rates">
+        <button type="button" class="chip" data-r="5">5%</button>
+        <button type="button" class="chip" data-r="12">12%</button>
+        <button type="button" class="chip active" data-r="18">18%</button>
+        <button type="button" class="chip" data-r="28">28%</button>
+        <input id="custom-rate" type="number" min="0" max="100" step="any" placeholder="Custom %" style="width:110px">
+      </div>
+    </div>
+    <div class="calc-results">
+      <div class="result"><small>Taxable value</small><strong id="r-base">₹0.00</strong></div>
+      <div class="result"><small>CGST</small><strong id="r-cgst">₹0.00</strong></div>
+      <div class="result"><small>SGST</small><strong id="r-sgst">₹0.00</strong></div>
+      <div class="result"><small>Total GST</small><strong id="r-gst">₹0.00</strong></div>
+      <div class="result accent"><small>Total</small><strong id="r-total">₹0.00</strong></div>
+    </div>
+    <p class="muted" style="font-size:12.5px;margin:14px 0 0">Intra-state supplies split the GST equally into CGST + SGST; inter-state supplies charge the same total as IGST. Make a compliant invoice with the <a href="/gst-invoice/">GST invoice generator</a>.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="wrap copy">
+    <div class="trustline" style="margin-bottom:34px">
+      <span>Instant — no page reloads</span><span>No account</span><span>Works offline</span><span>Nothing uploaded</span>
+    </div>
+
+    <h2>How GST is calculated</h2>
+    <p>India's Goods and Services Tax is charged as a percentage of the <em>taxable value</em> — the price before tax. The standard rate slabs are <strong>5%, 12%, 18% and 28%</strong>, with special rates of 0.25% (rough precious stones) and 3% (gold and jewellery), and a nil slab for essentials. The arithmetic runs in two directions, and mixing them up is the most common GST mistake:</p>
+    <ul>
+      <li><strong>Exclusive (adding GST):</strong> GST = price × rate ÷ 100. A ₹10,000 service at 18% carries ₹1,800 of GST, invoicing at ₹11,800.</li>
+      <li><strong>Inclusive (extracting GST):</strong> when a price already contains GST, the tax is <em>not</em> 18% of the sticker price. Taxable value = price ÷ (1 + rate/100). From ₹11,800 inclusive at 18%: base ₹10,000, GST ₹1,800 — not ₹2,124.</li>
+    </ul>
+    <h2>CGST, SGST and IGST — where the split comes from</h2>
+    <p>GST is a dual levy. On a supply <strong>within one state</strong>, the rate is divided equally between Central GST and State GST — an 18% supply shows as CGST 9% + SGST 9% on the invoice. On a supply <strong>between states</strong>, the whole amount is charged as Integrated GST (IGST 18%). The totals are identical; only the split — and which government collects — changes. This calculator shows the intra-state split; the <a href="/gst-invoice/">GST invoice generator</a> applies the correct treatment automatically from your state and the place of supply.</p>
+    <h2>Rounding</h2>
+    <p>GST law provides for rounding the tax to the nearest rupee on invoices (Section 170, normal rounding). This calculator shows paise-level precision so you can see the exact arithmetic; invoices commonly round each tax line.</p>
+    <h2>Worked example</h2>
+    <p>A designer in Maharashtra bills a Karnataka client ₹50,000 for brand work at 18%. Inter-state → IGST ₹9,000, invoice total ₹59,000. The same project for a Mumbai client would show CGST ₹4,500 + SGST ₹4,500 — same ₹59,000 total.</p>
+    <h2 id="faq">Frequently asked questions</h2>
+    <div class="faq">
+      <details>
+        <summary>How do I calculate GST from an inclusive price?</summary>
+        <p>Divide the inclusive price by (1 + rate/100) to get the taxable value; the difference is the GST. ₹11,800 at 18% → ₹10,000 base + ₹1,800 GST. Use the “Remove GST” mode above.</p>
+      </details>
+      <details>
+        <summary>What are the GST rate slabs?</summary>
+        <p>The main slabs are 5%, 12%, 18% and 28%, plus 0% for many essentials, 0.25% for rough precious stones and 3% for gold. Most services fall under 18%.</p>
+      </details>
+      <details>
+        <summary>When is GST split into CGST and SGST?</summary>
+        <p>For supplies within one state. The rate is halved between the central and state governments. Inter-state supplies charge the full rate as IGST instead.</p>
+      </details>
+      <details>
+        <summary>Is this calculator exact for invoicing?</summary>
+        <p>Yes — it uses the same arithmetic as our GST invoice generator. For the invoice itself (with GSTIN, HSN/SAC and the automatic split), use the GST invoice tool.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h4>Documents</h4>
+        <ul>
+          <li><a href="/invoice/">Invoice generator</a></li>
+          <li><a href="/gst-invoice/">GST invoice</a></li>
+          <li><a href="/estimate/">Estimate</a></li>
+          <li><a href="/quotation-maker/">Quotation maker</a></li>
+          <li><a href="/proforma-invoice/">Proforma invoice</a></li>
+          <li><a href="/receipt-maker/">Receipt maker</a></li>
+          <li><a href="/rent-receipt/">Rent receipt</a></li>
+          <li><a href="/salary-slip/">Salary slip</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>More documents</h4>
+        <ul>
+          <li><a href="/credit-note/">Credit note</a></li>
+          <li><a href="/debit-note/">Debit note</a></li>
+          <li><a href="/purchase-order/">Purchase order</a></li>
+          <li><a href="/delivery-challan/">Delivery challan</a></li>
+          <li><a href="/commercial-invoice/">Commercial invoice</a></li>
+          <li><a href="/timesheet/">Timesheet</a></li>
+          <li><a href="/expense-report/">Expense report</a></li>
+          <li><a href="/letterhead-maker/">Letterhead maker</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Calculators</h4>
+        <ul>
+          <li><a href="/gst-calculator/">GST calculator</a></li>
+          <li><a href="/vat-calculator/">VAT calculator</a></li>
+          <li><a href="/sales-tax-calculator/">Sales tax calculator</a></li>
+          <li><a href="/late-fee-calculator/">Late fee calculator</a></li>
+          <li><a href="/freelance-rate-calculator/">Freelance rate calculator</a></li>
+          <li><a href="/margin-markup-calculator/">Margin &amp; markup</a></li>
+          <li><a href="/discount-calculator/">Discount calculator</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Tools</h4>
+        <ul>
+          <li><a href="/dashboard/">Workspace</a></li>
+          <li><a href="/bulk-invoices/">Bulk invoices</a></li>
+          <li><a href="/payment-reminder/">Payment reminder</a></li>
+          <li><a href="/upi-qr-generator/">UPI QR generator</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Sister tools</h4>
+        <ul>
+          <li><a href="#" rel="nofollow">PDF tools</a></li>
+          <li><a href="#" rel="nofollow">Image tools</a></li>
+          <li><a href="#" rel="nofollow">Text tools</a></li>
+          <li><a href="#" rel="nofollow">Converter tools</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 MyFreeInvoiceTool — every document, zero uploads, ∞ free.</span>
+      <span>Your data lives in your browser. We never see it.</span>
+    </div>
+  </div>
+</footer>
+
+<script type="module">
+
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => [...document.querySelectorAll(s)];
+const fmt = (n, d = 2) => (Number.isFinite(n) ? n : 0).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+const fmtIN = (n, d = 2) => (Number.isFinite(n) ? n : 0).toLocaleString('en-IN', { minimumFractionDigits: d, maximumFractionDigits: d });
+const num = (s) => { const v = parseFloat($(s).value); return Number.isFinite(v) ? v : 0; };
+function seg(sel, onChange) {
+  const root = $(sel);
+  root.addEventListener('click', (e) => {
+    const b = e.target.closest('button');
+    if (!b) return;
+    $$(sel + ' button').forEach((x) => x.classList.toggle('active', x === b));
+    onChange(b.dataset.v);
+  });
+  return () => root.querySelector('.active').dataset.v;
+}
+function bindAll(onInput) {
+  $$('input, select').forEach((el) => el.addEventListener('input', onInput));
+}
+
+let rate = 18;
+const getMode = seg('#mode', calc);
+$$('#rates .chip').forEach((c) => c.addEventListener('click', () => {
+  $$('#rates .chip').forEach((x) => x.classList.remove('active'));
+  c.classList.add('active');
+  $('#custom-rate').value = '';
+  rate = +c.dataset.r;
+  calc();
+}));
+$('#custom-rate').addEventListener('input', () => {
+  $$('#rates .chip').forEach((x) => x.classList.remove('active'));
+  rate = num('#custom-rate');
+  calc();
+});
+function calc() {
+  const amt = num('#amount');
+  const mode = getMode();
+  const base = mode === 'incl' ? amt / (1 + rate / 100) : amt;
+  const gst = base * rate / 100;
+  $('#r-base').textContent = '₹' + fmtIN(base);
+  $('#r-cgst').textContent = '₹' + fmtIN(gst / 2);
+  $('#r-sgst').textContent = '₹' + fmtIN(gst / 2);
+  $('#r-gst').textContent = '₹' + fmtIN(gst);
+  $('#r-total').textContent = '₹' + fmtIN(base + gst);
+}
+bindAll(calc);
+calc();
+</script>
+<script type="module" src="/assets/js/pwa.js"></script>
+</body>
+</html>

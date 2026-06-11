@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Payment Reminder Generator — Polite to Final-Notice Emails | MyFreeInvoiceTool</title>
+<meta name="description" content="Generate payment reminder emails in three escalation tones — friendly nudge, firm follow-up, final notice — with details merged from your invoices. Copy and send. Free, private.">
+<link rel="canonical" href="https://myfreeinvoicetool.com/payment-reminder/">
+<meta property="og:title" content="Payment Reminder Generator — Polite to Final-Notice Emails">
+<meta property="og:description" content="Three escalation tones, merge fields from your unpaid invoices, UPI/PayPal payment links — copy to clipboard and send.">
+<meta property="og:url" content="https://myfreeinvoicetool.com/payment-reminder/">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#faf8f4">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/calc.css">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebApplication",
+ "name": "MyFreeInvoiceTool Payment Reminder Generator",
+ "url": "https://myfreeinvoicetool.com/payment-reminder/",
+ "applicationCategory": "BusinessApplication",
+ "operatingSystem": "Any",
+ "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+ "featureList": "Payment reminder emails, three escalation tones, merge fields from workspace invoices, UPI and PayPal payment links, copy to clipboard"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  { "@type": "Question", "name": "When should I send the first payment reminder?", "acceptedAnswer": { "@type": "Answer", "text": "A friendly nudge on the day after the due date (or 2–3 days after) is standard. Many businesses also send a courtesy heads-up a few days before the due date." } },
+  { "@type": "Question", "name": "How do the three tones differ?", "acceptedAnswer": { "@type": "Answer", "text": "Friendly assumes good faith and offers help; firm states the overdue facts and asks for payment within 7 days; final notice warns of work suspension, late fees per your terms, and possible collection steps." } },
+  { "@type": "Question", "name": "Can it use my actual invoice details?", "acceptedAnswer": { "@type": "Answer", "text": "Yes — if you invoice with this site, pick any unpaid invoice from your on-device workspace and the client, number, balance, due date and payment details merge in automatically." } }
+ ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/"><span class="seal">✓</span>MyFreeInvoiceTool</a>
+    <nav class="site-nav">
+      <a href="/invoice/">Invoice</a>
+      <a href="/gst-invoice/">GST Invoice</a>
+      <a href="/estimate/">Estimate</a>
+      <a href="/receipt-maker/">Receipt</a>
+      <a href="/dashboard/" class="keep">Workspace</a>
+      <a href="/invoice/" class="cta">New invoice</a>
+    </nav>
+  </div>
+</header>
+
+<div class="calc-shell" style="max-width:980px">
+  <h1 class="gen-h1" style="font-size:clamp(26px,3vw,34px);margin:22px 0 4px">Payment reminder generator</h1>
+  <p class="gen-sub" style="color:var(--muted);margin-bottom:18px">The email that gets you paid — in the right tone for how late it is.</p>
+
+  <div class="calc-card">
+    <div style="margin-bottom:16px">
+      <label for="pick-invoice">Merge from your workspace</label>
+      <select id="pick-invoice"></select>
+    </div>
+    <div class="calc-grid">
+      <div><label for="f-client">Client name</label><input id="f-client" placeholder="Globex Corporation"></div>
+      <div><label for="f-number">Invoice number</label><input id="f-number" placeholder="INV-042"></div>
+      <div><label for="f-amount">Amount due</label><input id="f-amount" type="number" min="0" step="any"></div>
+      <div><label for="f-due">Due date</label><input id="f-due" type="date"></div>
+      <div><label for="f-business">Your business name</label><input id="f-business"></div>
+      <div><label for="f-bank">Bank line <span class="muted">(optional)</span></label><input id="f-bank" placeholder="Acme Ltd · IBAN GB00…"></div>
+      <div><label for="f-paypal">PayPal.me <span class="muted">(optional)</span></label><input id="f-paypal" placeholder="paypal.me/you"></div>
+      <div><label for="f-upi">UPI ID <span class="muted">(optional)</span></label><input id="f-upi" placeholder="name@upi"></div>
+    </div>
+
+    <div style="margin-top:18px">
+      <label>Tone</label>
+      <div class="seg" id="tone">
+        <button type="button" class="active" data-v="friendly">Friendly nudge</button>
+        <button type="button" data-v="firm">Firm</button>
+        <button type="button" data-v="final">Final notice</button>
+      </div>
+    </div>
+
+    <div style="margin-top:20px">
+      <label for="out-subject">Subject</label>
+      <div class="copy-line" style="margin-top:4px">
+        <textarea id="out-subject" rows="1" readonly></textarea>
+        <button id="copy-subject" type="button" class="btn btn-quiet btn-sm">Copy subject</button>
+      </div>
+    </div>
+    <div style="margin-top:14px">
+      <label for="out-body">Email</label>
+      <div class="copy-line" style="margin-top:4px">
+        <textarea id="out-body" rows="14" readonly></textarea>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:10px">
+        <button id="copy-body" type="button" class="btn btn-primary btn-sm">Copy email</button>
+        <button id="open-mail" type="button" class="btn btn-ghost btn-sm">Open in mail app</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="wrap copy">
+    <div class="trustline" style="margin-bottom:34px">
+      <span>No account</span><span>Nothing uploaded</span><span>Merge fields from your own invoices</span><span>Works offline</span>
+    </div>
+
+    <h2>The escalation ladder that actually works</h2>
+    <p>Most late payments aren't malice — they're inbox entropy. The professional response is a calm, predictable escalation, and each rung has a different job:</p>
+    <ul>
+      <li><strong>Friendly nudge (1–7 days late).</strong> Assumes good faith, offers to resend the invoice, makes paying effortless. Most invoices clear here; warmth costs nothing and protects the relationship.</li>
+      <li><strong>Firm follow-up (1–3 weeks late).</strong> States the facts — amount, due date, days overdue — and asks for payment within a specific window. No apology, no anger; specificity is the pressure.</li>
+      <li><strong>Final notice (4+ weeks late).</strong> Names consequences: work paused, late fees per your agreed terms (compute them with the <a href="/late-fee-calculator/">late fee calculator</a>), and the possibility of collection. Still courteous — letters that read angry get forwarded to lawyers; letters that read inevitable get paid.</li>
+    </ul>
+
+    <h2>Make paying the path of least resistance</h2>
+    <p>Every reminder this tool generates can embed your payment routes: a bank transfer line, a PayPal.me link, and a UPI deep link that opens the payment app on the client's phone with the exact balance pre-filled. The fewer steps between “oh right, that invoice” and money moving, the sooner it moves.</p>
+
+    <h2>Merge fields, zero uploads</h2>
+    <p>If you invoice with <a href="/invoice/">this site</a>, the dropdown above lists your unpaid invoices straight from your browser's local workspace — client, number, balance, due date and payment details merge into the email automatically. The data never leaves your device; this page simply reads the same local database your invoices live in.</p>
+
+    <h2 id="faq">Frequently asked questions</h2>
+    <div class="faq">
+      <details><summary>When should I send the first reminder?</summary><p>The day after the due date, or 2–3 days after if you prefer a softer cadence. A pre-due-date courtesy note (“due this Friday”) also measurably reduces lateness.</p></details>
+      <details><summary>How long should I wait between reminders?</summary><p>A week is the common rhythm: nudge at day 1–3, firm at day 7–14, final notice at day 21–30. Keep copies of each — they matter if recovery escalates.</p></details>
+      <details><summary>Can I charge late fees?</summary><p>Only if your invoice or contract stated them before the work. If they did, the firm and final templates reference your terms; calculate the exact figure with the late fee calculator.</p></details>
+      <details><summary>Is my client data uploaded?</summary><p>No — the generator runs entirely in your browser, and the invoice dropdown reads your on-device workspace. Nothing is sent anywhere until you send the email yourself.</p></details>
+    </div>
+
+    <div style="margin-top:48px;padding:22px;border:1px solid var(--hairline);border-radius:10px;background:var(--ivory-2)">
+      <p style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">When you outgrow invoices — sponsored</p>
+      <p style="margin:0;font-size:14.5px">Chasing many invoices a month? A full accounting suite automates reminders, reconciliation and bookkeeping:
+      <a href="#" rel="sponsored nofollow">FreshBooks</a> · <a href="#" rel="sponsored nofollow">QuickBooks</a> · <a href="#" rel="sponsored nofollow">Wave</a> · <a href="#" rel="sponsored nofollow">Zoho Books</a>.
+      These are affiliate links; they never affect what's free here (everything).</p>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-bottom" style="border:0;margin:0;padding:0">
+      <span>© 2026 MyFreeInvoiceTool — every document, zero uploads, ∞ free.</span>
+      <span>Your data lives in your browser. We never see it.</span>
+    </div>
+  </div>
+</footer>
+
+<script type="module" src="/assets/js/reminder.js"></script>
+<script type="module" src="/assets/js/pwa.js"></script>
+</body>
+</html>

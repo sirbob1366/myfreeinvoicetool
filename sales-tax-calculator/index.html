@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sales Tax Calculator — Add or Back Out Sales Tax | MyFreeInvoiceTool</title>
+<meta name="description" content="Free sales tax calculator: add sales tax to a price or back it out of a total, at any combined state and local rate. Instant and private.">
+<link rel="canonical" href="https://myfreeinvoicetool.com/sales-tax-calculator/">
+<meta property="og:title" content="Sales Tax Calculator — Add or Back Out Sales Tax | MyFreeInvoiceTool">
+<meta property="og:description" content="Free sales tax calculator: add sales tax to a price or back it out of a total, at any combined state and local rate. Instant and private.">
+<meta property="og:url" content="https://myfreeinvoicetool.com/sales-tax-calculator/">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#faf8f4">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/calc.css">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebApplication",
+ "name": "MyFreeInvoiceTool Sales tax calculator",
+ "url": "https://myfreeinvoicetool.com/sales-tax-calculator/",
+ "applicationCategory": "FinanceApplication",
+ "operatingSystem": "Any",
+ "offers": {
+  "@type": "Offer",
+  "price": "0",
+  "priceCurrency": "USD"
+ },
+ "featureList": "Add sales tax, reverse sales tax, combined state and local rates"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "How do I back sales tax out of a total?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Divide the total by (1 + rate/100) to get the pre-tax price; the remainder is the tax. Use the “Back out tax” mode above."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What rate should I charge?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "The combined state + local rate at the point of sale (or the destination, for remote sales into most states). Look up the exact locality — rates vary block by block in some metros."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Do freelancers charge sales tax on services?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "In most states, most professional services are not taxable — but digital products often are, and a few states tax broad service categories. Check your state’s rules for your specific offering."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Which states have no sales tax?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Alaska, Delaware, Montana, New Hampshire and Oregon have no statewide sales tax (local taxes can still apply in Alaska)."
+   }
+  }
+ ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/"><span class="seal">✓</span>MyFreeInvoiceTool</a>
+    <nav class="site-nav">
+      <a href="/invoice/">Invoice</a>
+      <a href="/gst-invoice/">GST Invoice</a>
+      <a href="/estimate/">Estimate</a>
+      <a href="/receipt-maker/">Receipt</a>
+      <a href="/dashboard/" class="keep">Workspace</a>
+      <a href="/invoice/" class="cta">New invoice</a>
+    </nav>
+  </div>
+</header>
+
+<div class="calc-shell">
+  <h1 class="gen-h1" style="font-size:clamp(26px,3vw,34px);margin:22px 0 4px">Sales tax calculator</h1>
+  <p class="gen-sub" style="color:var(--muted);margin-bottom:18px">Price before tax, tax, and total — forwards or backwards, at any combined rate.</p>
+
+  <div class="calc-card">
+
+    <div class="calc-grid">
+      <div>
+        <label for="amount">Amount ($)</label>
+        <input id="amount" type="number" min="0" step="any" placeholder="100" autofocus>
+      </div>
+      <div>
+        <label for="rate">Sales tax rate %</label>
+        <input id="rate" type="number" min="0" max="50" step="any" value="8.25">
+      </div>
+    </div>
+    <div style="margin-top:14px">
+      <label>Mode</label>
+      <div class="seg" id="mode">
+        <button type="button" class="active" data-v="add">Add tax (price → total)</button>
+        <button type="button" data-v="remove">Back out tax (total → price)</button>
+      </div>
+    </div>
+    <div class="calc-results">
+      <div class="result"><small>Price before tax</small><strong id="r-net">$0.00</strong></div>
+      <div class="result"><small>Sales tax</small><strong id="r-tax">$0.00</strong></div>
+      <div class="result accent"><small>Total</small><strong id="r-total">$0.00</strong></div>
+    </div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="wrap copy">
+    <div class="trustline" style="margin-bottom:34px">
+      <span>Instant — no page reloads</span><span>No account</span><span>Works offline</span><span>Nothing uploaded</span>
+    </div>
+
+    <h2>How US sales tax differs from VAT</h2>
+    <p>Sales tax is charged once, at the final retail sale, as a percentage of the selling price — unlike VAT, there is no input-credit chain. The rate you charge is the <strong>combined</strong> rate at the point of sale: a state base rate plus county, city and special-district add-ons. That is why “the sales tax rate” in one city can be 6% and 10.25% a few miles away. Five states (Alaska, Delaware, Montana, New Hampshire, Oregon) levy no state sales tax at all, though some Alaskan localities charge their own.</p>
+    <h2>Adding tax vs backing it out</h2>
+    <ul>
+      <li><strong>Forward:</strong> total = price × (1 + rate/100). $100 at 8.25% → $108.25.</li>
+      <li><strong>Reverse:</strong> price = total ÷ (1 + rate/100). From a $108.25 receipt at 8.25%: price $100.00, tax $8.25. Useful when a customer pays a tax-inclusive amount and you must report the taxable sale.</li>
+    </ul>
+    <h2>For freelancers and small sellers</h2>
+    <p>Whether you must collect sales tax depends on <em>nexus</em> — a sufficient connection to a state, created by physical presence or by crossing economic thresholds (commonly $100,000 in sales into the state, following the <em>Wayfair</em> decision). Most US states do not tax most professional services, but many tax digital goods and some tax specific services — classification matters more than arithmetic. When you do charge it, show the tax as its own line: the <a href="/invoice/">invoice generator</a> lets you name the tax (“Sales Tax”), set your combined rate, and prints price, tax and total separately.</p>
+    <h2>Worked example</h2>
+    <p>A photographer in Austin (8.25% combined) sells prints for $400. Tax $33.00, total $433.00. If a client hands over a flat $500 “including tax”, the reverse mode shows the taxable sale as $461.89 and the tax as $38.11 — the numbers that go on the return.</p>
+    <h2 id="faq">Frequently asked questions</h2>
+    <div class="faq">
+      <details>
+        <summary>How do I back sales tax out of a total?</summary>
+        <p>Divide the total by (1 + rate/100) to get the pre-tax price; the remainder is the tax. Use the “Back out tax” mode above.</p>
+      </details>
+      <details>
+        <summary>What rate should I charge?</summary>
+        <p>The combined state + local rate at the point of sale (or the destination, for remote sales into most states). Look up the exact locality — rates vary block by block in some metros.</p>
+      </details>
+      <details>
+        <summary>Do freelancers charge sales tax on services?</summary>
+        <p>In most states, most professional services are not taxable — but digital products often are, and a few states tax broad service categories. Check your state’s rules for your specific offering.</p>
+      </details>
+      <details>
+        <summary>Which states have no sales tax?</summary>
+        <p>Alaska, Delaware, Montana, New Hampshire and Oregon have no statewide sales tax (local taxes can still apply in Alaska).</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h4>Documents</h4>
+        <ul>
+          <li><a href="/invoice/">Invoice generator</a></li>
+          <li><a href="/gst-invoice/">GST invoice</a></li>
+          <li><a href="/estimate/">Estimate</a></li>
+          <li><a href="/quotation-maker/">Quotation maker</a></li>
+          <li><a href="/proforma-invoice/">Proforma invoice</a></li>
+          <li><a href="/receipt-maker/">Receipt maker</a></li>
+          <li><a href="/rent-receipt/">Rent receipt</a></li>
+          <li><a href="/salary-slip/">Salary slip</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>More documents</h4>
+        <ul>
+          <li><a href="/credit-note/">Credit note</a></li>
+          <li><a href="/debit-note/">Debit note</a></li>
+          <li><a href="/purchase-order/">Purchase order</a></li>
+          <li><a href="/delivery-challan/">Delivery challan</a></li>
+          <li><a href="/commercial-invoice/">Commercial invoice</a></li>
+          <li><a href="/timesheet/">Timesheet</a></li>
+          <li><a href="/expense-report/">Expense report</a></li>
+          <li><a href="/letterhead-maker/">Letterhead maker</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Calculators</h4>
+        <ul>
+          <li><a href="/gst-calculator/">GST calculator</a></li>
+          <li><a href="/vat-calculator/">VAT calculator</a></li>
+          <li><a href="/sales-tax-calculator/">Sales tax calculator</a></li>
+          <li><a href="/late-fee-calculator/">Late fee calculator</a></li>
+          <li><a href="/freelance-rate-calculator/">Freelance rate calculator</a></li>
+          <li><a href="/margin-markup-calculator/">Margin &amp; markup</a></li>
+          <li><a href="/discount-calculator/">Discount calculator</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Tools</h4>
+        <ul>
+          <li><a href="/dashboard/">Workspace</a></li>
+          <li><a href="/bulk-invoices/">Bulk invoices</a></li>
+          <li><a href="/payment-reminder/">Payment reminder</a></li>
+          <li><a href="/upi-qr-generator/">UPI QR generator</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Sister tools</h4>
+        <ul>
+          <li><a href="#" rel="nofollow">PDF tools</a></li>
+          <li><a href="#" rel="nofollow">Image tools</a></li>
+          <li><a href="#" rel="nofollow">Text tools</a></li>
+          <li><a href="#" rel="nofollow">Converter tools</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 MyFreeInvoiceTool — every document, zero uploads, ∞ free.</span>
+      <span>Your data lives in your browser. We never see it.</span>
+    </div>
+  </div>
+</footer>
+
+<script type="module">
+
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => [...document.querySelectorAll(s)];
+const fmt = (n, d = 2) => (Number.isFinite(n) ? n : 0).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+const fmtIN = (n, d = 2) => (Number.isFinite(n) ? n : 0).toLocaleString('en-IN', { minimumFractionDigits: d, maximumFractionDigits: d });
+const num = (s) => { const v = parseFloat($(s).value); return Number.isFinite(v) ? v : 0; };
+function seg(sel, onChange) {
+  const root = $(sel);
+  root.addEventListener('click', (e) => {
+    const b = e.target.closest('button');
+    if (!b) return;
+    $$(sel + ' button').forEach((x) => x.classList.toggle('active', x === b));
+    onChange(b.dataset.v);
+  });
+  return () => root.querySelector('.active').dataset.v;
+}
+function bindAll(onInput) {
+  $$('input, select').forEach((el) => el.addEventListener('input', onInput));
+}
+
+const getMode = seg('#mode', calc);
+function calc() {
+  const amt = num('#amount');
+  const rate = num('#rate');
+  const net = getMode() === 'remove' ? amt / (1 + rate / 100) : amt;
+  const tax = net * rate / 100;
+  $('#r-net').textContent = '$' + fmt(net);
+  $('#r-tax').textContent = '$' + fmt(tax);
+  $('#r-total').textContent = '$' + fmt(net + tax);
+}
+bindAll(calc);
+calc();
+</script>
+<script type="module" src="/assets/js/pwa.js"></script>
+</body>
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Late Fee Calculator — Flat, Percentage or Monthly Interest on Overdue Invoices | MyFreeInvoiceTool</title>
+<meta name="description" content="Calculate late fees on overdue invoices: flat fee, one-time percentage, or monthly interest pro-rated by days overdue — plus a ready-to-paste demand line for your reminder email.">
+<link rel="canonical" href="https://myfreeinvoicetool.com/late-fee-calculator/">
+<meta property="og:title" content="Late Fee Calculator — Flat, Percentage or Monthly Interest on Overdue Invoices | MyFreeInvoiceTool">
+<meta property="og:description" content="Calculate late fees on overdue invoices: flat fee, one-time percentage, or monthly interest pro-rated by days overdue — plus a ready-to-paste demand line for your reminder email.">
+<meta property="og:url" content="https://myfreeinvoicetool.com/late-fee-calculator/">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#faf8f4">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/calc.css">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebApplication",
+ "name": "MyFreeInvoiceTool Late fee calculator",
+ "url": "https://myfreeinvoicetool.com/late-fee-calculator/",
+ "applicationCategory": "FinanceApplication",
+ "operatingSystem": "Any",
+ "offers": {
+  "@type": "Offer",
+  "price": "0",
+  "priceCurrency": "USD"
+ },
+ "featureList": "Late fee calculation, flat fee, percentage fee, monthly interest pro-rated daily, demand note line"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "What late fee should I charge?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "1%–1.5% per month is the customary professional range and widely accepted. Whatever you choose must be stated in your terms before the work — fees announced after the fact are rarely enforceable."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How is monthly interest pro-rated?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Fee = invoice × (monthly % ÷ 100) × (days overdue ÷ 30). A $1,500 invoice at 1.5%/month, 45 days late: $1,500 × 0.015 × 1.5 = $33.75."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Are late fees legally capped?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Often, yes — usury and penalty-clause rules vary by jurisdiction. The EU directive and UK statutory interest provide floors for B2B debts; US state law may cap contractual rates. Keep fees reasonable and pre-agreed."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "When does the clock start?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "The day after the due date on the invoice. This calculator counts whole days between the due date and the “as of” date."
+   }
+  }
+ ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/"><span class="seal">✓</span>MyFreeInvoiceTool</a>
+    <nav class="site-nav">
+      <a href="/invoice/">Invoice</a>
+      <a href="/gst-invoice/">GST Invoice</a>
+      <a href="/estimate/">Estimate</a>
+      <a href="/receipt-maker/">Receipt</a>
+      <a href="/dashboard/" class="keep">Workspace</a>
+      <a href="/invoice/" class="cta">New invoice</a>
+    </nav>
+  </div>
+</header>
+
+<div class="calc-shell">
+  <h1 class="gen-h1" style="font-size:clamp(26px,3vw,34px);margin:22px 0 4px">Late fee calculator</h1>
+  <p class="gen-sub" style="color:var(--muted);margin-bottom:18px">Days overdue, the fee your terms allow, and a demand line you can paste straight into a reminder.</p>
+
+  <div class="calc-card">
+
+    <div class="calc-grid">
+      <div>
+        <label for="amount">Invoice amount</label>
+        <input id="amount" type="number" min="0" step="any" placeholder="1,500" autofocus>
+      </div>
+      <div>
+        <label for="invno">Invoice number <span class="muted">(for the demand line)</span></label>
+        <input id="invno" placeholder="INV-042">
+      </div>
+      <div>
+        <label for="due">Due date</label>
+        <input id="due" type="date">
+      </div>
+      <div>
+        <label for="asof">As of</label>
+        <input id="asof" type="date">
+      </div>
+    </div>
+    <div style="margin-top:14px">
+      <label>Fee type</label>
+      <div class="seg" id="mode">
+        <button type="button" data-v="flat">Flat fee</button>
+        <button type="button" data-v="pct">% of invoice (one-time)</button>
+        <button type="button" class="active" data-v="monthly">Monthly interest %</button>
+      </div>
+    </div>
+    <div class="calc-grid" style="margin-top:14px">
+      <div>
+        <label for="feeval">Fee value <span class="muted" id="feeval-hint">(% per month)</span></label>
+        <input id="feeval" type="number" min="0" step="any" value="1.5">
+      </div>
+    </div>
+    <div class="calc-results">
+      <div class="result"><small>Days overdue</small><strong id="r-days">0</strong></div>
+      <div class="result"><small>Late fee</small><strong id="r-fee">0.00</strong></div>
+      <div class="result accent"><small>Total now due</small><strong id="r-total">0.00</strong></div>
+    </div>
+    <div class="copy-line">
+      <textarea id="demand" rows="3" readonly aria-label="Demand note line"></textarea>
+      <button id="copy-demand" type="button" class="btn btn-primary btn-sm">Copy</button>
+    </div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="wrap copy">
+    <div class="trustline" style="margin-bottom:34px">
+      <span>Instant — no page reloads</span><span>No account</span><span>Works offline</span><span>Nothing uploaded</span>
+    </div>
+
+    <h2>The three ways late fees are charged</h2>
+    <ul>
+      <li><strong>Flat fee</strong> — a fixed amount once the due date passes (“$25 late fee after Net 30”). Simple and common on small invoices.</li>
+      <li><strong>One-time percentage</strong> — a single charge proportional to the invoice (“5% after 14 days late”). Scales with the debt, doesn't grow with time.</li>
+      <li><strong>Monthly interest</strong> — the professional standard: “1.5% per month on overdue balances” (18% a year), pro-rated by days. This calculator pro-rates daily: fee = amount × monthly rate × days/30.</li>
+    </ul>
+    <h2>What's typical — and what's enforceable</h2>
+    <p>Across freelancing and B2B services, <strong>1%–2% per month</strong> is the customary band; many jurisdictions also provide a statutory fallback. In the EU, the Late Payment Directive entitles businesses to reference-rate-plus-8% interest and a €40 minimum recovery cost on commercial debts. In the UK, statutory interest is 8% above the Bank of England base rate. In the US, state usury caps can limit contractual rates. The universal rule: a late fee is only enforceable if it was <em>agreed before the work</em> — which means it must appear on your invoice or contract terms, not for the first time on a reminder.</p>
+    <h2>Put the term on the invoice, not in the argument</h2>
+    <p>A line like “Payment due within 30 days. Overdue balances accrue interest at 1.5% per month.” in your invoice terms does two jobs: it makes the fee chargeable, and it quietly accelerates payment — clients triage invoices by consequence. Save it as a terms snippet in the <a href="/invoice/">invoice generator</a> and it lands on every invoice automatically.</p>
+    <h2>Using the demand line</h2>
+    <p>When an invoice does go overdue, the generated sentence above states the facts — original amount, due date, days overdue, the term being applied, and the new total — in the neutral, factual tone that gets results. Paste it into the <a href="/payment-reminder/">payment reminder generator</a>, which drafts the full email around it in your choice of friendly, firm or final-notice register.</p>
+    <h2 id="faq">Frequently asked questions</h2>
+    <div class="faq">
+      <details>
+        <summary>What late fee should I charge?</summary>
+        <p>1%–1.5% per month is the customary professional range and widely accepted. Whatever you choose must be stated in your terms before the work — fees announced after the fact are rarely enforceable.</p>
+      </details>
+      <details>
+        <summary>How is monthly interest pro-rated?</summary>
+        <p>Fee = invoice × (monthly % ÷ 100) × (days overdue ÷ 30). A $1,500 invoice at 1.5%/month, 45 days late: $1,500 × 0.015 × 1.5 = $33.75.</p>
+      </details>
+      <details>
+        <summary>Are late fees legally capped?</summary>
+        <p>Often, yes — usury and penalty-clause rules vary by jurisdiction. The EU directive and UK statutory interest provide floors for B2B debts; US state law may cap contractual rates. Keep fees reasonable and pre-agreed.</p>
+      </details>
+      <details>
+        <summary>When does the clock start?</summary>
+        <p>The day after the due date on the invoice. This calculator counts whole days between the due date and the “as of” date.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h4>Documents</h4>
+        <ul>
+          <li><a href="/invoice/">Invoice generator</a></li>
+          <li><a href="/gst-invoice/">GST invoice</a></li>
+          <li><a href="/estimate/">Estimate</a></li>
+          <li><a href="/quotation-maker/">Quotation maker</a></li>
+          <li><a href="/proforma-invoice/">Proforma invoice</a></li>
+          <li><a href="/receipt-maker/">Receipt maker</a></li>
+          <li><a href="/rent-receipt/">Rent receipt</a></li>
+          <li><a href="/salary-slip/">Salary slip</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>More documents</h4>
+        <ul>
+          <li><a href="/credit-note/">Credit note</a></li>
+          <li><a href="/debit-note/">Debit note</a></li>
+          <li><a href="/purchase-order/">Purchase order</a></li>
+          <li><a href="/delivery-challan/">Delivery challan</a></li>
+          <li><a href="/commercial-invoice/">Commercial invoice</a></li>
+          <li><a href="/timesheet/">Timesheet</a></li>
+          <li><a href="/expense-report/">Expense report</a></li>
+          <li><a href="/letterhead-maker/">Letterhead maker</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Calculators</h4>
+        <ul>
+          <li><a href="/gst-calculator/">GST calculator</a></li>
+          <li><a href="/vat-calculator/">VAT calculator</a></li>
+          <li><a href="/sales-tax-calculator/">Sales tax calculator</a></li>
+          <li><a href="/late-fee-calculator/">Late fee calculator</a></li>
+          <li><a href="/freelance-rate-calculator/">Freelance rate calculator</a></li>
+          <li><a href="/margin-markup-calculator/">Margin &amp; markup</a></li>
+          <li><a href="/discount-calculator/">Discount calculator</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Tools</h4>
+        <ul>
+          <li><a href="/dashboard/">Workspace</a></li>
+          <li><a href="/bulk-invoices/">Bulk invoices</a></li>
+          <li><a href="/payment-reminder/">Payment reminder</a></li>
+          <li><a href="/upi-qr-generator/">UPI QR generator</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Sister tools</h4>
+        <ul>
+          <li><a href="#" rel="nofollow">PDF tools</a></li>
+          <li><a href="#" rel="nofollow">Image tools</a></li>
+          <li><a href="#" rel="nofollow">Text tools</a></li>
+          <li><a href="#" rel="nofollow">Converter tools</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 MyFreeInvoiceTool — every document, zero uploads, ∞ free.</span>
+      <span>Your data lives in your browser. We never see it.</span>
+    </div>
+  </div>
+</footer>
+
+<script type="module">
+
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => [...document.querySelectorAll(s)];
+const fmt = (n, d = 2) => (Number.isFinite(n) ? n : 0).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+const fmtIN = (n, d = 2) => (Number.isFinite(n) ? n : 0).toLocaleString('en-IN', { minimumFractionDigits: d, maximumFractionDigits: d });
+const num = (s) => { const v = parseFloat($(s).value); return Number.isFinite(v) ? v : 0; };
+function seg(sel, onChange) {
+  const root = $(sel);
+  root.addEventListener('click', (e) => {
+    const b = e.target.closest('button');
+    if (!b) return;
+    $$(sel + ' button').forEach((x) => x.classList.toggle('active', x === b));
+    onChange(b.dataset.v);
+  });
+  return () => root.querySelector('.active').dataset.v;
+}
+function bindAll(onInput) {
+  $$('input, select').forEach((el) => el.addEventListener('input', onInput));
+}
+
+$('#due').value = new Date(Date.now() - 30 * 864e5).toISOString().slice(0, 10);
+$('#asof').value = new Date().toISOString().slice(0, 10);
+const getMode = seg('#mode', () => { hint(); calc(); });
+function hint() {
+  const m = getMode();
+  $('#feeval-hint').textContent = m === 'flat' ? '(amount)' : m === 'pct' ? '(% of invoice)' : '(% per month)';
+}
+function calc() {
+  const amt = num('#amount');
+  const feeval = num('#feeval');
+  const due = new Date($('#due').value);
+  const asof = new Date($('#asof').value);
+  const days = Math.max(0, Math.floor((asof - due) / 864e5));
+  const m = getMode();
+  let fee = 0;
+  if (days > 0) {
+    if (m === 'flat') fee = feeval;
+    else if (m === 'pct') fee = amt * feeval / 100;
+    else fee = amt * (feeval / 100) * (days / 30);
+  }
+  $('#r-days').textContent = days;
+  $('#r-fee').textContent = fmt(fee);
+  $('#r-total').textContent = fmt(amt + fee);
+  const inv = $('#invno').value || 'this invoice';
+  const terms = m === 'flat' ? 'a flat late fee of ' + fmt(feeval) : m === 'pct' ? 'a late fee of ' + feeval + '% of the invoice value' : 'interest of ' + feeval + '% per month, pro-rated daily';
+  $('#demand').value = days > 0
+    ? 'Invoice ' + inv + ' for ' + fmt(amt) + ' was due on ' + $('#due').value + ' and is now ' + days + ' days overdue. Per our payment terms, ' + terms + ' has been applied (' + fmt(fee) + '), bringing the total now due to ' + fmt(amt + fee) + '.'
+    : 'Invoice ' + inv + ' for ' + fmt(amt) + ' is due on ' + $('#due').value + '.';
+}
+$('#copy-demand').addEventListener('click', async () => {
+  await navigator.clipboard.writeText($('#demand').value);
+  $('#copy-demand').textContent = 'Copied!';
+  setTimeout(() => { $('#copy-demand').textContent = 'Copy'; }, 1500);
+});
+bindAll(calc);
+hint();
+calc();
+</script>
+<script type="module" src="/assets/js/pwa.js"></script>
+</body>
+</html>

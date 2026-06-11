@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free UPI QR Code Generator — Scannable Payment QR with Amount | MyFreeInvoiceTool</title>
+<meta name="description" content="Generate a UPI payment QR code free: enter your UPI ID, name and an optional amount — get a scannable QR for GPay, PhonePe, Paytm and BHIM. Download as PNG. No account, fully private.">
+<link rel="canonical" href="https://myfreeinvoicetool.com/upi-qr-generator/">
+<meta property="og:title" content="Free UPI QR Code Generator — Scannable Payment QR with Amount">
+<meta property="og:description" content="UPI ID + amount → a scannable upi:// QR for any UPI app. Download as PNG, print it, or put it on your invoices.">
+<meta property="og:url" content="https://myfreeinvoicetool.com/upi-qr-generator/">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#faf8f4">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/calc.css">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebApplication",
+ "name": "MyFreeInvoiceTool UPI QR Generator",
+ "url": "https://myfreeinvoicetool.com/upi-qr-generator/",
+ "applicationCategory": "FinanceApplication",
+ "operatingSystem": "Any",
+ "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+ "featureList": "UPI QR code, fixed or open amount, payee name, PNG download, upi:// deep link, works with GPay PhonePe Paytm BHIM"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  { "@type": "Question", "name": "Does this QR work with GPay, PhonePe and Paytm?", "acceptedAnswer": { "@type": "Answer", "text": "Yes — the QR encodes a standard NPCI upi://pay link, which every UPI app (GPay, PhonePe, Paytm, BHIM, bank apps) can scan and pay." } },
+  { "@type": "Question", "name": "Is it safe to generate a UPI QR here?", "acceptedAnswer": { "@type": "Answer", "text": "Yes — the QR is generated entirely in your browser. Your UPI ID is never sent to any server, and a payment QR only lets people PAY you, never withdraw from you." } },
+  { "@type": "Question", "name": "Can I leave the amount blank?", "acceptedAnswer": { "@type": "Answer", "text": "Yes — leave it empty for an open-amount QR (the payer types the amount), or fix it so the payment screen opens pre-filled. Fixed amounts are best for invoices; open amounts for counters and tip jars." } }
+ ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/"><span class="seal">✓</span>MyFreeInvoiceTool</a>
+    <nav class="site-nav">
+      <a href="/invoice/">Invoice</a>
+      <a href="/gst-invoice/">GST Invoice</a>
+      <a href="/estimate/">Estimate</a>
+      <a href="/receipt-maker/">Receipt</a>
+      <a href="/dashboard/" class="keep">Workspace</a>
+      <a href="/invoice/" class="cta">New invoice</a>
+    </nav>
+  </div>
+</header>
+
+<div class="calc-shell">
+  <h1 class="gen-h1" style="font-size:clamp(26px,3vw,34px);margin:22px 0 4px">UPI QR code generator</h1>
+  <p class="gen-sub" style="color:var(--muted);margin-bottom:18px">Your UPI ID, an optional amount — a scannable payment QR in one second.</p>
+
+  <div class="calc-card">
+    <div class="calc-grid">
+      <div>
+        <label for="f-upi">UPI ID (VPA)</label>
+        <input id="f-upi" placeholder="name@okhdfcbank" autofocus>
+      </div>
+      <div>
+        <label for="f-name">Payee name</label>
+        <input id="f-name" placeholder="As registered with your bank">
+      </div>
+      <div>
+        <label for="f-amount">Amount (₹) <span class="muted">(optional — blank = payer enters)</span></label>
+        <input id="f-amount" type="number" min="0" step="any">
+      </div>
+      <div>
+        <label for="f-note">Note <span class="muted">(optional)</span></label>
+        <input id="f-note" placeholder="Invoice INV-042" maxlength="50">
+      </div>
+    </div>
+
+    <div style="display:flex;gap:26px;align-items:center;margin-top:24px;flex-wrap:wrap">
+      <div id="qr-box" style="width:240px;height:240px;background:var(--ivory-2);border-radius:12px;display:flex;align-items:center;justify-content:center">
+        <span class="muted" style="font-size:13px;padding:18px;text-align:center">Enter a UPI ID to generate the QR</span>
+      </div>
+      <div style="flex:1;min-width:240px">
+        <p id="qr-caption" class="muted" style="font-size:14px"></p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+          <button id="dl-png" type="button" class="btn btn-primary btn-sm" disabled>Download PNG</button>
+          <button id="copy-link" type="button" class="btn btn-quiet btn-sm" disabled>Copy upi:// link</button>
+        </div>
+        <p class="muted" style="font-size:12.5px;margin-top:14px">Want this QR printed on your invoices automatically? The <a href="/gst-invoice/">GST invoice generator</a> places it on the PDF with the exact balance due.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="wrap copy">
+    <div class="trustline" style="margin-bottom:34px">
+      <span>Generated in your browser</span><span>UPI ID never uploaded</span><span>No account</span><span>Works offline</span>
+    </div>
+
+    <h2>One QR, every UPI app</h2>
+    <p>The QR generated here encodes a standard NPCI <code>upi://pay</code> link carrying your virtual payment address (UPI ID), your payee name, and optionally a fixed amount and note. Any UPI app — Google Pay, PhonePe, Paytm, BHIM, or your bank's own app — scans it and opens the payment screen addressed to you. Print it at your counter, paste it into a WhatsApp chat, drop the PNG into your email signature, or let the <a href="/invoice/">invoice generator</a> place it on your PDFs with the exact balance pre-filled.</p>
+
+    <h2>Fixed amount or open amount?</h2>
+    <ul>
+      <li><strong>Fixed amount</strong> — the payment screen opens with the figure locked in. Best for invoices and price-tagged goods: no typos, no “oops, I sent ₹100 instead of ₹1,000”.</li>
+      <li><strong>Open amount</strong> — leave the amount blank and the payer types what they owe. Right for shop counters, tip jars and donations where the figure varies.</li>
+    </ul>
+
+    <h2>Is a payment QR safe to share?</h2>
+    <p>Yes — and it's worth understanding why. A UPI <em>collect/pay</em> QR can only initiate a payment <strong>to</strong> you; scanning it never exposes your bank account or lets anyone pull money out. The classic UPI scams work the other way around: a fraudster asks <em>you</em> to scan <em>their</em> QR or approve a collect request “to receive money”. Receiving money via UPI never requires scanning anything or entering your PIN. Share your payment QR freely; guard your PIN absolutely.</p>
+
+    <h2>Generated locally, like everything here</h2>
+    <p>Your UPI ID identifies your money — so this page never transmits it. The QR is computed entirely in your browser (you can load the page once and use it offline). No account, no logs, no watermark on the PNG.</p>
+
+    <h2 id="faq">Frequently asked questions</h2>
+    <div class="faq">
+      <details><summary>Which apps can scan this QR?</summary><p>All UPI apps: Google Pay, PhonePe, Paytm, BHIM, Amazon Pay, WhatsApp Pay and bank apps. The QR uses the standard NPCI upi://pay format.</p></details>
+      <details><summary>Can someone steal money using my QR?</summary><p>No — a payment QR only addresses payments to you. Money never leaves your account without you entering your UPI PIN in your own app.</p></details>
+      <details><summary>Can I fix the amount?</summary><p>Yes — enter an amount and the payer's app opens pre-filled and locked. Leave blank for an open-amount QR.</p></details>
+      <details><summary>Can I print the QR on invoices?</summary><p>Yes — add your UPI ID in any document generator on this site and the QR is rendered onto the PDF automatically with the balance due as the amount.</p></details>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-bottom" style="border:0;margin:0;padding:0">
+      <span>© 2026 MyFreeInvoiceTool — every document, zero uploads, ∞ free.</span>
+      <span>Your data lives in your browser. We never see it.</span>
+    </div>
+  </div>
+</footer>
+
+<script type="module">
+import { upiLink, qrDataURL } from '/assets/js/util/qr.js';
+
+const $ = (s) => document.querySelector(s);
+let currentLink = '';
+let currentPng = '';
+
+async function update() {
+  const upiId = $('#f-upi').value.trim();
+  const box = $('#qr-box');
+  const ok = upiId.includes('@') && upiId.length > 3;
+  $('#dl-png').disabled = !ok;
+  $('#copy-link').disabled = !ok;
+  if (!ok) {
+    box.innerHTML = '<span class="muted" style="font-size:13px;padding:18px;text-align:center">Enter a UPI ID to generate the QR</span>';
+    $('#qr-caption').textContent = '';
+    return;
+  }
+  const amount = parseFloat($('#f-amount').value) || 0;
+  currentLink = upiLink({ upiId, name: $('#f-name').value.trim(), amount, note: $('#f-note').value.trim() });
+  currentPng = await qrDataURL(currentLink, 480);
+  box.innerHTML = `<img src="${currentPng}" alt="UPI payment QR for ${upiId}" style="width:220px;height:220px;image-rendering:pixelated">`;
+  $('#qr-caption').textContent = amount > 0
+    ? `Scans to pay ₹${amount.toLocaleString('en-IN')} to ${upiId}`
+    : `Scans to pay ${upiId} — payer enters the amount`;
+}
+
+for (const id of ['f-upi', 'f-name', 'f-amount', 'f-note']) {
+  document.getElementById(id).addEventListener('input', update);
+}
+$('#dl-png').addEventListener('click', () => {
+  const a = document.createElement('a');
+  a.href = currentPng;
+  a.download = `upi-qr-${$('#f-upi').value.replace(/[^\w@.-]/g, '')}.png`;
+  a.click();
+});
+$('#copy-link').addEventListener('click', async () => {
+  await navigator.clipboard.writeText(currentLink);
+  $('#copy-link').textContent = 'Copied!';
+  setTimeout(() => { $('#copy-link').textContent = 'Copy upi:// link'; }, 1500);
+});
+update();
+</script>
+<script type="module" src="/assets/js/pwa.js"></script>
+</body>
+</html>

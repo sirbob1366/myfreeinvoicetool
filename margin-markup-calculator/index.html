@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Margin & Markup Calculator — Convert Between Cost, Price, Margin and Markup | MyFreeInvoiceTool</title>
+<meta name="description" content="Free margin and markup calculator: get profit, margin % and markup % from cost and price — or set a target margin or markup and get the selling price. Instant and private.">
+<link rel="canonical" href="https://myfreeinvoicetool.com/margin-markup-calculator/">
+<meta property="og:title" content="Margin & Markup Calculator — Convert Between Cost, Price, Margin and Markup | MyFreeInvoiceTool">
+<meta property="og:description" content="Free margin and markup calculator: get profit, margin % and markup % from cost and price — or set a target margin or markup and get the selling price. Instant and private.">
+<meta property="og:url" content="https://myfreeinvoicetool.com/margin-markup-calculator/">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#faf8f4">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/calc.css">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebApplication",
+ "name": "MyFreeInvoiceTool Margin & markup calculator",
+ "url": "https://myfreeinvoicetool.com/margin-markup-calculator/",
+ "applicationCategory": "FinanceApplication",
+ "operatingSystem": "Any",
+ "offers": {
+  "@type": "Offer",
+  "price": "0",
+  "priceCurrency": "USD"
+ },
+ "featureList": "Margin calculation, markup calculation, price from target margin, price from markup"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "What is the difference between margin and markup?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Markup is profit as a percentage of cost; margin is profit as a percentage of selling price. Markup is always the larger number for the same transaction."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How do I price for a target margin?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Price = cost ÷ (1 − margin). For a 40% margin on a 60 cost: 60 ÷ 0.6 = 100. Using cost × 1.4 would give only a 28.6% margin."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What is keystone pricing?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Doubling the cost — a 100% markup, equal to a 50% margin. A traditional retail default, sensible only when it covers your actual overheads."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Does this work for services?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Yes — treat your delivery cost (hours × loaded rate) as the cost, and price for the margin your business needs."
+   }
+  }
+ ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/"><span class="seal">✓</span>MyFreeInvoiceTool</a>
+    <nav class="site-nav">
+      <a href="/invoice/">Invoice</a>
+      <a href="/gst-invoice/">GST Invoice</a>
+      <a href="/estimate/">Estimate</a>
+      <a href="/receipt-maker/">Receipt</a>
+      <a href="/dashboard/" class="keep">Workspace</a>
+      <a href="/invoice/" class="cta">New invoice</a>
+    </nav>
+  </div>
+</header>
+
+<div class="calc-shell">
+  <h1 class="gen-h1" style="font-size:clamp(26px,3vw,34px);margin:22px 0 4px">Margin & markup calculator</h1>
+  <p class="gen-sub" style="color:var(--muted);margin-bottom:18px">Two percentages, one profit — and the confusion that quietly mis-prices products. Solved in any direction.</p>
+
+  <div class="calc-card">
+
+    <div style="margin-bottom:14px">
+      <label>Solve for</label>
+      <div class="seg" id="mode">
+        <button type="button" class="active" data-v="analyze">Margin & markup from cost + price</button>
+        <button type="button" data-v="margin">Price from target margin</button>
+        <button type="button" data-v="markup">Price from markup</button>
+      </div>
+    </div>
+    <div class="calc-grid">
+      <div>
+        <label for="cost">Cost</label>
+        <input id="cost" type="number" min="0" step="any" placeholder="60" autofocus>
+      </div>
+      <div id="price-wrap">
+        <label for="price">Selling price</label>
+        <input id="price" type="number" min="0" step="any" placeholder="100">
+      </div>
+      <div id="pct-wrap" hidden>
+        <label for="pct"><span id="pct-label">Target margin %</span></label>
+        <input id="pct" type="number" min="0" step="any" value="40">
+      </div>
+    </div>
+    <div class="calc-results">
+      <div class="result"><small>Selling price</small><strong id="r-price">0.00</strong></div>
+      <div class="result accent"><small>Profit</small><strong id="r-profit">0.00</strong></div>
+      <div class="result"><small>Margin</small><strong id="r-margin">0%</strong></div>
+      <div class="result"><small>Markup</small><strong id="r-markup">0%</strong></div>
+    </div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="wrap copy">
+    <div class="trustline" style="margin-bottom:34px">
+      <span>Instant — no page reloads</span><span>No account</span><span>Works offline</span><span>Nothing uploaded</span>
+    </div>
+
+    <h2>Margin and markup are not the same number</h2>
+    <p>Both describe the same profit — the gap between cost and price — but against different bases. <strong>Markup</strong> measures profit against <em>cost</em>: price = cost × (1 + markup%). <strong>Margin</strong> measures profit against <em>price</em>: margin% = profit ÷ price. Buy at 60, sell at 100: profit is 40, markup is 66.7% (40/60), margin is 40% (40/100). Same transaction, two very different percentages — and treating them as interchangeable is one of the most expensive small-business spreadsheet errors.</p>
+    <h2>The classic mistake</h2>
+    <p>“We want a 50% margin, so mark everything up 50%.” A 50% markup on a 60 cost gives a 90 price — but the margin on that sale is 33.3%, not 50%. To genuinely earn a 50% margin you must charge cost ÷ (1 − 0.5) = 120, which is a 100% markup. The conversion is always: <strong>price = cost ÷ (1 − margin%)</strong>. The shortfall compounds across a whole catalogue, which is why finance teams talk in margin while procurement talks in markup — and why this calculator converts in every direction.</p>
+    <h2>Handy equivalences</h2>
+    <ul>
+      <li>25% markup = 20% margin</li>
+      <li>50% markup = 33.3% margin</li>
+      <li>100% markup (keystone pricing) = 50% margin</li>
+      <li>To convert: margin = markup ÷ (1 + markup); markup = margin ÷ (1 − margin).</li>
+    </ul>
+    <h2>Margin discipline in services</h2>
+    <p>The same math governs project pricing: if a project costs you 6,000 in time (hours × your loaded rate from the <a href="/freelance-rate-calculator/">rate calculator</a>) and you want a 40% margin, quote 10,000 — not 8,400. Then put the number on a clean <a href="/quotation-maker/">quotation</a> and hold it.</p>
+    <h2 id="faq">Frequently asked questions</h2>
+    <div class="faq">
+      <details>
+        <summary>What is the difference between margin and markup?</summary>
+        <p>Markup is profit as a percentage of cost; margin is profit as a percentage of selling price. Markup is always the larger number for the same transaction.</p>
+      </details>
+      <details>
+        <summary>How do I price for a target margin?</summary>
+        <p>Price = cost ÷ (1 − margin). For a 40% margin on a 60 cost: 60 ÷ 0.6 = 100. Using cost × 1.4 would give only a 28.6% margin.</p>
+      </details>
+      <details>
+        <summary>What is keystone pricing?</summary>
+        <p>Doubling the cost — a 100% markup, equal to a 50% margin. A traditional retail default, sensible only when it covers your actual overheads.</p>
+      </details>
+      <details>
+        <summary>Does this work for services?</summary>
+        <p>Yes — treat your delivery cost (hours × loaded rate) as the cost, and price for the margin your business needs.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h4>Documents</h4>
+        <ul>
+          <li><a href="/invoice/">Invoice generator</a></li>
+          <li><a href="/gst-invoice/">GST invoice</a></li>
+          <li><a href="/estimate/">Estimate</a></li>
+          <li><a href="/quotation-maker/">Quotation maker</a></li>
+          <li><a href="/proforma-invoice/">Proforma invoice</a></li>
+          <li><a href="/receipt-maker/">Receipt maker</a></li>
+          <li><a href="/rent-receipt/">Rent receipt</a></li>
+          <li><a href="/salary-slip/">Salary slip</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>More documents</h4>
+        <ul>
+          <li><a href="/credit-note/">Credit note</a></li>
+          <li><a href="/debit-note/">Debit note</a></li>
+          <li><a href="/purchase-order/">Purchase order</a></li>
+          <li><a href="/delivery-challan/">Delivery challan</a></li>
+          <li><a href="/commercial-invoice/">Commercial invoice</a></li>
+          <li><a href="/timesheet/">Timesheet</a></li>
+          <li><a href="/expense-report/">Expense report</a></li>
+          <li><a href="/letterhead-maker/">Letterhead maker</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Calculators</h4>
+        <ul>
+          <li><a href="/gst-calculator/">GST calculator</a></li>
+          <li><a href="/vat-calculator/">VAT calculator</a></li>
+          <li><a href="/sales-tax-calculator/">Sales tax calculator</a></li>
+          <li><a href="/late-fee-calculator/">Late fee calculator</a></li>
+          <li><a href="/freelance-rate-calculator/">Freelance rate calculator</a></li>
+          <li><a href="/margin-markup-calculator/">Margin &amp; markup</a></li>
+          <li><a href="/discount-calculator/">Discount calculator</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Tools</h4>
+        <ul>
+          <li><a href="/dashboard/">Workspace</a></li>
+          <li><a href="/bulk-invoices/">Bulk invoices</a></li>
+          <li><a href="/payment-reminder/">Payment reminder</a></li>
+          <li><a href="/upi-qr-generator/">UPI QR generator</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Sister tools</h4>
+        <ul>
+          <li><a href="#" rel="nofollow">PDF tools</a></li>
+          <li><a href="#" rel="nofollow">Image tools</a></li>
+          <li><a href="#" rel="nofollow">Text tools</a></li>
+          <li><a href="#" rel="nofollow">Converter tools</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 MyFreeInvoiceTool — every document, zero uploads, ∞ free.</span>
+      <span>Your data lives in your browser. We never see it.</span>
+    </div>
+  </div>
+</footer>
+
+<script type="module">
+
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => [...document.querySelectorAll(s)];
+const fmt = (n, d = 2) => (Number.isFinite(n) ? n : 0).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+const fmtIN = (n, d = 2) => (Number.isFinite(n) ? n : 0).toLocaleString('en-IN', { minimumFractionDigits: d, maximumFractionDigits: d });
+const num = (s) => { const v = parseFloat($(s).value); return Number.isFinite(v) ? v : 0; };
+function seg(sel, onChange) {
+  const root = $(sel);
+  root.addEventListener('click', (e) => {
+    const b = e.target.closest('button');
+    if (!b) return;
+    $$(sel + ' button').forEach((x) => x.classList.toggle('active', x === b));
+    onChange(b.dataset.v);
+  });
+  return () => root.querySelector('.active').dataset.v;
+}
+function bindAll(onInput) {
+  $$('input, select').forEach((el) => el.addEventListener('input', onInput));
+}
+
+const getMode = seg('#mode', () => { syncFields(); calc(); });
+function syncFields() {
+  const m = getMode();
+  $('#price-wrap').hidden = m !== 'analyze';
+  $('#pct-wrap').hidden = m === 'analyze';
+  $('#pct-label').textContent = m === 'markup' ? 'Markup %' : 'Target margin %';
+}
+function calc() {
+  const m = getMode();
+  const cost = num('#cost');
+  let price = 0;
+  if (m === 'analyze') price = num('#price');
+  else if (m === 'margin') {
+    const margin = Math.min(num('#pct'), 99.99) / 100;
+    price = cost / (1 - margin);
+  } else {
+    price = cost * (1 + num('#pct') / 100);
+  }
+  const profit = price - cost;
+  $('#r-price').textContent = fmt(price);
+  $('#r-profit').textContent = fmt(profit);
+  $('#r-margin').textContent = price > 0 ? fmt(profit / price * 100, 1) + '%' : '—';
+  $('#r-markup').textContent = cost > 0 ? fmt(profit / cost * 100, 1) + '%' : '—';
+}
+bindAll(calc);
+syncFields();
+calc();
+</script>
+<script type="module" src="/assets/js/pwa.js"></script>
+</body>
+</html>

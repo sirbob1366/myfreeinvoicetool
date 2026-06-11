@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Discount Calculator — Final Price, Savings & Stacked Discounts | MyFreeInvoiceTool</title>
+<meta name="description" content="Free discount calculator: final price and savings from any percentage off, including stacked (double) discounts and the true combined rate. Instant and private.">
+<link rel="canonical" href="https://myfreeinvoicetool.com/discount-calculator/">
+<meta property="og:title" content="Discount Calculator — Final Price, Savings & Stacked Discounts | MyFreeInvoiceTool">
+<meta property="og:description" content="Free discount calculator: final price and savings from any percentage off, including stacked (double) discounts and the true combined rate. Instant and private.">
+<meta property="og:url" content="https://myfreeinvoicetool.com/discount-calculator/">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#faf8f4">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/calc.css">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebApplication",
+ "name": "MyFreeInvoiceTool Discount calculator",
+ "url": "https://myfreeinvoicetool.com/discount-calculator/",
+ "applicationCategory": "FinanceApplication",
+ "operatingSystem": "Any",
+ "offers": {
+  "@type": "Offer",
+  "price": "0",
+  "priceCurrency": "USD"
+ },
+ "featureList": "Discount calculation, stacked discounts, final price, total savings, effective discount rate"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "How do I calculate 20% off?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Multiply the price by 0.80 — or by (1 − rate/100) for any rate. 20% off 250 is 200."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Is 20% + 10% the same as 30% off?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "No — stacked discounts multiply. 20% then 10% is a 28% effective discount, because the 10% applies to the already-reduced price."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Should tax be calculated before or after the discount?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "After — tax applies to what the customer actually pays. Our invoice generator applies document discounts before computing tax for exactly this reason."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How much discount can I afford to give?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Depends on your margin: discount ÷ margin is the share of profit you give up. At a 30% margin, a 15% discount costs half your profit on the sale."
+   }
+  }
+ ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/"><span class="seal">✓</span>MyFreeInvoiceTool</a>
+    <nav class="site-nav">
+      <a href="/invoice/">Invoice</a>
+      <a href="/gst-invoice/">GST Invoice</a>
+      <a href="/estimate/">Estimate</a>
+      <a href="/receipt-maker/">Receipt</a>
+      <a href="/dashboard/" class="keep">Workspace</a>
+      <a href="/invoice/" class="cta">New invoice</a>
+    </nav>
+  </div>
+</header>
+
+<div class="calc-shell">
+  <h1 class="gen-h1" style="font-size:clamp(26px,3vw,34px);margin:22px 0 4px">Discount calculator</h1>
+  <p class="gen-sub" style="color:var(--muted);margin-bottom:18px">What it really costs after the discount — including stacked offers and the true combined percentage.</p>
+
+  <div class="calc-card">
+
+    <div class="calc-grid">
+      <div>
+        <label for="price">Original price</label>
+        <input id="price" type="number" min="0" step="any" placeholder="200" autofocus>
+      </div>
+      <div>
+        <label for="disc1">Discount %</label>
+        <input id="disc1" type="number" min="0" max="100" step="any" value="20">
+      </div>
+      <div>
+        <label for="disc2">Extra discount % <span class="muted">(stacked, optional)</span></label>
+        <input id="disc2" type="number" min="0" max="100" step="any" placeholder="0">
+      </div>
+    </div>
+    <div class="calc-results">
+      <div class="result accent"><small>Final price</small><strong id="r-final">0.00</strong></div>
+      <div class="result"><small>You save</small><strong id="r-save">0.00</strong></div>
+      <div class="result"><small>Effective discount</small><strong id="r-eff">0%</strong></div>
+    </div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="wrap copy">
+    <div class="trustline" style="margin-bottom:34px">
+      <span>Instant — no page reloads</span><span>No account</span><span>Works offline</span><span>Nothing uploaded</span>
+    </div>
+
+    <h2>The arithmetic of “% off”</h2>
+    <p>A discount reduces a price by a percentage of itself: final = price × (1 − discount/100). 20% off 200 leaves 160, saving 40. Simple — until offers stack.</p>
+    <h2>Stacked discounts don't add — they multiply</h2>
+    <p>“20% off, plus an extra 10% off at checkout” is <em>not</em> 30% off. The second discount applies to the already-reduced price: 200 × 0.80 × 0.90 = <strong>144</strong>, an effective discount of 28%. Retailers rely on shoppers reading 30; the gap widens with bigger numbers (50% + 50% is 75% off, not free). This calculator shows the true effective rate for any pair of stacked discounts.</p>
+    <h2>Giving discounts as a business</h2>
+    <ul>
+      <li><strong>Know the margin cost.</strong> A 10% discount on a 30%-margin sale gives up a third of your profit. Check the damage in the <a href="/margin-markup-calculator/">margin calculator</a> before promising.</li>
+      <li><strong>Anchor and justify.</strong> Show the original price and the discount as separate lines — “Design package 2,000, partnership discount −200” reads as generosity; a bare 1,800 reads as your price.</li>
+      <li><strong>Trade, don't gift.</strong> The professional discount buys something: longer commitment, upfront payment, a referral, a case study.</li>
+    </ul>
+    <h2>Discounts on invoices, done cleanly</h2>
+    <p>The <a href="/invoice/">invoice generator</a> supports both per-line discounts (a % column on each item) and a document-level discount (percent or fixed) shown as its own row before tax — so the client sees exactly what was given, and the tax computes on the discounted base, as it should.</p>
+    <h2 id="faq">Frequently asked questions</h2>
+    <div class="faq">
+      <details>
+        <summary>How do I calculate 20% off?</summary>
+        <p>Multiply the price by 0.80 — or by (1 − rate/100) for any rate. 20% off 250 is 200.</p>
+      </details>
+      <details>
+        <summary>Is 20% + 10% the same as 30% off?</summary>
+        <p>No — stacked discounts multiply. 20% then 10% is a 28% effective discount, because the 10% applies to the already-reduced price.</p>
+      </details>
+      <details>
+        <summary>Should tax be calculated before or after the discount?</summary>
+        <p>After — tax applies to what the customer actually pays. Our invoice generator applies document discounts before computing tax for exactly this reason.</p>
+      </details>
+      <details>
+        <summary>How much discount can I afford to give?</summary>
+        <p>Depends on your margin: discount ÷ margin is the share of profit you give up. At a 30% margin, a 15% discount costs half your profit on the sale.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h4>Documents</h4>
+        <ul>
+          <li><a href="/invoice/">Invoice generator</a></li>
+          <li><a href="/gst-invoice/">GST invoice</a></li>
+          <li><a href="/estimate/">Estimate</a></li>
+          <li><a href="/quotation-maker/">Quotation maker</a></li>
+          <li><a href="/proforma-invoice/">Proforma invoice</a></li>
+          <li><a href="/receipt-maker/">Receipt maker</a></li>
+          <li><a href="/rent-receipt/">Rent receipt</a></li>
+          <li><a href="/salary-slip/">Salary slip</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>More documents</h4>
+        <ul>
+          <li><a href="/credit-note/">Credit note</a></li>
+          <li><a href="/debit-note/">Debit note</a></li>
+          <li><a href="/purchase-order/">Purchase order</a></li>
+          <li><a href="/delivery-challan/">Delivery challan</a></li>
+          <li><a href="/commercial-invoice/">Commercial invoice</a></li>
+          <li><a href="/timesheet/">Timesheet</a></li>
+          <li><a href="/expense-report/">Expense report</a></li>
+          <li><a href="/letterhead-maker/">Letterhead maker</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Calculators</h4>
+        <ul>
+          <li><a href="/gst-calculator/">GST calculator</a></li>
+          <li><a href="/vat-calculator/">VAT calculator</a></li>
+          <li><a href="/sales-tax-calculator/">Sales tax calculator</a></li>
+          <li><a href="/late-fee-calculator/">Late fee calculator</a></li>
+          <li><a href="/freelance-rate-calculator/">Freelance rate calculator</a></li>
+          <li><a href="/margin-markup-calculator/">Margin &amp; markup</a></li>
+          <li><a href="/discount-calculator/">Discount calculator</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Tools</h4>
+        <ul>
+          <li><a href="/dashboard/">Workspace</a></li>
+          <li><a href="/bulk-invoices/">Bulk invoices</a></li>
+          <li><a href="/payment-reminder/">Payment reminder</a></li>
+          <li><a href="/upi-qr-generator/">UPI QR generator</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Sister tools</h4>
+        <ul>
+          <li><a href="#" rel="nofollow">PDF tools</a></li>
+          <li><a href="#" rel="nofollow">Image tools</a></li>
+          <li><a href="#" rel="nofollow">Text tools</a></li>
+          <li><a href="#" rel="nofollow">Converter tools</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 MyFreeInvoiceTool — every document, zero uploads, ∞ free.</span>
+      <span>Your data lives in your browser. We never see it.</span>
+    </div>
+  </div>
+</footer>
+
+<script type="module">
+
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => [...document.querySelectorAll(s)];
+const fmt = (n, d = 2) => (Number.isFinite(n) ? n : 0).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+const fmtIN = (n, d = 2) => (Number.isFinite(n) ? n : 0).toLocaleString('en-IN', { minimumFractionDigits: d, maximumFractionDigits: d });
+const num = (s) => { const v = parseFloat($(s).value); return Number.isFinite(v) ? v : 0; };
+function seg(sel, onChange) {
+  const root = $(sel);
+  root.addEventListener('click', (e) => {
+    const b = e.target.closest('button');
+    if (!b) return;
+    $$(sel + ' button').forEach((x) => x.classList.toggle('active', x === b));
+    onChange(b.dataset.v);
+  });
+  return () => root.querySelector('.active').dataset.v;
+}
+function bindAll(onInput) {
+  $$('input, select').forEach((el) => el.addEventListener('input', onInput));
+}
+
+function calc() {
+  const price = num('#price');
+  const d1 = Math.min(num('#disc1'), 100) / 100;
+  const d2 = Math.min(num('#disc2'), 100) / 100;
+  const final = price * (1 - d1) * (1 - d2);
+  $('#r-final').textContent = fmt(final);
+  $('#r-save').textContent = fmt(price - final);
+  $('#r-eff').textContent = price > 0 ? fmt((1 - final / price) * 100, 1) + '%' : '0%';
+}
+bindAll(calc);
+calc();
+</script>
+<script type="module" src="/assets/js/pwa.js"></script>
+</body>
+</html>

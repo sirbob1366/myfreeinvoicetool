@@ -1,0 +1,6 @@
+[
+  { "url": "http://localhost:8417/invoice/", "wait": 5000, "expr": "(async () => { const reg = await navigator.serviceWorker.ready; return 'sw ready: ' + !!reg.active; })()" },
+  { "url": "http://localhost:8417/gst-calculator/", "wait": 2000, "expr": "'warmed calc page'" },
+  { "url": "http://localhost:8417/invoice/", "offline": true, "wait": 4000, "expr": "(() => ({ offlinePage: document.querySelector('h1') ? document.querySelector('h1').textContent : 'NO PAGE', formCards: document.querySelectorAll('.card').length, itemRow: !!document.querySelector('.item-row') }))()" },
+  { "url": "http://localhost:8417/gst-calculator/", "offline": true, "wait": 2500, "expr": "(async () => { const set=(s,v)=>{const e=document.querySelector(s);e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}))}; set('#amount','1000'); await new Promise(r=>setTimeout(r,200)); return { h1: document.querySelector('h1').textContent, total: document.querySelector('#r-total').textContent }; })()" }
+]

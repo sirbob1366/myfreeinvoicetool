@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Freelance Rate Calculator — Hourly & Day Rate from Target Income | MyFreeInvoiceTool</title>
+<meta name="description" content="Work out the hourly and day rate you actually need: target income, business expenses, tax rate and realistic billable days. Free, instant and private.">
+<link rel="canonical" href="https://myfreeinvoicetool.com/freelance-rate-calculator/">
+<meta property="og:title" content="Freelance Rate Calculator — Hourly & Day Rate from Target Income | MyFreeInvoiceTool">
+<meta property="og:description" content="Work out the hourly and day rate you actually need: target income, business expenses, tax rate and realistic billable days. Free, instant and private.">
+<meta property="og:url" content="https://myfreeinvoicetool.com/freelance-rate-calculator/">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#faf8f4">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/calc.css">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebApplication",
+ "name": "MyFreeInvoiceTool Freelance rate calculator",
+ "url": "https://myfreeinvoicetool.com/freelance-rate-calculator/",
+ "applicationCategory": "FinanceApplication",
+ "operatingSystem": "Any",
+ "offers": {
+  "@type": "Offer",
+  "price": "0",
+  "priceCurrency": "USD"
+ },
+ "featureList": "Hourly rate, day rate, target income, billable days, expenses, tax adjustment"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "How many billable days should I assume?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Most established full-time freelancers genuinely bill 120–180 days a year once holidays, admin, sales and gaps are subtracted. New freelancers should assume the low end."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Why divide by (1 − tax rate)?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Because tax is charged on your profit. To keep a target amount after tax, your pre-tax profit must be target ÷ (1 − rate); expenses are then added on top to get required revenue."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Should I charge hourly or daily?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Day rates suit project work and avoid timesheet nickel-and-diming; hourly suits open-ended or support work. This calculator gives you both from the same inputs."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Is this calculation country-specific?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "No — it is pure arithmetic. Enter your local effective tax rate (including any self-employment contributions) and the result is valid anywhere, in any currency."
+   }
+  }
+ ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/"><span class="seal">✓</span>MyFreeInvoiceTool</a>
+    <nav class="site-nav">
+      <a href="/invoice/">Invoice</a>
+      <a href="/gst-invoice/">GST Invoice</a>
+      <a href="/estimate/">Estimate</a>
+      <a href="/receipt-maker/">Receipt</a>
+      <a href="/dashboard/" class="keep">Workspace</a>
+      <a href="/invoice/" class="cta">New invoice</a>
+    </nav>
+  </div>
+</header>
+
+<div class="calc-shell">
+  <h1 class="gen-h1" style="font-size:clamp(26px,3vw,34px);margin:22px 0 4px">Freelance rate calculator</h1>
+  <p class="gen-sub" style="color:var(--muted);margin-bottom:18px">Start from the life you want to fund — and get the hourly and day rate that actually pays for it.</p>
+
+  <div class="calc-card">
+
+    <div class="calc-grid">
+      <div>
+        <label for="income">Target net income / year</label>
+        <input id="income" type="number" min="0" step="any" placeholder="80,000" autofocus>
+      </div>
+      <div>
+        <label for="expenses">Business expenses / year</label>
+        <input id="expenses" type="number" min="0" step="any" placeholder="8,000">
+      </div>
+      <div>
+        <label for="tax">Effective tax rate %</label>
+        <input id="tax" type="number" min="0" max="80" step="any" value="25">
+      </div>
+      <div>
+        <label for="days">Billable days / year</label>
+        <input id="days" type="number" min="1" max="365" step="1" value="180">
+      </div>
+      <div>
+        <label for="hours">Billable hours / day</label>
+        <input id="hours" type="number" min="1" max="16" step="0.5" value="6">
+      </div>
+    </div>
+    <div class="calc-results">
+      <div class="result"><small>Gross revenue needed</small><strong id="r-gross">0</strong></div>
+      <div class="result accent"><small>Day rate</small><strong id="r-day">0</strong></div>
+      <div class="result accent"><small>Hourly rate</small><strong id="r-hour">0</strong></div>
+    </div>
+    <p class="muted" style="font-size:12.5px;margin:14px 0 0">Rule of thumb check: freelancers typically need 1.5–2× the equivalent employee hourly wage to break even on benefits, downtime and overhead.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="wrap copy">
+    <div class="trustline" style="margin-bottom:34px">
+      <span>Instant — no page reloads</span><span>No account</span><span>Works offline</span><span>Nothing uploaded</span>
+    </div>
+
+    <h2>Why your rate isn't your salary divided by 2,080</h2>
+    <p>Employees sell about 2,080 hours a year and keep benefits, equipment, sick days and slow weeks on the employer's tab. Freelancers fund all of that from billable time — and billable time is scarcer than it looks. After sales calls, proposals, admin, invoicing (faster with <a href="/invoice/">this</a>, incidentally), learning, holidays and the gaps between projects, most full-time freelancers genuinely bill <strong>120–180 days a year</strong>, at perhaps 5–6 focused billable hours per day. Pricing as if all 260 weekdays sell is how talented people end up underwater.</p>
+    <h2>The math this calculator runs</h2>
+    <p>It works backwards from take-home pay. Taxes apply to profit (revenue minus expenses), so: <strong>gross revenue = target net ÷ (1 − tax rate) + expenses</strong>. Divide by billable days for the day rate, and by billable hours for the hourly rate. Example: to net 80,000 at a 25% effective tax rate with 8,000 of annual expenses, you must invoice 114,667. At 180 billable days that's a <strong>637 day rate</strong>; at 6 billable hours a day, <strong>106 an hour</strong> — far from the 38/hour the naive salary division suggests.</p>
+    <h2>Choosing honest inputs</h2>
+    <ul>
+      <li><strong>Tax rate:</strong> use your effective (average) rate including self-employment levies, not your top marginal bracket. 20–35% is typical depending on country and income.</li>
+      <li><strong>Expenses:</strong> software, hardware, insurance, co-working, accounting, marketing, training. Most solo professionals run 5–15% of revenue.</li>
+      <li><strong>Billable days:</strong> be brutal. Subtract holidays, sick days, admin days, and the prospecting time between clients.</li>
+    </ul>
+    <h2>The rate is a floor, not a price</h2>
+    <p>This number is your <em>break-even for the life you want</em> — charge below it knowingly or not at all. Actual pricing can and often should sit above it: scarce skills, urgent timelines and value-based projects command premiums. And quote day rates where you can; days resist the death-by-fifteen-minute-increments that hourly billing invites.</p>
+    <h2 id="faq">Frequently asked questions</h2>
+    <div class="faq">
+      <details>
+        <summary>How many billable days should I assume?</summary>
+        <p>Most established full-time freelancers genuinely bill 120–180 days a year once holidays, admin, sales and gaps are subtracted. New freelancers should assume the low end.</p>
+      </details>
+      <details>
+        <summary>Why divide by (1 − tax rate)?</summary>
+        <p>Because tax is charged on your profit. To keep a target amount after tax, your pre-tax profit must be target ÷ (1 − rate); expenses are then added on top to get required revenue.</p>
+      </details>
+      <details>
+        <summary>Should I charge hourly or daily?</summary>
+        <p>Day rates suit project work and avoid timesheet nickel-and-diming; hourly suits open-ended or support work. This calculator gives you both from the same inputs.</p>
+      </details>
+      <details>
+        <summary>Is this calculation country-specific?</summary>
+        <p>No — it is pure arithmetic. Enter your local effective tax rate (including any self-employment contributions) and the result is valid anywhere, in any currency.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h4>Documents</h4>
+        <ul>
+          <li><a href="/invoice/">Invoice generator</a></li>
+          <li><a href="/gst-invoice/">GST invoice</a></li>
+          <li><a href="/estimate/">Estimate</a></li>
+          <li><a href="/quotation-maker/">Quotation maker</a></li>
+          <li><a href="/proforma-invoice/">Proforma invoice</a></li>
+          <li><a href="/receipt-maker/">Receipt maker</a></li>
+          <li><a href="/rent-receipt/">Rent receipt</a></li>
+          <li><a href="/salary-slip/">Salary slip</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>More documents</h4>
+        <ul>
+          <li><a href="/credit-note/">Credit note</a></li>
+          <li><a href="/debit-note/">Debit note</a></li>
+          <li><a href="/purchase-order/">Purchase order</a></li>
+          <li><a href="/delivery-challan/">Delivery challan</a></li>
+          <li><a href="/commercial-invoice/">Commercial invoice</a></li>
+          <li><a href="/timesheet/">Timesheet</a></li>
+          <li><a href="/expense-report/">Expense report</a></li>
+          <li><a href="/letterhead-maker/">Letterhead maker</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Calculators</h4>
+        <ul>
+          <li><a href="/gst-calculator/">GST calculator</a></li>
+          <li><a href="/vat-calculator/">VAT calculator</a></li>
+          <li><a href="/sales-tax-calculator/">Sales tax calculator</a></li>
+          <li><a href="/late-fee-calculator/">Late fee calculator</a></li>
+          <li><a href="/freelance-rate-calculator/">Freelance rate calculator</a></li>
+          <li><a href="/margin-markup-calculator/">Margin &amp; markup</a></li>
+          <li><a href="/discount-calculator/">Discount calculator</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Tools</h4>
+        <ul>
+          <li><a href="/dashboard/">Workspace</a></li>
+          <li><a href="/bulk-invoices/">Bulk invoices</a></li>
+          <li><a href="/payment-reminder/">Payment reminder</a></li>
+          <li><a href="/upi-qr-generator/">UPI QR generator</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Sister tools</h4>
+        <ul>
+          <li><a href="#" rel="nofollow">PDF tools</a></li>
+          <li><a href="#" rel="nofollow">Image tools</a></li>
+          <li><a href="#" rel="nofollow">Text tools</a></li>
+          <li><a href="#" rel="nofollow">Converter tools</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 MyFreeInvoiceTool — every document, zero uploads, ∞ free.</span>
+      <span>Your data lives in your browser. We never see it.</span>
+    </div>
+  </div>
+</footer>
+
+<script type="module">
+
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => [...document.querySelectorAll(s)];
+const fmt = (n, d = 2) => (Number.isFinite(n) ? n : 0).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+const fmtIN = (n, d = 2) => (Number.isFinite(n) ? n : 0).toLocaleString('en-IN', { minimumFractionDigits: d, maximumFractionDigits: d });
+const num = (s) => { const v = parseFloat($(s).value); return Number.isFinite(v) ? v : 0; };
+function seg(sel, onChange) {
+  const root = $(sel);
+  root.addEventListener('click', (e) => {
+    const b = e.target.closest('button');
+    if (!b) return;
+    $$(sel + ' button').forEach((x) => x.classList.toggle('active', x === b));
+    onChange(b.dataset.v);
+  });
+  return () => root.querySelector('.active').dataset.v;
+}
+function bindAll(onInput) {
+  $$('input, select').forEach((el) => el.addEventListener('input', onInput));
+}
+
+function calc() {
+  const income = num('#income');
+  const expenses = num('#expenses');
+  const tax = Math.min(num('#tax'), 79) / 100;
+  const days = Math.max(num('#days'), 1);
+  const hours = Math.max(num('#hours'), 0.5);
+  // net = (gross - expenses) × (1 - tax)  →  gross = net/(1-tax) + expenses
+  const gross = income / (1 - tax) + expenses;
+  $('#r-gross').textContent = fmt(gross, 0);
+  $('#r-day').textContent = fmt(gross / days, 0);
+  $('#r-hour').textContent = fmt(gross / (days * hours), 0);
+}
+bindAll(calc);
+calc();
+</script>
+<script type="module" src="/assets/js/pwa.js"></script>
+</body>
+</html>

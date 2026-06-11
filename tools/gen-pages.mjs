@@ -10,7 +10,7 @@ const SITE = 'https://myfreeinvoicetool.com';
 
 // ---------------------------------------------------------------- shared shell
 
-const NAV = `
+export const NAV = `
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="/"><span class="seal">✓</span>MyFreeInvoiceTool</a>
@@ -25,7 +25,7 @@ const NAV = `
   </div>
 </header>`;
 
-const FOOTER = `
+export const FOOTER = `
 <footer class="site-footer">
   <div class="wrap">
     <div class="footer-grid">
@@ -442,6 +442,7 @@ ${FOOTER}
   import { initGenerator } from '/assets/js/engine/app.js';
   initGenerator({ docType: '${p.doctype}', preset: ${JSON.stringify(p.preset || {})} });
 </script>
+<script type="module" src="/assets/js/pwa.js"></script>
 </body>
 </html>
 `;
