@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free Expense Report Generator — Clean PDF Expense Claims | MyFreeInvoiceTool</title>
+<meta name="description" content="Build an expense report in minutes: dated, categorised expenses, totals, advances deducted, and approval signature lines — as a clean PDF. Free, no account, fully private.">
+<link rel="canonical" href="https://myfreeinvoicetool.com/expense-report/">
+<meta property="og:title" content="Free Expense Report Generator — Clean PDF Expense Claims">
+<meta property="og:description" content="Dated, categorised expenses with totals, advance deduction and signature lines — a reimbursement-ready PDF, generated privately in your browser.">
+<meta property="og:url" content="https://myfreeinvoicetool.com/expense-report/">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#faf8f4">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/engine.css">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebApplication",
+ "name": "MyFreeInvoiceTool Expense Report Generator",
+ "url": "https://myfreeinvoicetool.com/expense-report/",
+ "applicationCategory": "BusinessApplication",
+ "operatingSystem": "Any",
+ "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+ "featureList": "Expense report PDF, categories, dated entries, advance deduction, reimbursable total, signature lines, multi-currency"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  { "@type": "Question", "name": "What should an expense report include?", "acceptedAnswer": { "@type": "Answer", "text": "Each expense with its date, category, description and amount; the total; any advance already received; and the reimbursable balance — plus signature lines for the claimant and approver." } },
+  { "@type": "Question", "name": "Can I deduct an advance I already received?", "acceptedAnswer": { "@type": "Answer", "text": "Yes — enter the advance and the report shows total expenses, the advance deducted, and the final reimbursable amount." } },
+  { "@type": "Question", "name": "Is my expense data private?", "acceptedAnswer": { "@type": "Answer", "text": "Completely — the report is built in your browser and exists only on your device until you download the PDF. Nothing is uploaded." } }
+ ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/"><span class="seal">✓</span>MyFreeInvoiceTool</a>
+    <nav class="site-nav">
+      <a href="/invoice/">Invoice</a>
+      <a href="/gst-invoice/">GST Invoice</a>
+      <a href="/estimate/">Estimate</a>
+      <a href="/receipt-maker/">Receipt</a>
+      <a href="/dashboard/" class="keep">Workspace</a>
+      <a href="/invoice/" class="cta">New invoice</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <h1 class="gen-h1">Free expense report generator</h1>
+  <p class="gen-sub">Dated, categorised, totalled and signature-ready — the reimbursement claim finance approves first time.</p>
+</div>
+
+<div class="gen-tabs">
+  <button class="gen-tab active" data-tab="form" type="button">Edit</button>
+  <button class="gen-tab" data-tab="preview" type="button">Preview</button>
+</div>
+
+<main class="gen-shell">
+  <form class="gen-form" autocomplete="off" onsubmit="return false">
+    <section class="card">
+      <h3>Report details</h3>
+      <div class="row c2">
+        <div><label for="f-name">Your name</label><input id="f-name"></div>
+        <div><label for="f-company">Company</label><input id="f-company"></div>
+      </div>
+      <div class="row c2">
+        <div><label for="f-purpose">Purpose</label><input id="f-purpose" placeholder="Client visit — Mumbai"></div>
+        <div><label for="f-period">Period</label><input id="f-period" placeholder="3–7 June 2026"></div>
+      </div>
+      <div class="row c2">
+        <div><label for="f-currency">Currency</label><select id="f-currency"></select></div>
+        <div><label for="f-advance">Advance received</label><input id="f-advance" type="number" min="0" step="any"></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Expenses</h3>
+      <div id="exp-rows"></div>
+      <button id="add-row" type="button" class="btn btn-quiet btn-sm">+ Add expense</button>
+    </section>
+  </form>
+
+  <aside class="gen-preview">
+    <div class="gen-toolbar">
+      <button id="download-pdf" type="button" class="btn btn-primary">Download PDF</button>
+      <div id="exp-strip" class="tabular" style="display:flex;gap:18px;margin-left:auto"></div>
+    </div>
+    <div id="preview" aria-label="Live expense report preview"></div>
+  </aside>
+</main>
+
+<section class="section">
+  <div class="wrap copy">
+    <div class="trustline" style="margin-bottom:34px">
+      <span>No account</span><span>No watermark</span><span>No limits</span><span>Works offline</span><span>Data stays on your device</span>
+    </div>
+
+    <h2>Expense claims that clear approval on the first pass</h2>
+    <p>Finance teams reject expense claims for boring reasons: missing dates, vague descriptions, no categories, arithmetic that doesn't add up. This generator removes every one of those reasons. Each expense gets a date, a category (travel, meals, lodging, supplies, software, communication, other), a description and an amount; the report totals itself, deducts any advance you already received, and presents a single <strong>reimbursable</strong> figure — with signature lines for you and the approver.</p>
+
+    <h2>The habits that speed up reimbursement</h2>
+    <ul>
+      <li><strong>One report per trip or per month.</strong> A focused report with a clear purpose line (“Client visit — Mumbai, 3–7 June”) is approved faster than a quarter's backlog.</li>
+      <li><strong>Describe like an auditor reads it.</strong> “Dinner” invites questions; “Dinner with client team (4 people), contract close” doesn't.</li>
+      <li><strong>Attach receipts in order.</strong> List expenses chronologically here, then staple or scan receipts in the same order — reviewers check line against receipt.</li>
+      <li><strong>Declare the advance.</strong> If you took travel money up front, deducting it yourself (the advance field does this) signals good faith and saves a round-trip with finance.</li>
+    </ul>
+
+    <h2>Freelancers: bill expenses to clients properly</h2>
+    <p>If you're passing expenses through to a client rather than an employer, pair this report with an <a href="/invoice/">invoice</a>: itemise the reimbursables as invoice line items and attach this PDF as the supporting detail. Same engine, same formatting, numbers that match.</p>
+
+    <h2>Private, like everything here</h2>
+    <p>Where you travelled, what you spent and who you dined with is your business. The report is built entirely in your browser — no upload, no account, no watermark — and works offline once the page has loaded.</p>
+
+    <h2 id="faq">Frequently asked questions</h2>
+    <div class="faq">
+      <details><summary>What categories are available?</summary><p>Travel, meals, lodging, supplies, software, communication and other — pick per line. Need something custom? Put it in the description.</p></details>
+      <details><summary>Can I deduct an advance?</summary><p>Yes — the advance field subtracts from the total and the PDF shows the final reimbursable amount prominently.</p></details>
+      <details><summary>Does it support multiple currencies?</summary><p>Yes — pick from 40+ currencies; amounts format with the correct symbol and grouping.</p></details>
+      <details><summary>Is anything uploaded?</summary><p>No. The report exists in your browser and on the PDF you download — nowhere else.</p></details>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-bottom" style="border:0;margin:0;padding:0">
+      <span>© 2026 MyFreeInvoiceTool — every document, zero uploads, ∞ free.</span>
+      <span>Your data lives in your browser. We never see it.</span>
+    </div>
+  </div>
+</footer>
+
+<script type="module" src="/assets/js/custom/expense-report.js"></script>
+</body>
+</html>

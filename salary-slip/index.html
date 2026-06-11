@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free Salary Slip Generator — Indian & Generic Payslips in PDF | MyFreeInvoiceTool</title>
+<meta name="description" content="Generate professional salary slips free: earnings and deductions columns, PF, professional tax, TDS, net pay in words. Indian and generic formats. No account, fully private.">
+<link rel="canonical" href="https://myfreeinvoicetool.com/salary-slip/">
+<meta property="og:title" content="Free Salary Slip Generator — Indian & Generic Payslips in PDF">
+<meta property="og:description" content="Earnings, deductions, PF, professional tax, TDS and net pay in words — clean payslips with your logo, generated privately in your browser.">
+<meta property="og:url" content="https://myfreeinvoicetool.com/salary-slip/">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#faf8f4">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/engine.css">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebApplication",
+ "name": "MyFreeInvoiceTool Salary Slip Generator",
+ "url": "https://myfreeinvoicetool.com/salary-slip/",
+ "applicationCategory": "BusinessApplication",
+ "operatingSystem": "Any",
+ "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+ "featureList": "Salary slip PDF, earnings and deductions, PF, professional tax, TDS, net pay in words, company logo, Indian and generic formats"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  { "@type": "Question", "name": "What should a salary slip include?", "acceptedAnswer": { "@type": "Answer", "text": "Company and employee identification, the pay period, itemised earnings (basic, HRA, allowances), itemised deductions (PF, professional tax, TDS), gross pay, total deductions and net pay — ideally with the net amount in words." } },
+  { "@type": "Question", "name": "Is this suitable for Indian payroll?", "acceptedAnswer": { "@type": "Answer", "text": "Yes — the default rows follow the common Indian structure (Basic, HRA, conveyance, special allowance; PF, professional tax, TDS) and the net pay is written in lakh/crore words. A generic mode uses western number words instead." } },
+  { "@type": "Question", "name": "Is employee data uploaded anywhere?", "acceptedAnswer": { "@type": "Answer", "text": "No. Salary information is among the most sensitive data a business holds — everything here stays in your browser on your device, and the PDF has no watermark." } }
+ ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/"><span class="seal">✓</span>MyFreeInvoiceTool</a>
+    <nav class="site-nav">
+      <a href="/invoice/">Invoice</a>
+      <a href="/gst-invoice/">GST Invoice</a>
+      <a href="/estimate/">Estimate</a>
+      <a href="/receipt-maker/">Receipt</a>
+      <a href="/dashboard/" class="keep">Workspace</a>
+      <a href="/invoice/" class="cta">New invoice</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <h1 class="gen-h1">Free salary slip generator</h1>
+  <p class="gen-sub">Clean, professional payslips — earnings, deductions, net pay in words — generated privately in your browser.</p>
+</div>
+
+<div class="gen-tabs">
+  <button class="gen-tab active" data-tab="form" type="button">Edit</button>
+  <button class="gen-tab" data-tab="preview" type="button">Preview</button>
+</div>
+
+<main class="gen-shell">
+  <form class="gen-form" autocomplete="off" onsubmit="return false">
+    <section class="card">
+      <h3>Company</h3>
+      <div class="row c2">
+        <div><label for="f-company">Company name</label><input id="f-company"></div>
+        <div>
+          <label for="logo-input">Logo</label>
+          <div class="inline-actions">
+            <input id="logo-input" type="file" accept="image/*">
+            <button id="logo-clear" type="button" class="btn btn-quiet btn-sm">Clear</button>
+          </div>
+        </div>
+      </div>
+      <div class="row"><div><label for="f-address">Address</label><textarea id="f-address" rows="2"></textarea></div></div>
+    </section>
+
+    <section class="card">
+      <h3>Employee</h3>
+      <div class="row c2">
+        <div><label for="f-employee">Employee name</label><input id="f-employee"></div>
+        <div><label for="f-empId">Employee ID</label><input id="f-empId"></div>
+      </div>
+      <div class="row c2">
+        <div><label for="f-designation">Designation</label><input id="f-designation"></div>
+        <div><label for="f-department">Department</label><input id="f-department"></div>
+      </div>
+      <div class="row c3">
+        <div><label for="f-month">Pay month</label><input id="f-month" type="month"></div>
+        <div><label for="f-daysPaid">Days paid</label><input id="f-daysPaid" type="number" min="0" max="31"></div>
+        <div><label for="f-mode">Format</label>
+          <select id="f-mode">
+            <option value="indian">Indian (lakh/crore words)</option>
+            <option value="generic">Generic (million words)</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Earnings</h3>
+      <div id="earnings-rows"></div>
+      <button id="add-earning" type="button" class="btn btn-quiet btn-sm">+ Add earning</button>
+    </section>
+
+    <section class="card">
+      <h3>Deductions</h3>
+      <div id="deductions-rows"></div>
+      <button id="add-deduction" type="button" class="btn btn-quiet btn-sm">+ Add deduction</button>
+    </section>
+  </form>
+
+  <aside class="gen-preview">
+    <div class="gen-toolbar">
+      <button id="download-pdf" type="button" class="btn btn-primary">Download PDF</button>
+      <div id="net-strip" class="tabular" style="display:flex;gap:18px;margin-left:auto"></div>
+    </div>
+    <div id="preview" aria-label="Live salary slip preview"></div>
+  </aside>
+</main>
+
+<section class="section">
+  <div class="wrap copy">
+    <div class="trustline" style="margin-bottom:34px">
+      <span>No account</span><span>No watermark</span><span>No limits</span><span>Works offline</span><span>Data stays on your device</span>
+    </div>
+
+    <h2>Payslips that look like they came from a payroll department</h2>
+    <p>Small businesses, startups and households employing staff all face the same gap: employees need proper salary slips — for rent agreements, loan applications, visa paperwork, new jobs — but full payroll software is overkill for a team of two. This generator produces a clean, professional payslip in a minute: your logo, the pay period, itemised earnings and deductions in the classic two-column layout, gross and net totals, and the net amount written out in words.</p>
+
+    <h2>Built for the Indian salary structure (and everyone else)</h2>
+    <p>The default rows follow standard Indian payroll: Basic salary, House Rent Allowance, conveyance and special allowances on the earnings side; Provident Fund, professional tax and TDS on the deductions side — with the net amount written in the lakh/crore system. Every row is editable, removable and extendable, so the same tool produces a generic international payslip just as easily: switch the format and the words switch to millions.</p>
+
+    <h2>Why salary slips matter</h2>
+    <ul>
+      <li><strong>For employees</strong>, a payslip is identity infrastructure: banks, landlords, embassies and future employers all ask for the last three.</li>
+      <li><strong>For employers</strong>, issuing slips is good practice and in many places an obligation — and the itemisation (especially PF and TDS) protects both sides if questions arise later.</li>
+      <li><strong>The breakdown matters:</strong> basic salary drives PF and HRA exemption calculations, so showing components — not one lump sum — is what makes a slip useful.</li>
+    </ul>
+
+    <h2>Salary data should never touch someone else's server</h2>
+    <p>Compensation is the most sensitive data a business holds. This tool runs entirely in your browser: nothing is uploaded, no account exists, and we could not see your payroll if we wanted to. The PDF carries no watermark — it is your document, on your letterhead.</p>
+
+    <h2 id="faq">Frequently asked questions</h2>
+    <div class="faq">
+      <details><summary>What should a salary slip include?</summary><p>Company and employee identification, the pay period, itemised earnings and deductions, gross pay, total deductions, and net pay — with the amount in words for formal use.</p></details>
+      <details><summary>Can I add custom earning or deduction rows?</summary><p>Yes — add, rename or remove any row. Common additions: bonus, overtime, leave encashment, loan recovery, ESI.</p></details>
+      <details><summary>Does it work for currencies other than ₹?</summary><p>The Indian format uses ₹ with lakh/crore words; the generic format uses western words. (Multi-currency selection is on the engine pages; payslips default to INR.)</p></details>
+      <details><summary>Is anything stored or uploaded?</summary><p>Nothing leaves your device. The slip exists only in your browser until you download the PDF.</p></details>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-bottom" style="border:0;margin:0;padding:0">
+      <span>© 2026 MyFreeInvoiceTool — every document, zero uploads, ∞ free.</span>
+      <span>Your data lives in your browser. We never see it.</span>
+    </div>
+  </div>
+</footer>
+
+<script type="module" src="/assets/js/custom/salary-slip.js"></script>
+</body>
+</html>

@@ -2,6 +2,7 @@
 // pdf-lib is loaded lazily on first use so generator pages stay fast.
 
 import { layoutDocument } from './layout.js';
+import { canvasMeasure, FONT_CSS } from './preview.js';
 
 let pdfLibPromise = null;
 
@@ -40,6 +41,41 @@ function winAnsi(text) {
   return out;
 }
 
+// Text the standard PDF fonts cannot encode (Devanagari, Arabic, CJK, …) is
+// drawn through the browser's text engine — correct shaping and bidi — and
+// embedded as a crisp 4x raster run. Everything Latin stays true vector.
+function needsRaster(text) {
+  for (const ch of String(text)) {
+    if (ch in CHAR_MAP) continue;
+    if (ch.codePointAt(0) > 0xff && !WINANSI_EXTRA.has(ch)) return true;
+  }
+  return false;
+}
+
+const runCache = new Map();
+
+function rasterTextRun(text, fontKey, size, color) {
+  const key = `${text}|${fontKey}|${size}|${color}`;
+  if (runCache.has(key)) return runCache.get(key);
+  const SCALE = 4;
+  const [weight, style, family] = FONT_CSS[fontKey] || FONT_CSS.helv;
+  const w = Math.max(1, Math.ceil(canvasMeasure(text, fontKey, size)));
+  const h = Math.ceil(size * 1.5);
+  const canvas = document.createElement('canvas');
+  canvas.width = (w + 2) * SCALE;
+  canvas.height = h * SCALE;
+  const c = canvas.getContext('2d');
+  c.scale(SCALE, SCALE);
+  c.font = `${style} ${weight} ${size}px ${family}`;
+  c.fillStyle = color;
+  c.textBaseline = 'top';
+  c.fillText(text, 1, size * 0.12);
+  const out = { dataUrl: canvas.toDataURL('image/png'), w: w + 2, h };
+  if (runCache.size > 300) runCache.clear();
+  runCache.set(key, out);
+  return out;
+}
+
 function hexToRgb(hex, rgb) {
   const m = /^#?([0-9a-f]{6})/i.exec(hex || '');
   const v = m ? parseInt(m[1], 16) : 0;
@@ -51,8 +87,14 @@ async function dataUrlBytes(dataUrl) {
   return new Uint8Array(await res.arrayBuffer());
 }
 
-// Generate the PDF for a document state. Returns Uint8Array.
-export async function renderPDF(doc) {
+// Generate the PDF for an engine document state. Returns Uint8Array.
+export function renderPDF(doc) {
+  return renderPagesPDF((measure) => layoutDocument(doc, measure).pages);
+}
+
+// Generic renderer: layoutFn(measure) -> pages of primitives. Used by the
+// engine and by custom documents (rent receipts, salary slips, timesheets…).
+export async function renderPagesPDF(layoutFn) {
   const PDFLib = await loadPdfLib();
   const { PDFDocument, StandardFonts, rgb } = PDFLib;
 
@@ -72,10 +114,12 @@ export async function renderPDF(doc) {
   };
 
   const measure = (text, font, size) =>
-    (fonts[font] || fonts.helv).widthOfTextAtSize(winAnsi(text), size);
+    needsRaster(text)
+      ? canvasMeasure(text, font, size)
+      : (fonts[font] || fonts.helv).widthOfTextAtSize(winAnsi(text), size);
 
   // Re-run layout with the PDF's own metrics so wraps are exact.
-  const { pages } = layoutDocument(doc, measure);
+  const pages = layoutFn(measure);
 
   const imageCache = new Map();
   async function embedImage(src) {
@@ -111,6 +155,17 @@ export async function renderPDF(doc) {
           thickness: p.w || 1,
         });
       } else if (p.t === 'text') {
+        if (needsRaster(p.text)) {
+          const run = rasterTextRun(p.text, p.font, p.size, p.color);
+          let x = p.x;
+          if (p.align === 'right') x = p.x - run.w;
+          else if (p.align === 'center') x = p.x - run.w / 2;
+          try {
+            const img = await embedImage(run.dataUrl);
+            pg.drawImage(img, { x, y: H - p.y - run.h + p.size * 0.12, width: run.w, height: run.h });
+          } catch { /* skip undrawable run */ }
+          continue;
+        }
         const font = fonts[p.font] || fonts.helv;
         const text = winAnsi(p.text);
         let x = p.x;

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free Letterhead Maker — Professional PDF Letterheads Online | MyFreeInvoiceTool</title>
+<meta name="description" content="Design a professional letterhead in minutes: logo, three header styles, brand color, contact footer — download as PDF, blank or with your letter typed in. Free and private.">
+<link rel="canonical" href="https://myfreeinvoicetool.com/letterhead-maker/">
+<meta property="og:title" content="Free Letterhead Maker — Professional PDF Letterheads Online">
+<meta property="og:description" content="Logo, three header styles, brand color and a contact footer — a letterhead PDF in minutes, no account, no watermark.">
+<meta property="og:url" content="https://myfreeinvoicetool.com/letterhead-maker/">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#faf8f4">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/engine.css">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebApplication",
+ "name": "MyFreeInvoiceTool Letterhead Maker",
+ "url": "https://myfreeinvoicetool.com/letterhead-maker/",
+ "applicationCategory": "BusinessApplication",
+ "operatingSystem": "Any",
+ "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+ "featureList": "Letterhead PDF, logo, three header styles, brand color, contact footer, A4 and Letter, optional letter body"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  { "@type": "Question", "name": "Can I download a blank letterhead?", "acceptedAnswer": { "@type": "Answer", "text": "Yes — leave the body empty and you get a blank branded page to print or reuse. Or type your letter and download the finished document." } },
+  { "@type": "Question", "name": "What header styles are available?", "acceptedAnswer": { "@type": "Answer", "text": "Three: a classic rule header with logo left, a full-width color band, and a centered formal header with a gold hairline. All include a contact footer." } },
+  { "@type": "Question", "name": "Is the letterhead watermarked?", "acceptedAnswer": { "@type": "Answer", "text": "Never. The PDF contains only your branding — it is your letterhead." } }
+ ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/"><span class="seal">✓</span>MyFreeInvoiceTool</a>
+    <nav class="site-nav">
+      <a href="/invoice/">Invoice</a>
+      <a href="/gst-invoice/">GST Invoice</a>
+      <a href="/estimate/">Estimate</a>
+      <a href="/receipt-maker/">Receipt</a>
+      <a href="/dashboard/" class="keep">Workspace</a>
+      <a href="/invoice/" class="cta">New invoice</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <h1 class="gen-h1">Free letterhead maker</h1>
+  <p class="gen-sub">Your brand at the top of every page — three header styles, your colors, a clean contact footer.</p>
+</div>
+
+<div class="gen-tabs">
+  <button class="gen-tab active" data-tab="form" type="button">Edit</button>
+  <button class="gen-tab" data-tab="preview" type="button">Preview</button>
+</div>
+
+<main class="gen-shell">
+  <form class="gen-form" autocomplete="off" onsubmit="return false">
+    <section class="card">
+      <h3>Business</h3>
+      <div class="row c2">
+        <div><label for="f-name">Business name</label><input id="f-name"></div>
+        <div>
+          <label for="logo-input">Logo</label>
+          <div class="inline-actions">
+            <input id="logo-input" type="file" accept="image/*">
+            <button id="logo-clear" type="button" class="btn btn-quiet btn-sm">Clear</button>
+          </div>
+        </div>
+      </div>
+      <div class="row"><div><label for="f-tagline">Tagline <span class="muted">(optional)</span></label><input id="f-tagline"></div></div>
+      <div class="row"><div><label for="f-address">Address</label><textarea id="f-address" rows="2"></textarea></div></div>
+      <div class="row c3">
+        <div><label for="f-email">Email</label><input id="f-email" type="email"></div>
+        <div><label for="f-phone">Phone</label><input id="f-phone"></div>
+        <div><label for="f-website">Website</label><input id="f-website"></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Style</h3>
+      <div class="row c3">
+        <div><label for="f-style">Header style</label>
+          <select id="f-style">
+            <option value="rule">Classic rule</option>
+            <option value="band">Color band</option>
+            <option value="centered">Centered formal</option>
+          </select>
+        </div>
+        <div><label for="f-accent">Accent color</label><input id="f-accent" type="color" value="#11233f"></div>
+        <div><label for="f-font">Typeface</label>
+          <select id="f-font">
+            <option value="serif">Serif</option>
+            <option value="sans">Sans</option>
+          </select>
+        </div>
+      </div>
+      <div class="row c3">
+        <div><label for="f-pageSize">Paper</label>
+          <select id="f-pageSize">
+            <option value="a4">A4</option>
+            <option value="letter">US Letter</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Letter body <span class="muted">(optional — leave blank for a blank letterhead)</span></h3>
+      <div class="row"><div><textarea id="f-body" rows="8" placeholder="Dear …"></textarea></div></div>
+    </section>
+  </form>
+
+  <aside class="gen-preview">
+    <div class="gen-toolbar">
+      <button id="download-pdf" type="button" class="btn btn-primary">Download PDF</button>
+    </div>
+    <div id="preview" aria-label="Live letterhead preview"></div>
+  </aside>
+</main>
+
+<section class="section">
+  <div class="wrap copy">
+    <div class="trustline" style="margin-bottom:34px">
+      <span>No account</span><span>No watermark</span><span>No limits</span><span>Works offline</span><span>Data stays on your device</span>
+    </div>
+
+    <h2>Stationery is still how serious businesses sound serious</h2>
+    <p>Contracts, offer letters, notices, quotations, bank correspondence — the documents that matter still go out on letterhead. A consistent header tells the reader the page is official, identifies you completely, and survives printing, scanning and forwarding. This letterhead maker gives you that in minutes: logo, business name and tagline, full contact details, three header styles, your accent color, and a discreet footer line — as a clean vector PDF in A4 or US Letter.</p>
+
+    <h2>Three styles, one identity</h2>
+    <ul>
+      <li><strong>Classic rule</strong> — logo and name on the left, contacts on the right, a strong colored rule with a gold hairline beneath. The default for professional services.</li>
+      <li><strong>Color band</strong> — a full-width band in your brand color with reversed type. Confident, modern, unmistakably yours.</li>
+      <li><strong>Centered formal</strong> — symmetrical, serif, with a gold hairline divider. The register of law firms and institutions.</li>
+    </ul>
+
+    <h2>Blank pad or finished letter — your choice</h2>
+    <p>Leave the body empty and download a blank branded page: print a stack, or use the PDF as the base layer in any editor. Or type the letter right here — the body is set in a readable serif or sans with proper margins, and long letters flow across pages with the header on page one and the footer throughout.</p>
+
+    <h2>Matches your invoices, naturally</h2>
+    <p>Use the same logo and accent color you use on the <a href="/invoice/">invoice generator</a> and every document you send — bills, estimates, letters — carries one consistent identity. All of it free, none of it uploaded: the letterhead is generated in your browser and belongs entirely to you.</p>
+
+    <h2 id="faq">Frequently asked questions</h2>
+    <div class="faq">
+      <details><summary>Can I get a blank letterhead to print?</summary><p>Yes — leave the body empty. The PDF is a blank branded page ready for printing or reuse as a template.</p></details>
+      <details><summary>Can I write the letter directly here?</summary><p>Yes — type into the body field and download the finished letter on your letterhead. Multi-page letters are handled automatically.</p></details>
+      <details><summary>What formats are supported?</summary><p>A4 and US Letter, as a true vector PDF — crisp at any size, with selectable text.</p></details>
+      <details><summary>Is there any branding other than mine?</summary><p>None. No watermark, no footer credit — it is your stationery.</p></details>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-bottom" style="border:0;margin:0;padding:0">
+      <span>© 2026 MyFreeInvoiceTool — every document, zero uploads, ∞ free.</span>
+      <span>Your data lives in your browser. We never see it.</span>
+    </div>
+  </div>
+</footer>
+
+<script type="module" src="/assets/js/custom/letterhead.js"></script>
+</body>
+</html>

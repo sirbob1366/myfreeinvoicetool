@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free Rent Receipt Generator — Monthly Receipts for HRA in One PDF | MyFreeInvoiceTool</title>
+<meta name="description" content="Generate rent receipts for HRA free: one receipt per month for any date range in a single PDF, landlord PAN, revenue-stamp note, amount in words. No account, fully private.">
+<link rel="canonical" href="https://myfreeinvoicetool.com/rent-receipt/">
+<meta property="og:title" content="Free Rent Receipt Generator — Monthly Receipts for HRA in One PDF">
+<meta property="og:description" content="Batch-generate every rent receipt your HRA claim needs — landlord PAN, revenue-stamp note, amount in words — in one private, watermark-free PDF.">
+<meta property="og:url" content="https://myfreeinvoicetool.com/rent-receipt/">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#faf8f4">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/engine.css">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebApplication",
+ "name": "MyFreeInvoiceTool Rent Receipt Generator",
+ "url": "https://myfreeinvoicetool.com/rent-receipt/",
+ "applicationCategory": "BusinessApplication",
+ "operatingSystem": "Any",
+ "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+ "featureList": "Monthly rent receipts for HRA, batch generation for a date range, landlord PAN, revenue stamp note, amount in words, single PDF"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  { "@type": "Question", "name": "Do I need rent receipts to claim HRA?", "acceptedAnswer": { "@type": "Answer", "text": "Yes — employers ask for rent receipts as proof when rent exceeds ₹3,000 per month. Most ask for one receipt per month or per quarter covering the financial year." } },
+  { "@type": "Question", "name": "When is the landlord's PAN required?", "acceptedAnswer": { "@type": "Answer", "text": "If your annual rent exceeds ₹1,00,000 (₹8,333/month), you must report the landlord's PAN to your employer to claim HRA exemption. This generator prints the PAN on every receipt." } },
+  { "@type": "Question", "name": "Is a revenue stamp needed on rent receipts?", "acceptedAnswer": { "@type": "Answer", "text": "A revenue stamp is required when rent is paid in cash and the amount exceeds ₹5,000. Receipts generated here include a marked stamp box and note for cash payments. Bank transfers and UPI payments do not need a stamp." } },
+  { "@type": "Question", "name": "Can I generate receipts for the whole year at once?", "acceptedAnswer": { "@type": "Answer", "text": "Yes — pick the from and to months and one PDF is generated with a numbered receipt page for every month in the range, each with the amount in words." } }
+ ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/"><span class="seal">✓</span>MyFreeInvoiceTool</a>
+    <nav class="site-nav">
+      <a href="/invoice/">Invoice</a>
+      <a href="/gst-invoice/">GST Invoice</a>
+      <a href="/estimate/">Estimate</a>
+      <a href="/receipt-maker/">Receipt</a>
+      <a href="/dashboard/" class="keep">Workspace</a>
+      <a href="/invoice/" class="cta">New invoice</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <h1 class="gen-h1">Free rent receipt generator</h1>
+  <p class="gen-sub">Every monthly receipt your HRA claim needs — landlord PAN, revenue-stamp note, amount in words — batch-generated into one PDF.</p>
+</div>
+
+<div class="gen-tabs">
+  <button class="gen-tab active" data-tab="form" type="button">Edit</button>
+  <button class="gen-tab" data-tab="preview" type="button">Preview</button>
+</div>
+
+<main class="gen-shell">
+  <form class="gen-form" autocomplete="off" onsubmit="return false">
+    <section class="card">
+      <h3>Tenancy details</h3>
+      <div class="row c2">
+        <div><label for="f-tenant">Tenant name</label><input id="f-tenant" placeholder="Your name (as on payslip)"></div>
+        <div><label for="f-landlord">Landlord name</label><input id="f-landlord"></div>
+      </div>
+      <div class="row c2">
+        <div><label for="f-pan">Landlord PAN <span class="muted">(required if rent &gt; ₹1L/yr)</span></label><input id="f-pan" placeholder="ABCDE1234F" maxlength="10" style="text-transform:uppercase"></div>
+        <div><label for="f-place">Place</label><input id="f-place" placeholder="City"></div>
+      </div>
+      <div class="row">
+        <div><label for="f-address">Rented property address</label><textarea id="f-address" rows="2"></textarea></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Rent &amp; period</h3>
+      <div class="row c2">
+        <div><label for="f-rent">Monthly rent (₹)</label><input id="f-rent" type="number" min="0" step="any"></div>
+        <div><label for="f-mode">Payment mode</label>
+          <select id="f-mode">
+            <option>Bank transfer</option>
+            <option>UPI</option>
+            <option>Cheque</option>
+            <option>Cash</option>
+          </select>
+        </div>
+      </div>
+      <div class="row c2">
+        <div><label for="f-from">From month</label><input id="f-from" type="month"></div>
+        <div><label for="f-to">To month</label><input id="f-to" type="month"></div>
+      </div>
+      <p class="muted" style="font-size:12.5px;margin:8px 0 0">One receipt page is generated per month — a full financial year in one click.</p>
+    </section>
+
+    <section class="card">
+      <h3>Landlord signature (optional)</h3>
+      <div class="row c2">
+        <input id="sig-upload" type="file" accept="image/*" title="Upload signature image">
+        <button id="sig-clear" type="button" class="btn btn-quiet btn-sm">Remove</button>
+      </div>
+    </section>
+  </form>
+
+  <aside class="gen-preview">
+    <div class="gen-toolbar">
+      <button id="download-pdf" type="button" class="btn btn-primary">Download all receipts (PDF)</button>
+    </div>
+    <div id="preview" aria-label="Live rent receipt preview"></div>
+  </aside>
+</main>
+
+<section class="section">
+  <div class="wrap copy">
+    <div class="trustline" style="margin-bottom:34px">
+      <span>No account</span><span>No watermark</span><span>No limits</span><span>Works offline</span><span>Data stays on your device</span>
+    </div>
+
+    <h2>Rent receipts for HRA, without the last-minute scramble</h2>
+    <p>Every January, the same ritual: payroll asks for rent receipts, and tenants everywhere start formatting Word documents or begging landlords for paperwork. This tool ends that. Enter the tenancy details once, pick the months, and download a single PDF containing a properly formatted, individually numbered rent receipt for every month in the range — each with the rent amount in figures and words, the property address, the payment mode, the landlord's name and PAN, and a signature line.</p>
+
+    <h2>The HRA rules that matter</h2>
+    <ul>
+      <li><strong>When receipts are needed:</strong> employers generally require rent receipts as proof for HRA exemption when monthly rent exceeds ₹3,000.</li>
+      <li><strong>Landlord PAN:</strong> if annual rent exceeds ₹1,00,000 (about ₹8,333 a month), you must report the landlord's PAN to your employer. No PAN means the exemption is restricted. The PAN field here prints on every receipt.</li>
+      <li><strong>Revenue stamp:</strong> required only when rent is paid <em>in cash</em> and the receipt amount exceeds ₹5,000. Choose “Cash” as the payment mode and each receipt includes a marked stamp box and a reminder note. Bank transfer, UPI and cheque payments need no stamp.</li>
+      <li><strong>The exemption itself</strong> is the least of: actual HRA received; 50% of basic salary (metro) or 40% (non-metro); or rent paid minus 10% of basic salary. Receipts substantiate the “rent paid” figure.</li>
+    </ul>
+
+    <h2>What a valid rent receipt contains</h2>
+    <p>Tenant name, landlord name, the property address, the month, the amount in figures and words, the payment date and mode, and the landlord's signature — plus the landlord's PAN where the ₹1 lakh threshold applies. Every receipt generated here carries all of these. Amounts are written in the Indian system (“Twenty-Five Thousand Rupees Only”), as expected on Indian documents.</p>
+
+    <h2>Private by architecture</h2>
+    <p>Your salary structure and home address are nobody's business. This generator runs entirely in your browser — nothing you type is uploaded, no account exists, and the PDF carries no watermark. It even works offline once the page has loaded.</p>
+
+    <h2 id="faq">Frequently asked questions</h2>
+    <div class="faq">
+      <details>
+        <summary>Do I need rent receipts to claim HRA?</summary>
+        <p>Yes — employers ask for rent receipts as proof when rent exceeds ₹3,000 per month. Most ask for one receipt per month, or sometimes per quarter, covering the financial year.</p>
+      </details>
+      <details>
+        <summary>When is the landlord's PAN required?</summary>
+        <p>If your annual rent exceeds ₹1,00,000, you must report the landlord's PAN to your employer. If the landlord has no PAN, a signed declaration is typically required instead.</p>
+      </details>
+      <details>
+        <summary>Is a revenue stamp mandatory?</summary>
+        <p>Only for cash payments above ₹5,000 per receipt. Pick “Cash” as the payment mode and the receipts include a stamp box; digital payments need no stamp.</p>
+      </details>
+      <details>
+        <summary>Can I generate a whole year of receipts at once?</summary>
+        <p>Yes — set the from/to months (e.g. Apr 2025 to Mar 2026) and download one PDF with twelve numbered receipts, ready for your employer.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-bottom" style="border:0;margin:0;padding:0">
+      <span>© 2026 MyFreeInvoiceTool — every document, zero uploads, ∞ free.</span>
+      <span>Your data lives in your browser. We never see it.</span>
+    </div>
+  </div>
+</footer>
+
+<script type="module" src="/assets/js/custom/rent-receipt.js"></script>
+</body>
+</html>

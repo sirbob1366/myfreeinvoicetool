@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Free Invoice Generator — No Sign-Up, No Watermark, 100% Private | MyFreeInvoiceTool</title>
-<meta name="description" content="Create a professional PDF invoice in 60 seconds. Free forever: no account, no watermark, no limits. Your invoices and clients stay in your browser — never on our servers.">
-<link rel="canonical" href="https://myfreeinvoicetool.com/invoice/">
-<meta property="og:title" content="Free Invoice Generator — No Sign-Up, No Watermark, 100% Private | MyFreeInvoiceTool">
-<meta property="og:description" content="Create a professional PDF invoice in 60 seconds. Free forever: no account, no watermark, no limits. Your invoices and clients stay in your browser — never on our servers.">
-<meta property="og:url" content="https://myfreeinvoicetool.com/invoice/">
+<title>Free Commercial Invoice Generator — Export & Customs PDF | MyFreeInvoiceTool</title>
+<meta name="description" content="Create commercial invoices for international shipments free: HS codes, Incoterms, country of origin, AWB/BL references and multi-currency totals. No account, no watermark.">
+<link rel="canonical" href="https://myfreeinvoicetool.com/commercial-invoice/">
+<meta property="og:title" content="Free Commercial Invoice Generator — Export & Customs PDF | MyFreeInvoiceTool">
+<meta property="og:description" content="Create commercial invoices for international shipments free: HS codes, Incoterms, country of origin, AWB/BL references and multi-currency totals. No account, no watermark.">
+<meta property="og:url" content="https://myfreeinvoicetool.com/commercial-invoice/">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#faf8f4">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -19,8 +19,8 @@
 {
  "@context": "https://schema.org",
  "@type": "WebApplication",
- "name": "MyFreeInvoiceTool Free invoice generator",
- "url": "https://myfreeinvoicetool.com/invoice/",
+ "name": "MyFreeInvoiceTool Free commercial invoice generator",
+ "url": "https://myfreeinvoicetool.com/commercial-invoice/",
  "applicationCategory": "BusinessApplication",
  "operatingSystem": "Any",
  "offers": {
@@ -28,7 +28,7 @@
   "price": "0",
   "priceCurrency": "USD"
  },
- "featureList": "PDF invoices, saved clients, 10 templates, taxes and discounts, GST, UPI QR, multi-currency, multi-language, works offline, no watermark, no account"
+ "featureList": "Commercial invoice PDF, HS codes, Incoterms, country of origin, AWB/BL number, export reference, multi-currency"
 }
 </script>
 <script type="application/ld+json">
@@ -38,57 +38,41 @@
  "mainEntity": [
   {
    "@type": "Question",
-   "name": "Is this invoice generator really free? What's the catch?",
+   "name": "How is a commercial invoice different from a regular invoice?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "It's free, with every feature unlocked and no usage caps. The site is supported by clearly-labeled recommendations for full accounting suites — useful only if you outgrow invoicing. Your data is never the product: it stays on your device, where we can't see or sell it."
+    "text": "It adds the customs-critical data: HS codes, country of origin, Incoterms, transport references and per-line values used to assess duties. It travels with the shipment as well as being billed to the buyer."
    }
   },
   {
    "@type": "Question",
-   "name": "Do I need to create an account?",
+   "name": "What are Incoterms and which should I use?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "No. There is no sign-up, no email capture, and no login. Open the page, make your invoice, download the PDF."
+    "text": "Incoterms are standard three-letter trade terms allocating costs and risk. EXW puts almost everything on the buyer; DDP puts it on you; FOB and CIF sit between, mainly for sea freight. State the term plus the named place on the invoice."
    }
   },
   {
    "@type": "Question",
-   "name": "Where are my invoices and clients stored?",
+   "name": "Do I need an HS code for every item?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "In your browser's local database (IndexedDB) on your own device. They are available to you in the Workspace, and you can export everything as one JSON backup file or delete it all at any time. Nothing is uploaded."
+    "text": "Yes — customs classifies and taxes each line by its HS code. Use at least the 6-digit international code; the destination tariff may require more digits."
    }
   },
   {
    "@type": "Question",
-   "name": "Will there be a watermark or branding on my PDF?",
+   "name": "What value do I declare for samples or replacements?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "No, never. The document contains only what you put on it."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "Can I use it for GST invoices in India?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "Yes. Switch tax mode to GST: enter your GSTIN and place of supply, and the tool automatically splits CGST + SGST for in-state sales or applies IGST for inter-state sales, adds HSN/SAC columns, and titles the document “Tax Invoice”."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "Does it really work offline?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "Yes — it's an installable PWA. After your first visit, every page and the PDF engine are cached on your device, so the whole tool works with no internet connection."
+    "text": "A realistic market value, always. “Zero value” invoices are rejected; customs requires a value for assessment even when no payment occurs — you may note “value for customs purposes only”."
    }
   }
  ]
 }
 </script>
 </head>
-<body data-doctype="invoice">
+<body data-doctype="commercial-invoice">
 
 <header class="site-header">
   <div class="wrap">
@@ -105,8 +89,8 @@
 </header>
 
 <div class="wrap">
-  <h1 class="gen-h1">Free invoice generator</h1>
-  <p class="gen-sub">Professional PDF invoices in 60 seconds. No account, no watermark, no limits — and your books never leave your device.</p>
+  <h1 class="gen-h1">Free commercial invoice generator</h1>
+  <p class="gen-sub">The document customs actually reads — HS codes, Incoterms, origin and values — done properly, free.</p>
 </div>
 
 <div class="gen-tabs">
@@ -204,10 +188,10 @@
     </section>
 
     <section class="card">
-      <h3>Invoice details</h3>
+      <h3>Commercial invoice details</h3>
       <div class="row c3">
-        <div><label for="f-number">Invoice number</label><input id="f-number" data-bind="number"></div>
-        <div><label for="num-prefix">Prefix</label><input id="num-prefix" placeholder="INV"></div>
+        <div><label for="f-number">Commercial invoice number</label><input id="f-number" data-bind="number"></div>
+        <div><label for="num-prefix">Prefix</label><input id="num-prefix" placeholder="CI"></div>
         <div><label for="num-format">Number format</label><select id="num-format"></select></div>
       </div>
       <div class="row c3">
@@ -226,6 +210,16 @@
       </div>
     </section>
 
+    <section class="card">
+      <h3>Export & customs details</h3>
+      <div class="row c2">
+        <div><label for="x-incoterms">Incoterms</label><input id="x-incoterms" data-bind="extra.incoterms"></div>
+        <div><label for="x-origin">Country of origin</label><input id="x-origin" data-bind="extra.origin"></div>
+        <div><label for="x-destination">Country of destination</label><input id="x-destination" data-bind="extra.destination"></div>
+        <div><label for="x-awb">AWB / BL no.</label><input id="x-awb" data-bind="extra.awb"></div>
+        <div><label for="x-exportRef">Export reference</label><input id="x-exportRef" data-bind="extra.exportRef"></div>
+      </div>
+    </section>
     <section class="card">
       <h3>Line items</h3>
       <div class="items-head">
@@ -366,51 +360,40 @@
       <span>No account</span><span>No watermark</span><span>No limits</span><span>Works offline</span><span>Data stays on your device</span>
     </div>
 
-    <h2>An invoice generator that treats your business like yours</h2>
-    <p>Most “free” invoice makers have a business model you can't see on the page: your client list, your prices, and your revenue history sit on their servers, fueling upsells and lead generation. This tool works differently. Everything you type — clients, line items, totals, history — is stored in your own browser using IndexedDB, on your device. We never see it. You can export your entire workspace as a single JSON file, move it to another machine, or wipe it completely. Your books never leave your device.</p>
+    <h2>The one document every international shipment needs</h2>
+    <p>A commercial invoice is the primary customs document for cross-border trade. Border authorities use it to classify the goods, assess duties and taxes, and screen the shipment — so an incomplete or vague commercial invoice is the most common reason packages sit in customs. This generator includes the fields couriers and customs brokers ask for: <strong>HS codes</strong> per line item, <strong>Incoterms</strong>, <strong>country of origin and destination</strong>, the <strong>air waybill / bill of lading number</strong>, and an export reference, alongside full itemisation in any of 40+ currencies.</p>
 
-    <h2>Everything included, nothing gated</h2>
-    <p>Every feature that competitors lock behind a paid plan is simply here: saved clients, an item catalog with your usual rates, reusable notes and terms snippets, ten professional templates, your logo and brand color, automatic invoice numbering (including Indian financial-year formats like INV/2026-27/001), per-line and document-level discounts, single-rate tax or full Indian GST with automatic CGST/SGST/IGST splitting, shipping, tips, partial payments with a running balance due, amount-in-words in both million and lakh/crore styles, document labels in ten languages, and a scannable UPI payment QR printed on the PDF. There is no “Pro” version, because this is the pro version.</p>
-
-    <h2>How to make an invoice in 60 seconds</h2>
+    <h2>Get the three classification fields right</h2>
     <ul>
-      <li><strong>Add your details once.</strong> Your business name, logo and tax ID are remembered on this device for next time.</li>
-      <li><strong>Pick the client.</strong> Saved clients load with one click — or type a new one and hit “Save client”.</li>
-      <li><strong>Add line items.</strong> Quantity × rate or hours × rate, with optional per-line discounts and taxes. Reorder by dragging.</li>
-      <li><strong>Set taxes and totals.</strong> Discounts, tax, shipping, tip, and any amount already paid — the balance due updates live.</li>
-      <li><strong>Download the PDF.</strong> A crisp, vector PDF — never a blurry screenshot — with no watermark, ever.</li>
+      <li><strong>HS code.</strong> The Harmonized System code (6 digits international, often 8–10 for the destination tariff) determines the duty rate. Each line item here has an HS code field that prints in its own column. Look codes up in the destination country's tariff schedule — guessing invites reclassification and delay.</li>
+      <li><strong>Country of origin.</strong> Where the goods were manufactured — not where they shipped from. It drives trade-agreement preferences and restrictions.</li>
+      <li><strong>Incoterms.</strong> EXW, FOB, CIF, DAP, DDP… three letters that allocate transport costs, insurance and risk between you and the buyer. State the term and the named place (e.g. “CIF Rotterdam”).</li>
     </ul>
 
-    <h2>A real PDF, built like a document, not a screenshot</h2>
-    <p>The preview you see is the PDF you get. Documents are generated as true vector PDFs: text stays selectable and razor-sharp at any zoom, files stay small enough to email, and multi-page invoices flow naturally with repeated table headers and page numbers. Choose A4 or US Letter, and dates and numbers format themselves correctly for any of 40+ currencies.</p>
+    <h2>Describe goods like a customs officer is reading — because one is</h2>
+    <p>“Parts” or “samples” gets shipments opened. Write what the item is, what it's made of, and what it's for: “stainless-steel bicycle chainrings, anodised, for retail sale”. Show a realistic unit value for every line, even free samples — “no commercial value” still requires a value for customs assessment. Quantities, unit prices and the total must reconcile; the engine's live math guarantees they do.</p>
 
-    <h2>The only invoice maker that works on a flight</h2>
-    <p>Because the entire app — including PDF generation — runs in your browser, it keeps working with no connection at all. Install it like an app on your phone or laptop, and invoice from anywhere: a flight, a basement workshop, a client site with no Wi-Fi. Nothing to sync, because nothing ever left your device.</p>
+    <h2>Multi-currency, properly formatted</h2>
+    <p>Invoice in the contract currency — USD, EUR, GBP, AED, anything in the 40+ currency list — with correct symbols and digit grouping, and amount-in-words if your buyer's bank requires it. Pair the commercial invoice with a <a href="/proforma-invoice/">proforma</a> at quoting stage and a <a href="/purchase-order/">PO</a> on the buy side, all on one engine.</p>
+
+    <p>Like every tool on this site, the commercial invoice maker runs entirely in your browser. Clients, line items and history are stored on your device in IndexedDB — never uploaded, never seen by us, exportable as a single backup file, deletable any time. It also works completely offline once loaded, and the PDF never carries a watermark.</p>
     <h2 id="faq">Frequently asked questions</h2>
     <div class="faq">
       <details>
-        <summary>Is this invoice generator really free? What's the catch?</summary>
-        <p>It's free, with every feature unlocked and no usage caps. The site is supported by clearly-labeled recommendations for full accounting suites — useful only if you outgrow invoicing. Your data is never the product: it stays on your device, where we can't see or sell it.</p>
+        <summary>How is a commercial invoice different from a regular invoice?</summary>
+        <p>It adds the customs-critical data: HS codes, country of origin, Incoterms, transport references and per-line values used to assess duties. It travels with the shipment as well as being billed to the buyer.</p>
       </details>
       <details>
-        <summary>Do I need to create an account?</summary>
-        <p>No. There is no sign-up, no email capture, and no login. Open the page, make your invoice, download the PDF.</p>
+        <summary>What are Incoterms and which should I use?</summary>
+        <p>Incoterms are standard three-letter trade terms allocating costs and risk. EXW puts almost everything on the buyer; DDP puts it on you; FOB and CIF sit between, mainly for sea freight. State the term plus the named place on the invoice.</p>
       </details>
       <details>
-        <summary>Where are my invoices and clients stored?</summary>
-        <p>In your browser's local database (IndexedDB) on your own device. They are available to you in the Workspace, and you can export everything as one JSON backup file or delete it all at any time. Nothing is uploaded.</p>
+        <summary>Do I need an HS code for every item?</summary>
+        <p>Yes — customs classifies and taxes each line by its HS code. Use at least the 6-digit international code; the destination tariff may require more digits.</p>
       </details>
       <details>
-        <summary>Will there be a watermark or branding on my PDF?</summary>
-        <p>No, never. The document contains only what you put on it.</p>
-      </details>
-      <details>
-        <summary>Can I use it for GST invoices in India?</summary>
-        <p>Yes. Switch tax mode to GST: enter your GSTIN and place of supply, and the tool automatically splits CGST + SGST for in-state sales or applies IGST for inter-state sales, adds HSN/SAC columns, and titles the document “Tax Invoice”.</p>
-      </details>
-      <details>
-        <summary>Does it really work offline?</summary>
-        <p>Yes — it's an installable PWA. After your first visit, every page and the PDF engine are cached on your device, so the whole tool works with no internet connection.</p>
+        <summary>What value do I declare for samples or replacements?</summary>
+        <p>A realistic market value, always. “Zero value” invoices are rejected; customs requires a value for assessment even when no payment occurs — you may note “value for customs purposes only”.</p>
       </details>
     </div>
   </div>
@@ -485,7 +468,7 @@
 
 <script type="module">
   import { initGenerator } from '/assets/js/engine/app.js';
-  initGenerator({ docType: 'invoice', preset: {} });
+  initGenerator({ docType: 'commercial-invoice', preset: {} });
 </script>
 </body>
 </html>

@@ -12,6 +12,8 @@ import { TERMS_PRESETS, addDays, todayISO } from '../util/dates.js';
 import { NUMBER_FORMATS, buildNumber, defaultSequence } from '../util/numbering.js';
 import { IN_STATES } from '../util/states.js';
 import { doctype as getDoctype } from './doctypes.js';
+import { LANGS } from './labels.js';
+import { upiLink, qrDataURL } from '../util/qr.js';
 import * as db from '../store.js';
 
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -43,10 +45,35 @@ export function initGenerator(opts = {}) {
       renderQueued = false;
       syncVisibility();
       renderItemAmounts();
+      updateUpiQr();
       const layout = layoutDocument(doc, canvasMeasure);
       renderPreview(previewEl, layout);
       renderTotalsStrip(layout.totals);
     });
+  }
+
+  // ---------- UPI QR (regenerated when payee or balance changes) ----------
+  let lastUpiText = '';
+  function updateUpiQr() {
+    if (!doc.payment.upiId || !doc.payment.upiId.includes('@')) {
+      lastUpiText = '';
+      doc.__upiQr = '';
+      return;
+    }
+    const totals = compute(doc);
+    const text = upiLink({
+      upiId: doc.payment.upiId.trim(),
+      name: doc.payment.upiName || doc.business.name,
+      amount: totals.balance > 0 ? totals.balance : totals.total,
+      note: doc.number,
+    });
+    if (text === lastUpiText) return;
+    lastUpiText = text;
+    qrDataURL(text).then((url) => {
+      if (lastUpiText !== text) return; // superseded
+      doc.__upiQr = url;
+      refresh();
+    }).catch(() => {});
   }
 
   function renderTotalsStrip(totals) {
@@ -112,6 +139,12 @@ export function initGenerator(opts = {}) {
     templateSel.value = doc.template;
   }
 
+  const langSel = $('[data-bind="language"]');
+  if (langSel) {
+    langSel.innerHTML = LANGS.map((l) => `<option value="${l.id}">${l.name}</option>`).join('');
+    langSel.value = doc.language;
+  }
+
   const termsSel = $('#terms-preset');
   if (termsSel) {
     termsSel.innerHTML = TERMS_PRESETS.map((t) => `<option value="${t.id}">${t.label}</option>`).join('');
@@ -145,6 +178,7 @@ export function initGenerator(opts = {}) {
     toggle('#tax-gst-fields', mode === 'gst');
     document.body.classList.toggle('lines-tax', doc.showLineTax && mode === 'perline');
     document.body.classList.toggle('lines-disc', doc.showLineDiscount);
+    document.body.classList.toggle('show-hsn', mode === 'gst' || !!dt.showHsn);
     const taxColToggle = $('#show-line-tax-wrap');
     if (taxColToggle) taxColToggle.hidden = mode !== 'perline';
     if (mode === 'perline') doc.showLineTax = true;
@@ -162,7 +196,10 @@ export function initGenerator(opts = {}) {
     row.draggable = true;
     row.innerHTML = `
       <button type="button" class="drag" title="Drag to reorder" aria-label="Reorder">⋮⋮</button>
-      <textarea class="i-desc" rows="1" placeholder="Description of work or product"></textarea>
+      <div class="i-desc-wrap">
+        <textarea class="i-desc" rows="1" placeholder="Description of work or product"></textarea>
+        <input class="i-hsn" placeholder="HSN/SAC code">
+      </div>
       <input class="i-qty" type="number" min="0" step="any" inputmode="decimal">
       <input class="i-rate" type="number" min="0" step="any" inputmode="decimal" placeholder="0.00">
       <input class="i-disc" type="number" min="0" max="100" step="any" inputmode="decimal" placeholder="%">
@@ -174,13 +211,14 @@ export function initGenerator(opts = {}) {
 
     const els = {
       desc: $('.i-desc', row), qty: $('.i-qty', row), rate: $('.i-rate', row),
-      disc: $('.i-disc', row), tax: $('.i-tax', row),
+      disc: $('.i-disc', row), tax: $('.i-tax', row), hsn: $('.i-hsn', row),
     };
     els.desc.value = item.description;
     els.qty.value = item.qty;
     els.rate.value = item.rate || '';
     els.disc.value = item.discPct || '';
     els.tax.value = item.taxPct || '';
+    els.hsn.value = item.hsn || '';
 
     const sync = () => {
       item.description = els.desc.value;
@@ -188,6 +226,7 @@ export function initGenerator(opts = {}) {
       item.rate = +els.rate.value || 0;
       item.discPct = +els.disc.value || 0;
       item.taxPct = +els.tax.value || 0;
+      item.hsn = els.hsn.value;
       autoGrow(els.desc);
       refresh();
     };
@@ -551,6 +590,25 @@ export function initGenerator(opts = {}) {
     flash('Saved to your workspace — find it under Dashboard. It never leaves this device.');
   });
 
+  // WhatsApp-ready share text with a UPI deep link.
+  const waBtn = $('#share-whatsapp');
+  if (waBtn) waBtn.addEventListener('click', () => {
+    const totals = compute(doc);
+    const money = (v) => formatMoney(v, doc.currency);
+    let text = `${doc.title || dt.fileLabel.replace(/-/g, ' ')} ${doc.number} from ${doc.business.name || 'us'}: ${money(totals.balance > 0 ? totals.balance : totals.total)}`;
+    if (dt.hasDueDate && doc.dueDate) text += `, due ${doc.dueDate}`;
+    if (doc.payment.upiId) {
+      text += `\nPay instantly via UPI: ${upiLink({
+        upiId: doc.payment.upiId.trim(),
+        name: doc.payment.upiName || doc.business.name,
+        amount: totals.balance > 0 ? totals.balance : totals.total,
+        note: doc.number,
+      })}`;
+    }
+    if (doc.payment.paypal) text += `\nPayPal: https://${doc.payment.paypal.replace(/^https?:\/\//, '')}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+  });
+
   async function saveToWorkspace(status) {
     const totals = compute(doc);
     const existing = savedDocId ? await db.get('documents', savedDocId) : null;
@@ -569,7 +627,8 @@ export function initGenerator(opts = {}) {
       balance: totals.balance,
       ledger: doc.ledger,
       updatedAt: new Date().toISOString(),
-      state: JSON.parse(JSON.stringify(doc)),
+      // __-prefixed keys are derived (e.g. QR dataURL) and not persisted.
+      state: JSON.parse(JSON.stringify(doc, (k, v) => (k.startsWith('__') ? undefined : v))),
     });
     // Consuming a number advances the per-business sequence (no-op when
     // re-saving, since the doc's number no longer matches the next build).
@@ -615,5 +674,6 @@ export function initGenerator(opts = {}) {
     refresh();
   })();
 
+  window.__doc = doc; // exposed for test harness + power users
   return { doc, refresh };
 }

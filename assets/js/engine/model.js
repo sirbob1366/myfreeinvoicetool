@@ -37,6 +37,7 @@ export function blankDocument(docType = 'invoice') {
     amountPaid: 0,
 
     wordsMode: 'off',        // 'off' | 'western' | 'indian'
+    extra: {},               // doctype-specific fields (incoterms, origin, …)
     notes: '',
     terms: '',
     payment: { bank: '', paypal: '', upiId: '', upiName: '' },

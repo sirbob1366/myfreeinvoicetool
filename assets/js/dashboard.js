@@ -94,8 +94,8 @@ function renderRevenue() {
 // ---------------------------------------------------------------- documents
 
 function editorUrl(rec) {
-  // Per-doctype pages arrive in Stage 3; the engine renders any doctype.
-  return `/invoice/?doc=${encodeURIComponent(rec.id)}`;
+  const page = getDoctype(rec.docType).page || '/invoice/';
+  return `${page}?doc=${encodeURIComponent(rec.id)}`;
 }
 
 function typeLabel(docType) {

@@ -17,7 +17,7 @@ import { compute } from './model.js';
 import { formatMoney } from '../util/money.js';
 import { formatDate } from '../util/dates.js';
 import { amountInWords } from '../util/words.js';
-import { L } from './labels.js';
+import { L, isRTL } from './labels.js';
 import { currency } from '../util/money.js';
 
 export const PAGE_SIZES = {
@@ -218,17 +218,21 @@ export function layoutDocument(doc, measure) {
     lines.forEach((ln) => { text(ln, left, pY, 9.5, F.body, COLORS.body); pY += 13.5; });
   }
 
-  // GST block (right side of parties zone)
+  // GST + doctype-specific fields (right side of parties zone)
   let gY = partyTop;
+  const metaRight = [];
   if (doc.taxMode === 'gst') {
-    const gstPairs = [];
-    if (doc.gst.sellerGstin) gstPairs.push([`${t('gstin')} (${t('from')})`, doc.gst.sellerGstin]);
-    if (doc.client.gstin || doc.gst.buyerGstin) gstPairs.push([`${t('gstin')} (${t('billTo')})`, doc.client.gstin || doc.gst.buyerGstin]);
-    if (doc.gst.supplyState) gstPairs.push([t('placeOfSupply'), doc.gst.supplyState]);
-    for (const [k, v] of gstPairs) {
-      text(`${k}:  ${v}`, right, gY, 9, F.body, COLORS.body, 'right');
-      gY += 13.5;
-    }
+    if (doc.gst.sellerGstin) metaRight.push([`${t('gstin')} (${t('from')})`, doc.gst.sellerGstin]);
+    if (doc.client.gstin || doc.gst.buyerGstin) metaRight.push([`${t('gstin')} (${t('billTo')})`, doc.client.gstin || doc.gst.buyerGstin]);
+    if (doc.gst.supplyState) metaRight.push([t('placeOfSupply'), doc.gst.supplyState]);
+  }
+  for (const [key, label] of dt.extraFields || []) {
+    const v = doc.extra && doc.extra[key];
+    if (v) metaRight.push([label, v]);
+  }
+  for (const [k, v] of metaRight) {
+    text(`${k}:  ${v}`, right, gY, 9, F.body, COLORS.body, 'right');
+    gY += 13.5;
   }
   y = Math.max(pY, gY) + 18 * d;
 
@@ -370,6 +374,14 @@ export function layoutDocument(doc, measure) {
     if (doc.payment.paypal) payLines.push(`PayPal: ${doc.payment.paypal}`);
     if (doc.payment.upiId) payLines.push(`UPI: ${doc.payment.upiId}`);
     if (payLines.length) block('paymentDetails', payLines.join('\n'));
+    if (doc.__upiQr) {
+      // Your invoice is now a payment terminal: scannable upi:// QR.
+      const qrSize = 74;
+      if (lY + qrSize + 26 > H - MARGIN) { /* stays in column; ensure() guards page level */ }
+      prims.push({ t: 'image', x: left, y: lY, w: qrSize, h: qrSize, src: doc.__upiQr });
+      text(t('scanToPay'), left, lY + qrSize + 4, 8, F.bodyB, COLORS.emerald);
+      lY += qrSize + 20;
+    }
   }
 
   // Ledger printed on document (optional)
@@ -406,7 +418,27 @@ export function layoutDocument(doc, measure) {
     });
   }
 
+  // RTL languages get a fully mirrored document.
+  if (isRTL(lang)) mirrorPages(pages, W);
+
   return { pages, totals, template: tpl, doctype: dt };
+}
+
+function mirrorPages(pages, W) {
+  for (const pg of pages) {
+    for (const p of pg.prims) {
+      if (p.t === 'text') {
+        p.x = W - p.x;
+        if (!p.align || p.align === 'left') p.align = 'right';
+        else if (p.align === 'right') p.align = 'left';
+      } else if (p.t === 'rect' || p.t === 'image') {
+        p.x = W - p.x - p.w;
+      } else if (p.t === 'line') {
+        p.x1 = W - p.x1;
+        p.x2 = W - p.x2;
+      }
+    }
+  }
 }
 
 function formatQty(q) {
@@ -420,7 +452,7 @@ function buildColumns(doc, dt, t, contentW, left) {
   const defs = [
     { id: 'idx', label: '#', w: 20, align: 'left' },
     { id: 'desc', label: t('description'), w: 0, align: 'left' }, // flex
-    ...(doc.taxMode === 'gst' ? [{ id: 'hsn', label: t('hsn'), w: 52, align: 'left' }] : []),
+    ...(doc.taxMode === 'gst' || dt.showHsn ? [{ id: 'hsn', label: dt.hsnLabel || t('hsn'), w: 52, align: 'left' }] : []),
     { id: 'qty', label: qtyLabel, w: 42, align: 'right' },
     { id: 'rate', label: t('rate'), w: 66, align: 'right' },
     ...(doc.showLineDiscount ? [{ id: 'disc', label: t('disc'), w: 40, align: 'right' }] : []),

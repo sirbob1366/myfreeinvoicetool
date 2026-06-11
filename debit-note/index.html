@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Free Invoice Generator — No Sign-Up, No Watermark, 100% Private | MyFreeInvoiceTool</title>
-<meta name="description" content="Create a professional PDF invoice in 60 seconds. Free forever: no account, no watermark, no limits. Your invoices and clients stay in your browser — never on our servers.">
-<link rel="canonical" href="https://myfreeinvoicetool.com/invoice/">
-<meta property="og:title" content="Free Invoice Generator — No Sign-Up, No Watermark, 100% Private | MyFreeInvoiceTool">
-<meta property="og:description" content="Create a professional PDF invoice in 60 seconds. Free forever: no account, no watermark, no limits. Your invoices and clients stay in your browser — never on our servers.">
-<meta property="og:url" content="https://myfreeinvoicetool.com/invoice/">
+<title>Free Debit Note Generator — PDF Debit Memos Online | MyFreeInvoiceTool</title>
+<meta name="description" content="Create debit notes free: undercharged invoices, price escalations and purchase returns, with GST fields and clean numbering. No account, no watermark, fully private.">
+<link rel="canonical" href="https://myfreeinvoicetool.com/debit-note/">
+<meta property="og:title" content="Free Debit Note Generator — PDF Debit Memos Online | MyFreeInvoiceTool">
+<meta property="og:description" content="Create debit notes free: undercharged invoices, price escalations and purchase returns, with GST fields and clean numbering. No account, no watermark, fully private.">
+<meta property="og:url" content="https://myfreeinvoicetool.com/debit-note/">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#faf8f4">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -19,8 +19,8 @@
 {
  "@context": "https://schema.org",
  "@type": "WebApplication",
- "name": "MyFreeInvoiceTool Free invoice generator",
- "url": "https://myfreeinvoicetool.com/invoice/",
+ "name": "MyFreeInvoiceTool Free debit note generator",
+ "url": "https://myfreeinvoicetool.com/debit-note/",
  "applicationCategory": "BusinessApplication",
  "operatingSystem": "Any",
  "offers": {
@@ -28,7 +28,7 @@
   "price": "0",
   "priceCurrency": "USD"
  },
- "featureList": "PDF invoices, saved clients, 10 templates, taxes and discounts, GST, UPI QR, multi-currency, multi-language, works offline, no watermark, no account"
+ "featureList": "Debit note PDF, invoice reference, GST debit note, sequential numbering, professional templates"
 }
 </script>
 <script type="application/ld+json">
@@ -38,57 +38,41 @@
  "mainEntity": [
   {
    "@type": "Question",
-   "name": "Is this invoice generator really free? What's the catch?",
+   "name": "When does a seller issue a debit note?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "It's free, with every feature unlocked and no usage caps. The site is supported by clearly-labeled recommendations for full accounting suites — useful only if you outgrow invoicing. Your data is never the product: it stays on your device, where we can't see or sell it."
+    "text": "When an issued invoice understated the value or tax — undercharges, quantity corrections, price escalations. The debit note adds the difference without touching the original invoice."
    }
   },
   {
    "@type": "Question",
-   "name": "Do I need to create an account?",
+   "name": "When does a buyer issue one?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "No. There is no sign-up, no email capture, and no login. Open the page, make your invoice, download the PDF."
+    "text": "On purchase returns: it documents goods sent back to the supplier and the amount the buyer expects credited, usually answered by the supplier’s credit note."
    }
   },
   {
    "@type": "Question",
-   "name": "Where are my invoices and clients stored?",
+   "name": "How are debit notes treated under GST?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "In your browser's local database (IndexedDB) on your own device. They are available to you in the Workspace, and you can export everything as one JSON backup file or delete it all at any time. Nothing is uploaded."
+    "text": "A supplier’s debit note increases output tax liability and is declared in the GST returns for the period. It must reference the original invoice; the GST fields here mirror the invoice exactly."
    }
   },
   {
    "@type": "Question",
-   "name": "Will there be a watermark or branding on my PDF?",
+   "name": "Does the debit note get its own number?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "No, never. The document contains only what you put on it."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "Can I use it for GST invoices in India?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "Yes. Switch tax mode to GST: enter your GSTIN and place of supply, and the tool automatically splits CGST + SGST for in-state sales or applies IGST for inter-state sales, adds HSN/SAC columns, and titles the document “Tax Invoice”."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "Does it really work offline?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "Yes — it's an installable PWA. After your first visit, every page and the PDF engine are cached on your device, so the whole tool works with no internet connection."
+    "text": "Yes — its own DBN sequence per business profile, keeping your invoice numbering untouched."
    }
   }
  ]
 }
 </script>
 </head>
-<body data-doctype="invoice">
+<body data-doctype="debit-note">
 
 <header class="site-header">
   <div class="wrap">
@@ -105,8 +89,8 @@
 </header>
 
 <div class="wrap">
-  <h1 class="gen-h1">Free invoice generator</h1>
-  <p class="gen-sub">Professional PDF invoices in 60 seconds. No account, no watermark, no limits — and your books never leave your device.</p>
+  <h1 class="gen-h1">Free debit note generator</h1>
+  <p class="gen-sub">The mirror of the credit note — formally increase what’s owed, or document a purchase return to your supplier.</p>
 </div>
 
 <div class="gen-tabs">
@@ -204,16 +188,16 @@
     </section>
 
     <section class="card">
-      <h3>Invoice details</h3>
+      <h3>Debit note details</h3>
       <div class="row c3">
-        <div><label for="f-number">Invoice number</label><input id="f-number" data-bind="number"></div>
-        <div><label for="num-prefix">Prefix</label><input id="num-prefix" placeholder="INV"></div>
+        <div><label for="f-number">Debit note number</label><input id="f-number" data-bind="number"></div>
+        <div><label for="num-prefix">Prefix</label><input id="num-prefix" placeholder="DBN"></div>
         <div><label for="num-format">Number format</label><select id="num-format"></select></div>
       </div>
       <div class="row c3">
         <div><label for="f-issue">Issue date</label><input id="f-issue" type="date" data-bind="issueDate"></div>
         <div><label for="terms-preset">Terms</label><select id="terms-preset"></select></div>
-        <div><label for="f-due">Due date</label><input id="f-due" type="date" data-bind="dueDate"></div>
+        <div><label for="f-due">Valid until</label><input id="f-due" type="date" data-bind="dueDate"></div>
       </div>
       <div class="row c2">
         <div><label for="f-po">PO / reference</label><input id="f-po" data-bind="poRef"></div>
@@ -366,51 +350,36 @@
       <span>No account</span><span>No watermark</span><span>No limits</span><span>Works offline</span><span>Data stays on your device</span>
     </div>
 
-    <h2>An invoice generator that treats your business like yours</h2>
-    <p>Most “free” invoice makers have a business model you can't see on the page: your client list, your prices, and your revenue history sit on their servers, fueling upsells and lead generation. This tool works differently. Everything you type — clients, line items, totals, history — is stored in your own browser using IndexedDB, on your device. We never see it. You can export your entire workspace as a single JSON file, move it to another machine, or wipe it completely. Your books never leave your device.</p>
+    <h2>Two documents share the name — both are here</h2>
+    <p>“Debit note” means different things depending on who issues it. A <strong>seller</strong> issues a debit note to increase the amount a buyer owes after an invoice went out too low — an undercharge, a quantity correction, a contractual price escalation, or tax charged at the wrong rate. A <strong>buyer</strong> issues a debit note to a supplier when returning goods, formally debiting the supplier's account and requesting a credit note in response. Either way the structure is the same: reference the original invoice, itemise the adjustment, state the tax.</p>
 
-    <h2>Everything included, nothing gated</h2>
-    <p>Every feature that competitors lock behind a paid plan is simply here: saved clients, an item catalog with your usual rates, reusable notes and terms snippets, ten professional templates, your logo and brand color, automatic invoice numbering (including Indian financial-year formats like INV/2026-27/001), per-line and document-level discounts, single-rate tax or full Indian GST with automatic CGST/SGST/IGST splitting, shipping, tips, partial payments with a running balance due, amount-in-words in both million and lakh/crore styles, document labels in ten languages, and a scannable UPI payment QR printed on the PDF. There is no “Pro” version, because this is the pro version.</p>
+    <h2>Seller-side: fixing an undercharge properly</h2>
+    <p>Don't reissue the invoice — supplement it. The debit note carries its own sequential number (DBN-001…), cites the original invoice in the reference field, and shows only the additional amount due, with tax computed on the supplement. Under GST, Section 34 requires a supplier to issue a debit note when the original tax invoice charged less than the actual taxable value or tax; the debit note is declared in your returns and increases your output liability for that period.</p>
 
-    <h2>How to make an invoice in 60 seconds</h2>
-    <ul>
-      <li><strong>Add your details once.</strong> Your business name, logo and tax ID are remembered on this device for next time.</li>
-      <li><strong>Pick the client.</strong> Saved clients load with one click — or type a new one and hit “Save client”.</li>
-      <li><strong>Add line items.</strong> Quantity × rate or hours × rate, with optional per-line discounts and taxes. Reorder by dragging.</li>
-      <li><strong>Set taxes and totals.</strong> Discounts, tax, shipping, tip, and any amount already paid — the balance due updates live.</li>
-      <li><strong>Download the PDF.</strong> A crisp, vector PDF — never a blurry screenshot — with no watermark, ever.</li>
-    </ul>
+    <h2>Buyer-side: purchase returns that suppliers act on</h2>
+    <p>Returning goods without paperwork is how disputes start. A debit note tells your supplier exactly what is being returned, against which invoice, at what value — and signals the amount you expect credited. Itemise the returned goods with quantities and rates so the supplier's credit note matches yours line for line.</p>
 
-    <h2>A real PDF, built like a document, not a screenshot</h2>
-    <p>The preview you see is the PDF you get. Documents are generated as true vector PDFs: text stays selectable and razor-sharp at any zoom, files stay small enough to email, and multi-page invoices flow naturally with repeated table headers and page numbers. Choose A4 or US Letter, and dates and numbers format themselves correctly for any of 40+ currencies.</p>
+    <h2>Built like every document here</h2>
+    <p>Same engine as the invoice: your branding, GST fields with automatic CGST/SGST/IGST split, HSN/SAC, multi-currency, amount-in-words, signature, and a separate numbering sequence per business profile. </p>
 
-    <h2>The only invoice maker that works on a flight</h2>
-    <p>Because the entire app — including PDF generation — runs in your browser, it keeps working with no connection at all. Install it like an app on your phone or laptop, and invoice from anywhere: a flight, a basement workshop, a client site with no Wi-Fi. Nothing to sync, because nothing ever left your device.</p>
+    <p>Like every tool on this site, the debit note maker runs entirely in your browser. Clients, line items and history are stored on your device in IndexedDB — never uploaded, never seen by us, exportable as a single backup file, deletable any time. It also works completely offline once loaded, and the PDF never carries a watermark.</p>
     <h2 id="faq">Frequently asked questions</h2>
     <div class="faq">
       <details>
-        <summary>Is this invoice generator really free? What's the catch?</summary>
-        <p>It's free, with every feature unlocked and no usage caps. The site is supported by clearly-labeled recommendations for full accounting suites — useful only if you outgrow invoicing. Your data is never the product: it stays on your device, where we can't see or sell it.</p>
+        <summary>When does a seller issue a debit note?</summary>
+        <p>When an issued invoice understated the value or tax — undercharges, quantity corrections, price escalations. The debit note adds the difference without touching the original invoice.</p>
       </details>
       <details>
-        <summary>Do I need to create an account?</summary>
-        <p>No. There is no sign-up, no email capture, and no login. Open the page, make your invoice, download the PDF.</p>
+        <summary>When does a buyer issue one?</summary>
+        <p>On purchase returns: it documents goods sent back to the supplier and the amount the buyer expects credited, usually answered by the supplier’s credit note.</p>
       </details>
       <details>
-        <summary>Where are my invoices and clients stored?</summary>
-        <p>In your browser's local database (IndexedDB) on your own device. They are available to you in the Workspace, and you can export everything as one JSON backup file or delete it all at any time. Nothing is uploaded.</p>
+        <summary>How are debit notes treated under GST?</summary>
+        <p>A supplier’s debit note increases output tax liability and is declared in the GST returns for the period. It must reference the original invoice; the GST fields here mirror the invoice exactly.</p>
       </details>
       <details>
-        <summary>Will there be a watermark or branding on my PDF?</summary>
-        <p>No, never. The document contains only what you put on it.</p>
-      </details>
-      <details>
-        <summary>Can I use it for GST invoices in India?</summary>
-        <p>Yes. Switch tax mode to GST: enter your GSTIN and place of supply, and the tool automatically splits CGST + SGST for in-state sales or applies IGST for inter-state sales, adds HSN/SAC columns, and titles the document “Tax Invoice”.</p>
-      </details>
-      <details>
-        <summary>Does it really work offline?</summary>
-        <p>Yes — it's an installable PWA. After your first visit, every page and the PDF engine are cached on your device, so the whole tool works with no internet connection.</p>
+        <summary>Does the debit note get its own number?</summary>
+        <p>Yes — its own DBN sequence per business profile, keeping your invoice numbering untouched.</p>
       </details>
     </div>
   </div>
@@ -485,7 +454,7 @@
 
 <script type="module">
   import { initGenerator } from '/assets/js/engine/app.js';
-  initGenerator({ docType: 'invoice', preset: {} });
+  initGenerator({ docType: 'debit-note', preset: {} });
 </script>
 </body>
 </html>

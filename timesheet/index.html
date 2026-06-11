@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free Timesheet Generator — Weekly Hours to PDF or Invoice | MyFreeInvoiceTool</title>
+<meta name="description" content="Track a week of hours in a clean grid, download a professional PDF timesheet, or convert it straight into an hours×rate invoice. Free, no account, fully private.">
+<link rel="canonical" href="https://myfreeinvoicetool.com/timesheet/">
+<meta property="og:title" content="Free Timesheet Generator — Weekly Hours to PDF or Invoice">
+<meta property="og:description" content="A weekly hours grid that becomes a PDF timesheet — or an invoice — in one click. Free and private.">
+<meta property="og:url" content="https://myfreeinvoicetool.com/timesheet/">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#faf8f4">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/engine.css">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebApplication",
+ "name": "MyFreeInvoiceTool Timesheet Generator",
+ "url": "https://myfreeinvoicetool.com/timesheet/",
+ "applicationCategory": "BusinessApplication",
+ "operatingSystem": "Any",
+ "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+ "featureList": "Weekly timesheet PDF, daily hours and notes, hourly rate, convert timesheet to invoice"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  { "@type": "Question", "name": "Can I turn the timesheet into an invoice?", "acceptedAnswer": { "@type": "Answer", "text": "Yes — one click converts the week into an hours×rate invoice: each day with hours becomes a line item with its date and notes, ready to send from the invoice editor." } },
+  { "@type": "Question", "name": "Does the timesheet calculate the amount due?", "acceptedAnswer": { "@type": "Answer", "text": "Add an hourly rate and the PDF shows total hours, the rate, and the amount due. Leave the rate empty for a plain hours-only timesheet." } },
+  { "@type": "Question", "name": "Is my client or hours data uploaded?", "acceptedAnswer": { "@type": "Answer", "text": "No — like every tool on this site, the timesheet runs entirely in your browser. Nothing is sent to any server." } }
+ ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/"><span class="seal">✓</span>MyFreeInvoiceTool</a>
+    <nav class="site-nav">
+      <a href="/invoice/">Invoice</a>
+      <a href="/gst-invoice/">GST Invoice</a>
+      <a href="/estimate/">Estimate</a>
+      <a href="/receipt-maker/">Receipt</a>
+      <a href="/dashboard/" class="keep">Workspace</a>
+      <a href="/invoice/" class="cta">New invoice</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <h1 class="gen-h1">Free weekly timesheet</h1>
+  <p class="gen-sub">Log the week, download a clean PDF — or turn the hours straight into an invoice.</p>
+</div>
+
+<div class="gen-tabs">
+  <button class="gen-tab active" data-tab="form" type="button">Edit</button>
+  <button class="gen-tab" data-tab="preview" type="button">Preview</button>
+</div>
+
+<main class="gen-shell">
+  <form class="gen-form" autocomplete="off" onsubmit="return false">
+    <section class="card">
+      <h3>Week</h3>
+      <div class="row c2">
+        <div><label for="f-name">Your name</label><input id="f-name"></div>
+        <div><label for="f-client">Client / employer</label><input id="f-client"></div>
+      </div>
+      <div class="row c3">
+        <div><label for="f-project">Project</label><input id="f-project"></div>
+        <div><label for="f-week">Week starting (Mon)</label><input id="f-week" type="date"></div>
+        <div><label for="f-rate">Hourly rate <span class="muted">(optional)</span></label><input id="f-rate" type="number" min="0" step="any"></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Hours</h3>
+      <div id="day-rows"></div>
+    </section>
+  </form>
+
+  <aside class="gen-preview">
+    <div class="gen-toolbar">
+      <button id="download-pdf" type="button" class="btn btn-primary">Download PDF</button>
+      <button id="to-invoice" type="button" class="btn btn-ghost" title="Create an hours×rate invoice from this week">Convert to invoice</button>
+      <div id="hours-strip" class="tabular" style="display:flex;gap:18px;margin-left:auto"></div>
+    </div>
+    <div id="preview" aria-label="Live timesheet preview"></div>
+  </aside>
+</main>
+
+<section class="section">
+  <div class="wrap copy">
+    <div class="trustline" style="margin-bottom:34px">
+      <span>No account</span><span>No watermark</span><span>No limits</span><span>Works offline</span><span>Data stays on your device</span>
+    </div>
+
+    <h2>From hours worked to money billed, without re-typing</h2>
+    <p>A timesheet has two jobs: prove the hours to whoever pays for them, and turn into a bill. Most tools do the first and abandon you at the second. Here, the week you log — Monday through Sunday, hours and notes per day — downloads as a clean, professional PDF timesheet, and the <strong>Convert to invoice</strong> button rebuilds the same week as an hours × rate invoice: each worked day becomes a line item with its date and notes, your rate applied, totals computed. The invoice opens in the full editor, where your business profile, numbering and templates take over.</p>
+
+    <h2>What makes a timesheet credible</h2>
+    <ul>
+      <li><strong>Daily granularity.</strong> A single weekly number invites questions; seven dated entries with notes answer them in advance.</li>
+      <li><strong>Specific notes.</strong> “Worked on project” is filler. “Migrated checkout API to v2; fixed payment webhook retries” is evidence.</li>
+      <li><strong>Quarter-hour precision.</strong> The hours fields accept decimals (7.5, 2.25) — bill what actually happened.</li>
+      <li><strong>The math done for you.</strong> Total hours, rate and amount due appear on the PDF when you set a rate — and the figures always reconcile, because the same engine computes the invoice.</li>
+    </ul>
+
+    <h2>For freelancers, contractors and agencies</h2>
+    <p>Hourly freelancers attach the timesheet to the invoice (clients pay faster when the evidence arrives with the bill). Contractors on weekly approval send the PDF for sign-off, then convert the approved week to an invoice — same numbers, by construction. Agencies use it per-person, per-client, with the project field keeping engagements separate. There are no seats, no plans and no upload: the whole tool runs in your browser, offline if needed.</p>
+
+    <h2 id="faq">Frequently asked questions</h2>
+    <div class="faq">
+      <details><summary>Can I turn the timesheet into an invoice?</summary><p>Yes — “Convert to invoice” creates an hours×rate invoice in your workspace with each worked day as a line item, then opens it in the editor.</p></details>
+      <details><summary>Does it calculate the amount due?</summary><p>Set an hourly rate and the PDF shows total hours, the rate and the amount. Without a rate it is an hours-only timesheet, suitable for employer approval.</p></details>
+      <details><summary>Can I do partial hours?</summary><p>Yes — hours accept decimals in 0.25 steps (e.g. 7.75).</p></details>
+      <details><summary>Where does the data go?</summary><p>Nowhere. It lives in your browser while you work, and only on the PDF you download. Converted invoices are saved to your on-device workspace.</p></details>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-bottom" style="border:0;margin:0;padding:0">
+      <span>© 2026 MyFreeInvoiceTool — every document, zero uploads, ∞ free.</span>
+      <span>Your data lives in your browser. We never see it.</span>
+    </div>
+  </div>
+</footer>
+
+<script type="module" src="/assets/js/custom/timesheet.js"></script>
+</body>
+</html>

@@ -2,7 +2,7 @@
 // inside scaled "paper" pages. Measurement uses canvas 2D with font stacks
 // matching the PDF's standard fonts, so wrapping tracks the PDF closely.
 
-const FONT_CSS = {
+export const FONT_CSS = {
   helv: ['400', 'normal', 'Helvetica, Arial, sans-serif'],
   helvB: ['700', 'normal', 'Helvetica, Arial, sans-serif'],
   helvO: ['400', 'italic', 'Helvetica, Arial, sans-serif'],
@@ -68,6 +68,7 @@ export function renderPreview(container, layoutResult) {
       } else if (p.t === 'text') {
         const el = document.createElement('div');
         el.className = 'pv-abs pv-text';
+        el.dir = 'auto';
         fontStyle(el, p.font, p.size);
         el.style.color = p.color;
         el.style.top = `${p.y}px`;

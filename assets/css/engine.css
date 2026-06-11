@@ -59,6 +59,9 @@
 .items-head span:nth-child(n+3) { text-align: right; }
 .item-row { margin-bottom: 8px; }
 .item-row textarea { overflow: hidden; min-height: 38px; }
+.i-desc-wrap { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.item-row .i-hsn { display: none; text-align: left; font-size: 12px; padding: 6px 8px; }
+body.show-hsn .item-row .i-hsn { display: block; }
 .item-row input { text-align: right; padding: 9px 8px; }
 .item-row .i-amount {
   font: 600 13.5px var(--sans);

@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Free Invoice Generator — No Sign-Up, No Watermark, 100% Private | MyFreeInvoiceTool</title>
-<meta name="description" content="Create a professional PDF invoice in 60 seconds. Free forever: no account, no watermark, no limits. Your invoices and clients stay in your browser — never on our servers.">
-<link rel="canonical" href="https://myfreeinvoicetool.com/invoice/">
-<meta property="og:title" content="Free Invoice Generator — No Sign-Up, No Watermark, 100% Private | MyFreeInvoiceTool">
-<meta property="og:description" content="Create a professional PDF invoice in 60 seconds. Free forever: no account, no watermark, no limits. Your invoices and clients stay in your browser — never on our servers.">
-<meta property="og:url" content="https://myfreeinvoicetool.com/invoice/">
+<title>Free GST Invoice Generator — CGST/SGST/IGST Auto-Split, UPI QR | MyFreeInvoiceTool</title>
+<meta name="description" content="Make GST-compliant tax invoices free: automatic CGST/SGST vs IGST split by place of supply, HSN/SAC columns, ₹ formatting, amount in lakh/crore words, and a UPI payment QR on the PDF.">
+<link rel="canonical" href="https://myfreeinvoicetool.com/gst-invoice/">
+<meta property="og:title" content="Free GST Invoice Generator — CGST/SGST/IGST Auto-Split, UPI QR | MyFreeInvoiceTool">
+<meta property="og:description" content="Make GST-compliant tax invoices free: automatic CGST/SGST vs IGST split by place of supply, HSN/SAC columns, ₹ formatting, amount in lakh/crore words, and a UPI payment QR on the PDF.">
+<meta property="og:url" content="https://myfreeinvoicetool.com/gst-invoice/">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#faf8f4">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -19,8 +19,8 @@
 {
  "@context": "https://schema.org",
  "@type": "WebApplication",
- "name": "MyFreeInvoiceTool Free invoice generator",
- "url": "https://myfreeinvoicetool.com/invoice/",
+ "name": "MyFreeInvoiceTool Free GST invoice generator",
+ "url": "https://myfreeinvoicetool.com/gst-invoice/",
  "applicationCategory": "BusinessApplication",
  "operatingSystem": "Any",
  "offers": {
@@ -28,7 +28,7 @@
   "price": "0",
   "priceCurrency": "USD"
  },
- "featureList": "PDF invoices, saved clients, 10 templates, taxes and discounts, GST, UPI QR, multi-currency, multi-language, works offline, no watermark, no account"
+ "featureList": "GST tax invoice, CGST SGST IGST auto-split, HSN/SAC, place of supply, UPI QR, lakh/crore amount in words, financial-year numbering"
 }
 </script>
 <script type="application/ld+json">
@@ -38,57 +38,49 @@
  "mainEntity": [
   {
    "@type": "Question",
-   "name": "Is this invoice generator really free? What's the catch?",
+   "name": "When do I charge CGST + SGST, and when IGST?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "It's free, with every feature unlocked and no usage caps. The site is supported by clearly-labeled recommendations for full accounting suites — useful only if you outgrow invoicing. Your data is never the product: it stays on your device, where we can't see or sell it."
+    "text": "If the place of supply is in the same state as your GST registration, charge CGST + SGST (the rate split in half each). If it is in a different state or union territory, charge IGST at the full rate. This tool applies the rule automatically from the two state fields."
    }
   },
   {
    "@type": "Question",
-   "name": "Do I need to create an account?",
+   "name": "Is HSN/SAC mandatory on invoices?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "No. There is no sign-up, no email capture, and no login. Open the page, make your invoice, download the PDF."
+    "text": "Businesses with turnover above ₹5 crore must show 6-digit HSN codes; those above ₹1.5 crore and up to ₹5 crore must show 4-digit codes on B2B invoices. Services use 6-digit SAC codes. Each line item here has an HSN/SAC field that prints in its own column."
    }
   },
   {
    "@type": "Question",
-   "name": "Where are my invoices and clients stored?",
+   "name": "Does the invoice number need a specific format?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "In your browser's local database (IndexedDB) on your own device. They are available to you in the Workspace, and you can export everything as one JSON backup file or delete it all at any time. Nothing is uploaded."
+    "text": "GST requires a consecutive serial number, unique for a financial year, of up to 16 characters. The financial-year format here (e.g. INV/2026-27/001) resets context each FY and is a widely used compliant pattern."
    }
   },
   {
    "@type": "Question",
-   "name": "Will there be a watermark or branding on my PDF?",
+   "name": "Is my GSTIN or client data uploaded anywhere?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "No, never. The document contains only what you put on it."
+    "text": "No. Everything — GSTINs, clients, invoices — stays in your browser on your device. Nothing touches our servers."
    }
   },
   {
    "@type": "Question",
-   "name": "Can I use it for GST invoices in India?",
+   "name": "Can the UPI QR include the invoice amount?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "Yes. Switch tax mode to GST: enter your GSTIN and place of supply, and the tool automatically splits CGST + SGST for in-state sales or applies IGST for inter-state sales, adds HSN/SAC columns, and titles the document “Tax Invoice”."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "Does it really work offline?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "Yes — it's an installable PWA. After your first visit, every page and the PDF engine are cached on your device, so the whole tool works with no internet connection."
+    "text": "Yes. The QR encodes your UPI ID, payee name and the exact balance due, so the payment screen opens pre-filled. It updates automatically as the invoice changes."
    }
   }
  ]
 }
 </script>
 </head>
-<body data-doctype="invoice">
+<body data-doctype="gst-invoice">
 
 <header class="site-header">
   <div class="wrap">
@@ -105,8 +97,8 @@
 </header>
 
 <div class="wrap">
-  <h1 class="gen-h1">Free invoice generator</h1>
-  <p class="gen-sub">Professional PDF invoices in 60 seconds. No account, no watermark, no limits — and your books never leave your device.</p>
+  <h1 class="gen-h1">Free GST invoice generator</h1>
+  <p class="gen-sub">Compliant tax invoices with automatic CGST/SGST/IGST split, HSN/SAC columns and a scannable UPI payment QR — free, private, on your device.</p>
 </div>
 
 <div class="gen-tabs">
@@ -366,51 +358,40 @@
       <span>No account</span><span>No watermark</span><span>No limits</span><span>Works offline</span><span>Data stays on your device</span>
     </div>
 
-    <h2>An invoice generator that treats your business like yours</h2>
-    <p>Most “free” invoice makers have a business model you can't see on the page: your client list, your prices, and your revenue history sit on their servers, fueling upsells and lead generation. This tool works differently. Everything you type — clients, line items, totals, history — is stored in your own browser using IndexedDB, on your device. We never see it. You can export your entire workspace as a single JSON file, move it to another machine, or wipe it completely. Your books never leave your device.</p>
+    <h2>GST invoices that get the split right, automatically</h2>
+    <p>Under India's GST regime the tax on every invoice must be split correctly based on the place of supply. When you sell within your own state, the rate is divided equally between <strong>CGST</strong> (Central GST) and <strong>SGST</strong> (State GST) — an 18% supply becomes 9% + 9%. When the place of supply is a different state, the entire rate is charged as <strong>IGST</strong> (Integrated GST) instead. Getting this wrong is one of the most common GST filing errors. This tool removes the decision entirely: pick your state and the place of supply, and the invoice shows CGST + SGST or IGST correctly, every time.</p>
 
-    <h2>Everything included, nothing gated</h2>
-    <p>Every feature that competitors lock behind a paid plan is simply here: saved clients, an item catalog with your usual rates, reusable notes and terms snippets, ten professional templates, your logo and brand color, automatic invoice numbering (including Indian financial-year formats like INV/2026-27/001), per-line and document-level discounts, single-rate tax or full Indian GST with automatic CGST/SGST/IGST splitting, shipping, tips, partial payments with a running balance due, amount-in-words in both million and lakh/crore styles, document labels in ten languages, and a scannable UPI payment QR printed on the PDF. There is no “Pro” version, because this is the pro version.</p>
+    <h2>What a valid tax invoice must contain</h2>
+    <p>Rule 46 of the CGST Rules requires a tax invoice to carry: a consecutive serial number unique for the financial year; the date of issue; your name, address and GSTIN; the recipient's name, address and GSTIN (for registered buyers); the place of supply with state name and code for inter-state sales; the HSN code for goods or SAC for services; the taxable value; the rate and amount of tax (split as CGST/SGST or IGST); and the signature or digital signature of the supplier or an authorised representative. This generator covers all of these: financial-year-aware numbering like INV/2026-27/001 (April–March), GSTIN fields for both parties, a place-of-supply selector with state codes, an HSN/SAC column on every line, the automatic tax split, and a drawn or uploaded signature.</p>
 
-    <h2>How to make an invoice in 60 seconds</h2>
-    <ul>
-      <li><strong>Add your details once.</strong> Your business name, logo and tax ID are remembered on this device for next time.</li>
-      <li><strong>Pick the client.</strong> Saved clients load with one click — or type a new one and hit “Save client”.</li>
-      <li><strong>Add line items.</strong> Quantity × rate or hours × rate, with optional per-line discounts and taxes. Reorder by dragging.</li>
-      <li><strong>Set taxes and totals.</strong> Discounts, tax, shipping, tip, and any amount already paid — the balance due updates live.</li>
-      <li><strong>Download the PDF.</strong> A crisp, vector PDF — never a blurry screenshot — with no watermark, ever.</li>
-    </ul>
+    <h2>Get paid the moment the invoice lands</h2>
+    <p>Add your UPI ID and the PDF carries a scannable QR encoding a proper <code>upi://pay</code> link with the payee name and exact balance due pre-filled. Your client opens any UPI app — GPay, PhonePe, Paytm, BHIM — scans, and pays the right amount with no typing. You can also share the invoice summary with the UPI link directly over WhatsApp.</p>
 
-    <h2>A real PDF, built like a document, not a screenshot</h2>
-    <p>The preview you see is the PDF you get. Documents are generated as true vector PDFs: text stays selectable and razor-sharp at any zoom, files stay small enough to email, and multi-page invoices flow naturally with repeated table headers and page numbers. Choose A4 or US Letter, and dates and numbers format themselves correctly for any of 40+ currencies.</p>
+    <h2>₹ formatting and lakh/crore words, done properly</h2>
+    <p>Amounts follow Indian digit grouping (₹12,34,567.89), and the amount-in-words line uses the Indian system — “Twelve Lakh Thirty-Four Thousand…” — as expected on Indian tax documents. The “GST Standard” template adds the boxed, gridded layout familiar to Indian accountants, with the document titled <em>Tax Invoice</em> as required.</p>
 
-    <h2>The only invoice maker that works on a flight</h2>
-    <p>Because the entire app — including PDF generation — runs in your browser, it keeps working with no connection at all. Install it like an app on your phone or laptop, and invoice from anywhere: a flight, a basement workshop, a client site with no Wi-Fi. Nothing to sync, because nothing ever left your device.</p>
+    <p>Like every tool on this site, the GST invoice maker runs entirely in your browser. Clients, line items and history are stored on your device in IndexedDB — never uploaded, never seen by us, exportable as a single backup file, deletable any time. It also works completely offline once loaded, and the PDF never carries a watermark.</p>
     <h2 id="faq">Frequently asked questions</h2>
     <div class="faq">
       <details>
-        <summary>Is this invoice generator really free? What's the catch?</summary>
-        <p>It's free, with every feature unlocked and no usage caps. The site is supported by clearly-labeled recommendations for full accounting suites — useful only if you outgrow invoicing. Your data is never the product: it stays on your device, where we can't see or sell it.</p>
+        <summary>When do I charge CGST + SGST, and when IGST?</summary>
+        <p>If the place of supply is in the same state as your GST registration, charge CGST + SGST (the rate split in half each). If it is in a different state or union territory, charge IGST at the full rate. This tool applies the rule automatically from the two state fields.</p>
       </details>
       <details>
-        <summary>Do I need to create an account?</summary>
-        <p>No. There is no sign-up, no email capture, and no login. Open the page, make your invoice, download the PDF.</p>
+        <summary>Is HSN/SAC mandatory on invoices?</summary>
+        <p>Businesses with turnover above ₹5 crore must show 6-digit HSN codes; those above ₹1.5 crore and up to ₹5 crore must show 4-digit codes on B2B invoices. Services use 6-digit SAC codes. Each line item here has an HSN/SAC field that prints in its own column.</p>
       </details>
       <details>
-        <summary>Where are my invoices and clients stored?</summary>
-        <p>In your browser's local database (IndexedDB) on your own device. They are available to you in the Workspace, and you can export everything as one JSON backup file or delete it all at any time. Nothing is uploaded.</p>
+        <summary>Does the invoice number need a specific format?</summary>
+        <p>GST requires a consecutive serial number, unique for a financial year, of up to 16 characters. The financial-year format here (e.g. INV/2026-27/001) resets context each FY and is a widely used compliant pattern.</p>
       </details>
       <details>
-        <summary>Will there be a watermark or branding on my PDF?</summary>
-        <p>No, never. The document contains only what you put on it.</p>
+        <summary>Is my GSTIN or client data uploaded anywhere?</summary>
+        <p>No. Everything — GSTINs, clients, invoices — stays in your browser on your device. Nothing touches our servers.</p>
       </details>
       <details>
-        <summary>Can I use it for GST invoices in India?</summary>
-        <p>Yes. Switch tax mode to GST: enter your GSTIN and place of supply, and the tool automatically splits CGST + SGST for in-state sales or applies IGST for inter-state sales, adds HSN/SAC columns, and titles the document “Tax Invoice”.</p>
-      </details>
-      <details>
-        <summary>Does it really work offline?</summary>
-        <p>Yes — it's an installable PWA. After your first visit, every page and the PDF engine are cached on your device, so the whole tool works with no internet connection.</p>
+        <summary>Can the UPI QR include the invoice amount?</summary>
+        <p>Yes. The QR encodes your UPI ID, payee name and the exact balance due, so the payment screen opens pre-filled. It updates automatically as the invoice changes.</p>
       </details>
     </div>
   </div>
@@ -485,7 +466,7 @@
 
 <script type="module">
   import { initGenerator } from '/assets/js/engine/app.js';
-  initGenerator({ docType: 'invoice', preset: {} });
+  initGenerator({ docType: 'gst-invoice', preset: {"taxMode":"gst","currency":"INR","template":"gst-standard","wordsMode":"indian"} });
 </script>
 </body>
 </html>
